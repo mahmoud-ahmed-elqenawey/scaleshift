@@ -10,7 +10,7 @@ import {
   type MotionValue,
   type Variants,
 } from "motion/react";
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 const cinematicEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -54,6 +54,24 @@ const sectionReveal = {
   },
 };
 
+const heroReels = [
+  {
+    label: "V-Left",
+    className: "attention-phone-left",
+    src: "https://drive.google.com/file/d/1h_jrsT1YtwS0q4Ch8gTMRZUsKdSynjZs/preview",
+  },
+  {
+    label: "V-Middle",
+    className: "attention-phone-center",
+    src: "https://drive.google.com/file/d/1HbVVhcd8FuRx8f7W6RAHhr913cSxpJgR/preview",
+  },
+  {
+    label: "V-Right",
+    className: "attention-phone-right",
+    src: "https://drive.google.com/file/d/1NrLmG087TAXtvWbGGsD7S8p8khr2zD4l/preview",
+  },
+];
+
 export const englishContent = {
   locale: "en",
   dir: "ltr",
@@ -66,13 +84,19 @@ export const englishContent = {
   footerNavLabel: "Footer",
   nav: {
     work: "Work",
+    framework: "Framework",
     services: "Services",
     process: "Process",
     results: "Results",
+    faq: "FAQ",
     contact: "Contact",
   },
   hero: {
     label: "Content that performs",
+    systemPill: "RETENTION EDITING SYSTEM™",
+    attentionLead: "Create",
+    attentionAccent: "Attention",
+    attentionSubline: "Not Just Edits.",
     headline: "Turn Your Content Into a",
     highlight: "Revenue Machine",
     subheadline:
@@ -122,15 +146,154 @@ export const englishContent = {
   proof: {
     headline: "Built for Results. Proven by Performance.",
     stats: [
-      "100+ videos delivered",
-      "Millions of views generated",
-      "Consistent growth in engagement & retention",
+      "500M+ views generated",
+      "600+ videos delivered",
+      "60+ creators supported",
     ],
     testimonials: [
       "My content finally looks premium - and the numbers back it up.",
       "I stopped guessing what works. Everything now feels intentional.",
       "Fast, reliable, and the quality is on another level.",
     ],
+  },
+  trust: {
+    label: "Trusted by",
+    headline: "60+ creators generating millions of views every month.",
+    channels: ["IG", "YT", "TT", "+60"],
+  },
+  comparison: {
+    badge: "The Problem",
+    headline: "Great editing isn't enough.",
+    highlight: "Attention is.",
+    groups: [
+      {
+        title: "Traditional Freelancers",
+        tone: "muted",
+        points: [
+          "Edit videos, nothing more",
+          "No strategy behind the cuts",
+          "No retention thinking",
+          "Inconsistent quality week to week",
+          "Zero performance tracking",
+        ],
+      },
+      {
+        title: "Traditional Agencies",
+        tone: "muted",
+        points: [
+          "Expensive retainers",
+          "Slow turnaround",
+          "Generic, templated editing",
+          "No repeatable framework",
+          "Focused on aesthetics, not attention",
+        ],
+      },
+      {
+        title: "ScaleShift",
+        tone: "brand",
+        points: [
+          "Retention Editing System™",
+          "Attention-first editing",
+          "Watch-time optimization",
+          "Story pacing built on viewer psychology",
+          "Engineered for long-term growth",
+        ],
+      },
+    ],
+  },
+  framework: {
+    badge: "Our Framework",
+    headline: "The Retention Editing",
+    highlight: "System™",
+    description:
+      "Five stages. One repeatable system. Every second of every edit is engineered to keep a viewer watching.",
+    steps: [
+      {
+        title: "Hook Engineering™",
+        text: "Irresistible first seconds that stop the scroll before it starts.",
+      },
+      {
+        title: "Attention Layering™",
+        text: "Visual rhythm, motion, sound and text layered to hold focus.",
+      },
+      {
+        title: "Retention Structure™",
+        text: "Every cut designed to remove drop-off points before they happen.",
+      },
+      {
+        title: "Watch Time Optimization™",
+        text: "Pacing tuned to increase average view duration, not just polish.",
+      },
+      {
+        title: "Growth Loop™",
+        text: "Better retention earns more distribution, and the loop compounds.",
+      },
+    ],
+  },
+  creatorProfiles: {
+    badge: "Trusted By",
+    headline: "Creators We Helped Grow",
+    description:
+      "We partner with creators and brands across multiple niches to produce high-retention content that can scale consistently.",
+    clientNames: [
+      "Nasser Alaqeel",
+      "James Masi",
+      "Chris James",
+      "Colin Pomeroy",
+      "Monty Lans",
+      "Sonia Zarbatany",
+      "Anas Rawas",
+      "Abdullah AlSanousi",
+      "Qutaibah Alansari",
+      "Moumen Talal",
+    ],
+    profiles: [
+      {
+        title: "Personal Brands",
+        text: "Turn expertise into authority-building reels with a repeatable point of view.",
+      },
+      {
+        title: "Coaches & Educators",
+        text: "Make complex ideas simple, sharp, and easy to watch until the end.",
+      },
+      {
+        title: "Service Creators",
+        text: "Package proof, story, and offers into videos that move people to act.",
+      },
+      {
+        title: "Growth-Stage Brands",
+        text: "Build a consistent short-form engine without relying on random edits.",
+      },
+    ],
+  },
+  impact: {
+    badge: "Numbers",
+    headline: "Real Results. Real Growth.",
+    description:
+      "A topline snapshot of performance while the full case-study library is being prepared for publishing.",
+    stats: [
+      { value: 500, suffix: "M+", label: "Views Generated" },
+      { value: 600, suffix: "+", label: "Videos Delivered" },
+      { value: 96, suffix: "%", label: "Client Satisfaction" },
+      { value: 60, suffix: "+", label: "Creators Supported" },
+    ],
+    results: [
+      { value: "25.6M", label: "views", href: "https://www.instagram.com/fahedabusalah/reel/DLUz0dBTW1O/" },
+      { value: "16M", label: "views", href: "https://www.instagram.com/the.ansari/reel/DNGn3pwMoiu/" },
+      { value: "9.4M", label: "views", href: "https://www.instagram.com/the.ansari/reel/DQBqorPCB8w/" },
+      { value: "5.4M", label: "views", href: "https://www.instagram.com/fahedabusalah/reel/DFDGsHayWYt/" },
+    ],
+  },
+  clientFeedback: {
+    badge: "Client Feedback",
+    headline: "What changes when the system replaces random edits.",
+    quotes: [
+      "The Retention Editing System is a real framework, not a slogan. You feel the difference in every metric that matters.",
+      "My content finally looks premium - and the numbers back it up.",
+      "I stopped guessing what works. Everything now feels intentional.",
+    ],
+    voiceLabel: "Voice notes",
+    voiceNote: "Approved client media previews will be added as soon as they are ready to publish.",
   },
   pain: {
     headline: "You're Posting... But Nothing's Really Changing",
@@ -223,7 +386,33 @@ export const englishContent = {
     description:
       "If you're serious about growing your content and turning it into a real income stream - this is your next step.",
     cta: "Book Your Call Now",
-    note: "Instagram DM link placeholder",
+    note: "Instagram DM link coming soon",
+  },
+  faq: {
+    badge: "FAQ",
+    headline: "Everything you need to know.",
+    items: [
+      {
+        question: "How does it work?",
+        answer:
+          "You start with a strategy call. From there we build your Retention Editing System™ around your content, deliver on a weekly cadence, and keep optimizing based on performance data.",
+      },
+      {
+        question: "Who is it for?",
+        answer:
+          "Personal brands, coaches, business owners, and service creators who already have an audience or offer and want consistent growth instead of one-off edits.",
+      },
+      {
+        question: "How many videos do I get?",
+        answer:
+          "Volume is scoped to your goals during the strategy call. Most clients run a weekly delivery cadence built around consistent short-form output.",
+      },
+      {
+        question: "How quickly can we start?",
+        answer:
+          "Book a strategy call and, if it's a fit, we can typically kick off within the same week.",
+      },
+    ],
   },
   footer: {
     social: "Social Media",
@@ -246,13 +435,19 @@ export const arabicContent = {
   footerNavLabel: "روابط التذييل",
   nav: {
     work: "الأعمال",
+    framework: "النظام",
     services: "الخدمات",
     process: "الطريقة",
     results: "النتائج",
+    faq: "الأسئلة",
     contact: "تواصل",
   },
   hero: {
     label: "مونتاج ريلز مبني على الأداء",
+    systemPill: "RETENTION EDITING SYSTEM™",
+    attentionLead: "Create",
+    attentionAccent: "Attention",
+    attentionSubline: "Not Just Edits.",
     headline: "خلّي محتواك يلفت الانتباه",
     highlight: "ويجيب عملاء",
     subheadline:
@@ -302,15 +497,154 @@ export const arabicContent = {
   proof: {
     headline: "شغل شكله احترافي وهدفه واضح.",
     stats: [
-      "أكثر من 100 فيديو تم تسليمه",
-      "ملايين المشاهدات على محتوى العملاء",
-      "تحسّن مستمر في التفاعل والاحتفاظ",
+      "أكثر من 500 مليون مشاهدة",
+      "أكثر من 600 فيديو تم تسليمه",
+      "أكثر من 60 صانع محتوى",
     ],
     testimonials: [
       "أول مرة أحس إن محتواي شكله احترافي وبيخدم هدفي.",
       "بقينا نعرف ننشر إيه وليه، مش مجرد نجرب.",
       "الشغل سريع ومنظم، والنتيجة أعلى من توقعاتي.",
     ],
+  },
+  trust: {
+    label: "يثق بنا",
+    headline: "أكثر من 60 صانع محتوى بيحققوا ملايين المشاهدات شهريًا.",
+    channels: ["IG", "YT", "TT", "+60"],
+  },
+  comparison: {
+    badge: "المشكلة",
+    headline: "المونتاج الحلو لوحده مش كفاية.",
+    highlight: "الأهم هو الانتباه.",
+    groups: [
+      {
+        title: "فريلانسر تقليدي",
+        tone: "muted",
+        points: [
+          "يقص الفيديو وخلاص",
+          "مفيش استراتيجية ورا كل Cut",
+          "مفيش تفكير في الاحتفاظ بالمشاهد",
+          "الجودة بتتغير من أسبوع للتاني",
+          "مفيش متابعة حقيقية للأداء",
+        ],
+      },
+      {
+        title: "وكالة تقليدية",
+        tone: "muted",
+        points: [
+          "تكلفة عالية من غير مرونة",
+          "دورة تنفيذ بطيئة",
+          "قوالب مكررة وشكل محفوظ",
+          "مفيش نظام واضح قابل للتكرار",
+          "تركيز على الشكل أكتر من الانتباه",
+        ],
+      },
+      {
+        title: "ScaleShift",
+        tone: "brand",
+        points: [
+          "Retention Editing System™",
+          "مونتاج مبني على جذب الانتباه",
+          "تحسين مدة المشاهدة",
+          "إيقاع وقصة مبنيين على سلوك المشاهد",
+          "نظام يخدم النمو على المدى الطويل",
+        ],
+      },
+    ],
+  },
+  framework: {
+    badge: "نظام الشغل",
+    headline: "The Retention Editing",
+    highlight: "System™",
+    description:
+      "خمس مراحل واضحة. نظام متكرر يخلي كل ثانية في الفيديو معمولة عشان المشاهد يفضل مكمل.",
+    steps: [
+      {
+        title: "Hook Engineering™",
+        text: "أول ثواني معمولة عشان توقف التمرير وتفتح فضول المشاهد.",
+      },
+      {
+        title: "Attention Layering™",
+        text: "إيقاع بصري، حركة، صوت، ونصوص متظبطين مع بعض عشان الانتباه مايقعش.",
+      },
+      {
+        title: "Retention Structure™",
+        text: "كل Cut هدفه يشيل نقاط الملل قبل ما المشاهد يخرج.",
+      },
+      {
+        title: "Watch Time Optimization™",
+        text: "تظبيط السرعة والوقفات عشان مدة المشاهدة تزيد، مش عشان الفيديو يبقى شكله حلو بس.",
+      },
+      {
+        title: "Growth Loop™",
+        text: "احتفاظ أعلى يعني توزيع أقوى، ومع الوقت النمو بيتراكم.",
+      },
+    ],
+  },
+  creatorProfiles: {
+    badge: "بنشتغل مع مين",
+    headline: "صناع محتوى وبراندات عايزة تكبر بنظام",
+    description:
+      "نشتغل مع مجالات مختلفة ونحوّل المحتوى القصير من شغل عشوائي لنظام واضح قابل للتكرار.",
+    clientNames: [
+      "Nasser Alaqeel",
+      "James Masi",
+      "Chris James",
+      "Colin Pomeroy",
+      "Monty Lans",
+      "Sonia Zarbatany",
+      "Anas Rawas",
+      "Abdullah AlSanousi",
+      "Qutaibah Alansari",
+      "Moumen Talal",
+    ],
+    profiles: [
+      {
+        title: "براندات شخصية",
+        text: "نحوّل الخبرة لمحتوى يبني ثقة وسلطة في السوق.",
+      },
+      {
+        title: "مدربين ومعلّمين",
+        text: "نبسط الأفكار الصعبة ونطلعها في فيديو واضح وسهل يتشاف للآخر.",
+      },
+      {
+        title: "مقدمي خدمات",
+        text: "نرتب الدليل، القصة، والعرض في محتوى يدفع الناس تاخد خطوة.",
+      },
+      {
+        title: "براندات في مرحلة نمو",
+        text: "نبني ماكينة محتوى قصيرة المدى من غير اعتماد على مونتاج عشوائي.",
+      },
+    ],
+  },
+  impact: {
+    badge: "الأرقام",
+    headline: "نتائج حقيقية. نمو واضح.",
+    description:
+      "لمحة عامة عن الأداء لحد ما دراسات الحالة الكاملة تكون جاهزة للنشر.",
+    stats: [
+      { value: 500, suffix: "M+", label: "مشاهدة" },
+      { value: 600, suffix: "+", label: "فيديو تم تسليمه" },
+      { value: 96, suffix: "%", label: "رضا العملاء" },
+      { value: 60, suffix: "+", label: "صانع محتوى" },
+    ],
+    results: [
+      { value: "25.6M", label: "مشاهدة", href: "https://www.instagram.com/fahedabusalah/reel/DLUz0dBTW1O/" },
+      { value: "16M", label: "مشاهدة", href: "https://www.instagram.com/the.ansari/reel/DNGn3pwMoiu/" },
+      { value: "9.4M", label: "مشاهدة", href: "https://www.instagram.com/the.ansari/reel/DQBqorPCB8w/" },
+      { value: "5.4M", label: "مشاهدة", href: "https://www.instagram.com/fahedabusalah/reel/DFDGsHayWYt/" },
+    ],
+  },
+  clientFeedback: {
+    badge: "رأي العملاء",
+    headline: "لما النظام يحل محل المونتاج العشوائي.",
+    quotes: [
+      "النظام فرق فعلًا. الموضوع مش شعار، كل فيديو بقى معمول لهدف واضح.",
+      "أول مرة أحس إن محتواي شكله احترافي وبيخدم هدفي.",
+      "بقينا نعرف ننشر إيه وليه، مش مجرد نجرب.",
+    ],
+    voiceLabel: "Voice notes",
+    voiceNote: "هنضيف معاينات ميديا العملاء بعد ما تكون جاهزة ومعتمدة للنشر.",
   },
   pain: {
     headline: "بتنشر كتير... بس النتيجة مش على قد المجهود",
@@ -405,6 +739,32 @@ export const arabicContent = {
     cta: "احجز استشارتك المجانية",
     note: "رابط الانستجرام أو الحجز هيتضاف هنا",
   },
+  faq: {
+    badge: "أسئلة متكررة",
+    headline: "كل اللي محتاج تعرفه قبل ما نبدأ.",
+    items: [
+      {
+        question: "الشغل بيمشي إزاي؟",
+        answer:
+          "بنبدأ بمكالمة استراتيجية نفهم فيها المحتوى، الجمهور، والهدف. بعدها نبني نظام المونتاج المناسب لك ونشتغل بتسليم أسبوعي وتحسين مستمر حسب الأداء.",
+      },
+      {
+        question: "الموقع ده مناسب لمين؟",
+        answer:
+          "مناسب للبراندات الشخصية، المدربين، أصحاب البيزنس، ومقدمي الخدمات اللي عندهم عرض واضح وعايزين نمو ثابت بدل فيديوهات منفصلة.",
+      },
+      {
+        question: "هستلم كام فيديو؟",
+        answer:
+          "العدد بيتحدد حسب هدفك وحجم النشر المطلوب. في الأغلب بنبني خطة أسبوعية ثابتة تخلي الإنتاج مستمر وواضح.",
+      },
+      {
+        question: "نقدر نبدأ إمتى؟",
+        answer:
+          "بعد مكالمة التعارف، لو في توافق واضح، نقدر نبدأ غالبًا في نفس الأسبوع.",
+      },
+    ],
+  },
   footer: {
     social: "حساباتنا",
     contact: "تواصل",
@@ -491,65 +851,228 @@ function ButtonLink({
   );
 }
 
-function ReelPreview({
+function AnimatedCounter({
+  value,
+  prefix = "",
+  suffix = "",
+  duration = 1400,
+  delay = 0,
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  duration?: number;
+  delay?: number;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      return;
+    }
+
+    let frameId = 0;
+    let start: number | null = null;
+    const delayMs = delay * 1000;
+
+    const tick = (timestamp: number) => {
+      start ??= timestamp;
+      const elapsed = timestamp - start;
+
+      if (elapsed < delayMs) {
+        frameId = requestAnimationFrame(tick);
+        return;
+      }
+
+      const progress = Math.min((elapsed - delayMs) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCurrent(Math.round(value * eased));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [delay, duration, shouldReduceMotion, value]);
+
+  return (
+    <>
+      {prefix}
+      {shouldReduceMotion ? value : current}
+      {suffix}
+    </>
+  );
+}
+
+function AttentionHero({
   content,
   y,
-  rotate,
   scale,
 }: {
   content: SiteContent;
   y?: MotionValue<number>;
-  rotate?: MotionValue<number>;
   scale?: MotionValue<number>;
 }) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
-      className="reel-orbit"
-      aria-hidden="true"
-      style={shouldReduceMotion ? undefined : { y, rotate, scale }}
-      variants={heroItem}
+      className="attention-hero"
+      variants={heroContainer}
+      initial={shouldReduceMotion ? false : "hidden"}
+      animate={shouldReduceMotion ? undefined : "visible"}
     >
       <motion.div
-        className="reel-device"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 80, rotateX: 16 }}
-        animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0, rotateX: 0 }}
-        transition={{ duration: 1, delay: 0.48, ease: cinematicEase }}
+        className="hero-system-pill attention-title-lock"
+        variants={heroItem}
       >
-        <div className="reel-screen">
-          <div className="reel-bars">
-            <span />
-            <span />
-          </div>
-          <div className="reel-subject" />
-          <div className="reel-scan" />
-          <div className="reel-cut reel-cut-one" />
-          <div className="reel-cut reel-cut-two" />
-          <div className="reel-play">
-            <Play size={30} fill="currentColor" strokeWidth={1.5} />
-          </div>
-          <div className="reel-caption">
-            <span>00:18</span>
-            <span>{content.hero.reelCaption}</span>
-          </div>
-        </div>
+        <span aria-hidden="true" />
+        {content.hero.systemPill}
       </motion.div>
+
       <motion.div
-        className="orbit-note orbit-note-top"
-        initial={shouldReduceMotion ? false : { opacity: 0, x: -18 }}
-        animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
-        transition={{ duration: 0.65, delay: 1.05, ease: cinematicEase }}
+        className="attention-phone-wrap"
+        aria-hidden="true"
+        dir="ltr"
+        style={shouldReduceMotion ? undefined : { y, scale }}
+        variants={heroItem}
       >
-        {content.hero.orbitTop}
+        <motion.div
+          className="attention-stat attention-stat-left"
+          initial={shouldReduceMotion ? false : { opacity: 0, x: -24, scale: 0.95 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.72, delay: 0.9, ease: cinematicEase }}
+        >
+          <strong>
+            <AnimatedCounter value={474} prefix="+" suffix="M" delay={0.95} />
+          </strong>
+          <span>Views</span>
+        </motion.div>
+
+        {heroReels.map((reel, index) => {
+          const hover =
+            index === 1
+              ? { y: -16, scale: 1.025 }
+              : { y: -12, rotate: index === 0 ? -7 : 8, scale: 1.02 };
+
+          return (
+            <motion.div
+              key={reel.label}
+              className={`attention-phone ${reel.className}`}
+              data-drive-preview={reel.src}
+              whileHover={shouldReduceMotion ? undefined : hover}
+              transition={{ duration: 0.28, ease: cinematicEase }}
+            >
+              <div
+                className={`attention-screen ${
+                  index === 0 ? "scene-travel" : index === 1 ? "scene-founder" : "scene-system"
+                }`}
+              >
+                <span className="phone-notch" />
+                {index === 0 ? (
+                  <>
+                    <span className="travel-arch" />
+                    <span className="travel-door" />
+                    <span className="travel-person" />
+                    <span className="travel-title">Portugal</span>
+                  </>
+                ) : null}
+                {index === 1 ? (
+                  <>
+                    <span className="signal-ring signal-ring-one" />
+                    <span className="signal-ring signal-ring-two" />
+                    <span className="speaker-face" />
+                    <span className="speaker-body" />
+                    <span className="speaker-hand speaker-hand-left" />
+                    <span className="speaker-hand speaker-hand-right" />
+                    <span className="reel-arabic-word">الحل</span>
+                  </>
+                ) : null}
+                {index === 2 ? (
+                  <>
+                    <span className="system-grid" />
+                    <span className="system-path" />
+                    <span className="system-figure" />
+                    <span className="system-tile system-tile-one">F1</span>
+                    <span className="system-tile system-tile-two">F2</span>
+                    <span className="system-tile system-tile-three">F4</span>
+                  </>
+                ) : null}
+                <span className="phone-progress" />
+                {index === 1 ? (
+                  <span className="reel-play-mini">
+                    <Play size={22} fill="currentColor" strokeWidth={1.5} />
+                  </span>
+                ) : null}
+              </div>
+            </motion.div>
+          );
+        })}
+
+        <motion.div
+          className="attention-stat attention-stat-right"
+          initial={shouldReduceMotion ? false : { opacity: 0, x: 24, scale: 0.95 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.72, delay: 1, ease: cinematicEase }}
+        >
+          <span>Watch time</span>
+          <strong>
+            <AnimatedCounter value={80} suffix="%" delay={1.05} />
+          </strong>
+          <span className="watch-chart">
+            <svg viewBox="0 0 180 76" focusable="false">
+              <path
+                className="watch-chart-area"
+                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11 L174 76 L8 76 Z"
+              />
+              <path
+                className="watch-chart-base"
+                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11"
+              />
+              <path
+                className="watch-chart-line"
+                pathLength="1"
+                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11"
+              />
+              <circle className="watch-chart-dot" cx="174" cy="11" r="5" />
+            </svg>
+          </span>
+        </motion.div>
       </motion.div>
-      <motion.div
-        className="orbit-note orbit-note-bottom"
-        initial={shouldReduceMotion ? false : { opacity: 0, x: 18 }}
-        animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
-        transition={{ duration: 0.65, delay: 1.18, ease: cinematicEase }}
-      >
-        {content.hero.orbitBottom}
+
+      <motion.div className="attention-copy" variants={heroItem}>
+        <motion.h1
+          className="attention-headline attention-title-lock"
+          variants={heroItem}
+        >
+          <span>{content.hero.attentionLead}</span>{" "}
+          <em>{content.hero.attentionAccent}</em>
+        </motion.h1>
+        <motion.div
+          className="attention-subline attention-title-lock"
+          variants={heroItem}
+        >
+          <span />
+          <p>{content.hero.attentionSubline}</p>
+          <span />
+        </motion.div>
+        <motion.p className="attention-support" variants={heroItem}>
+          {content.hero.subheadline}
+        </motion.p>
+        <motion.div
+          className="mt-9 flex flex-col items-center justify-center gap-5 sm:flex-row"
+          variants={heroItem}
+        >
+          <ButtonLink href="#contact" rtl={content.isRtl}>
+            {content.hero.primaryCta}
+          </ButtonLink>
+          <ButtonLink href="#work" variant="text" rtl={content.isRtl}>
+            {content.nav.work}
+          </ButtonLink>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -624,6 +1147,29 @@ function SectionHeading({
         </p>
       ) : null}
     </div>
+  );
+}
+
+function CreatorTrust({ content }: { content: SiteContent }) {
+  return (
+    <section className="creator-trust bg-brand-black px-5 py-12 text-brand-white sm:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 border-y border-white/10 py-10 md:grid-cols-[0.75fr_1fr] md:items-center">
+        <Reveal>
+          <p className="section-kicker">{content.trust.label}</p>
+          <h2>{content.trust.headline}</h2>
+        </Reveal>
+        <Reveal className="trust-channel-row" delay={0.08}>
+          {content.trust.channels.map((channel, index) => (
+            <span
+              key={channel}
+              style={{ "--trust-index": index } as CSSProperties}
+            >
+              {channel}
+            </span>
+          ))}
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -704,47 +1250,43 @@ function PortfolioShowcase({ content }: { content: SiteContent }) {
   );
 }
 
-function SocialProof({ content }: { content: SiteContent }) {
+function ProblemComparison({ content }: { content: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="proof" className="bg-brand-off-white px-5 py-20 sm:px-8 lg:py-28">
+    <section id="results" className="comparison-section bg-brand-black px-5 py-20 text-brand-white sm:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <Reveal>
-          <SectionHeading title={content.proof.headline} />
+          <div className="comparison-heading">
+            <p className="section-kicker">{content.comparison.badge}</p>
+            <h2>
+              {content.comparison.headline}{" "}
+              <span>{content.comparison.highlight}</span>
+            </h2>
+          </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-black/10 bg-black/10 lg:grid-cols-3">
-          {content.proof.stats.map((stat, index) => (
-            <motion.div
-              key={stat}
-              className="bg-brand-off-white p-8 text-center lg:p-10"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 22 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.62, delay: index * 0.08, ease: cinematicEase }}
+        <div className="comparison-grid">
+          {content.comparison.groups.map((group, index) => (
+            <motion.article
+              key={group.title}
+              className={`comparison-card ${group.tone === "brand" ? "comparison-card-brand" : ""}`}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 38, scale: 0.98 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.72, delay: index * 0.08, ease: cinematicEase }}
+              whileHover={shouldReduceMotion ? undefined : { y: -8 }}
             >
-              <p className="text-3xl font-semibold tracking-[-0.03em] text-brand-black sm:text-4xl">
-                {stat}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {content.proof.testimonials.map((quote, index) => (
-            <motion.figure
-              key={quote}
-              className="border border-black/10 bg-white/50 p-7 backdrop-blur-sm"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 26 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.65, delay: 0.12 + index * 0.07, ease: cinematicEase }}
-            >
-              <blockquote className="text-pretty text-xl font-medium leading-8 tracking-[-0.01em] text-brand-black">
-                &quot;{quote}&quot;
-              </blockquote>
-            </motion.figure>
+              <h3>{group.title}</h3>
+              <ul>
+                {group.points.map((point) => (
+                  <li key={point}>
+                    <span aria-hidden="true">{group.tone === "brand" ? "✓" : "×"}</span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
           ))}
         </div>
       </div>
@@ -752,39 +1294,195 @@ function SocialProof({ content }: { content: SiteContent }) {
   );
 }
 
-function PainPoints({ content }: { content: SiteContent }) {
+function FrameworkSystem({ content }: { content: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-brand-black px-5 py-20 text-brand-white sm:px-8 lg:py-28">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <Reveal className="lg:sticky lg:top-24">
-          <h2 className="max-w-xl text-balance text-4xl font-semibold leading-none tracking-[-0.03em] sm:text-5xl lg:text-6xl">
-            {content.pain.headline}
+    <section id="framework" className="framework-system bg-brand-off-white px-5 py-20 sm:px-8 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <Reveal className="framework-copy lg:sticky lg:top-24">
+          <p className="section-kicker">{content.framework.badge}</p>
+          <h2>
+            {content.framework.headline} <span>{content.framework.highlight}</span>
           </h2>
-          <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-white/70">
-            {content.pain.description}
-          </p>
+          <p>{content.framework.description}</p>
         </Reveal>
 
-        <div className="space-y-3">
-          {content.pain.points.map((point, index) => (
-            <motion.div
-              key={point}
-              className="group flex items-center gap-5 border-b border-white/10 py-6"
-              initial={shouldReduceMotion ? false : { opacity: 0, x: 42 }}
+        <div className="framework-steps">
+          {content.framework.steps.map((step, index) => (
+            <motion.article
+              key={step.title}
+              className="framework-step"
+              initial={shouldReduceMotion ? false : { opacity: 0, x: 44 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.55 }}
-              transition={{ duration: 0.65, delay: index * 0.08, ease: cinematicEase }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.68, delay: index * 0.08, ease: cinematicEase }}
             >
-              <span className="text-sm font-semibold text-brand-red">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <p className="text-2xl font-semibold tracking-[-0.02em] text-white/90 transition group-hover:text-brand-red">
-                {point}
-              </p>
-            </motion.div>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </motion.article>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CreatorProfiles({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <section className="creator-profiles bg-brand-off-white px-5 pb-20 sm:px-8 lg:pb-28">
+      <div className="mx-auto max-w-7xl border-t border-black/15 pt-16">
+        <Reveal>
+          <SectionHeading
+            title={content.creatorProfiles.headline}
+          >
+            {content.creatorProfiles.description}
+          </SectionHeading>
+        </Reveal>
+
+        <div className="creator-profile-grid">
+          {content.creatorProfiles.profiles.map((profile, index) => (
+            <motion.article
+              key={profile.title}
+              className="creator-profile-card"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 34 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.68, delay: index * 0.07, ease: cinematicEase }}
+            >
+              <span>{content.creatorProfiles.badge}</span>
+              <h3>{profile.title}</h3>
+              <p>{profile.text}</p>
+            </motion.article>
+          ))}
+        </div>
+
+        <motion.div
+          className="client-name-strip"
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.68, delay: 0.18, ease: cinematicEase }}
+        >
+          {content.creatorProfiles.clientNames.map((name) => (
+            <span key={name}>{name}</span>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function ImpactNumbers({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <section id="proof" className="impact-numbers bg-brand-black px-5 py-20 text-brand-white sm:px-8 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <Reveal>
+          <div className="impact-heading">
+            <p className="section-kicker">{content.impact.badge}</p>
+            <h2>{content.impact.headline}</h2>
+            <p>{content.impact.description}</p>
+          </div>
+        </Reveal>
+
+        <div className="impact-grid">
+          {content.impact.stats.map((stat, index) => (
+            <motion.article
+              key={stat.label}
+              className="impact-card"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 36, scale: 0.98 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.72, delay: index * 0.08, ease: cinematicEase }}
+            >
+              <h3>
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  delay={0.1 + index * 0.08}
+                  duration={1300}
+                />
+              </h3>
+              <p>{stat.label}</p>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="result-proof-grid">
+          {content.impact.results.map((result, index) => (
+            <motion.a
+              key={result.href}
+              className="result-proof-card"
+              href={result.href}
+              target="_blank"
+              rel="noreferrer"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.64, delay: index * 0.06, ease: cinematicEase }}
+            >
+              <strong>{result.value}</strong>
+              <span>{result.label}</span>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ClientFeedback({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+  const bars = [30, 55, 80, 45, 65, 35, 90, 50, 70, 40, 60, 85, 32, 58, 46, 75, 36, 65];
+
+  return (
+    <section className="client-feedback-section bg-brand-black px-5 pb-20 text-brand-white sm:px-8 lg:pb-28">
+      <div className="mx-auto grid max-w-7xl gap-8 border-t border-white/10 pt-16 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+        <Reveal>
+          <p className="section-kicker">{content.clientFeedback.badge}</p>
+          <h2>{content.clientFeedback.headline}</h2>
+        </Reveal>
+
+        <div className="feedback-grid">
+          {content.clientFeedback.quotes.map((quote, index) => (
+            <motion.figure
+              key={quote}
+              className="feedback-card"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.66, delay: index * 0.07, ease: cinematicEase }}
+            >
+              <blockquote>&quot;{quote}&quot;</blockquote>
+            </motion.figure>
+          ))}
+          <motion.article
+            className="voice-note-card"
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.66, delay: 0.18, ease: cinematicEase }}
+          >
+            <div>
+              <span>{content.clientFeedback.voiceLabel}</span>
+              <p>{content.clientFeedback.voiceNote}</p>
+            </div>
+            <div className="voice-wave" aria-hidden="true">
+              {bars.map((height, index) => (
+                <span
+                  key={`${height}-${index}`}
+                  style={{ "--bar-height": `${height}%`, "--bar-index": index } as CSSProperties}
+                />
+              ))}
+            </div>
+          </motion.article>
         </div>
       </div>
     </section>
@@ -1005,15 +1703,49 @@ function FinalCta({ content }: { content: SiteContent }) {
   );
 }
 
+function FaqSection({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <section id="faq" className="faq-section bg-brand-off-white px-5 py-20 sm:px-8 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <Reveal className="faq-heading lg:sticky lg:top-24">
+          <p className="section-kicker">{content.faq.badge}</p>
+          <h2>{content.faq.headline}</h2>
+        </Reveal>
+
+        <div className="faq-list">
+          {content.faq.items.map((item, index) => (
+            <motion.article
+              key={item.question}
+              className="faq-item"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 26 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.62, delay: index * 0.06, ease: cinematicEase }}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer({ content }: { content: SiteContent }) {
   return (
     <footer className="bg-brand-black px-5 py-10 text-brand-white sm:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <Image
-          src="/brand/scaleshift-logo-red-white-transparent.png"
+          src="/brand/scaleshift-logo-new.svg"
           alt="Scaleshift"
-          width={322}
-          height={90}
+          width={3871}
+          height={712}
           loading="eager"
           className="h-auto w-40"
         />
@@ -1037,9 +1769,8 @@ function Footer({ content }: { content: SiteContent }) {
 export function HomePage({ content = englishContent }: { content?: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
-  const reelY = useTransform(scrollYProgress, [0, 0.22], [0, -82]);
-  const reelRotate = useTransform(scrollYProgress, [0, 0.22], [0, -3]);
-  const reelScale = useTransform(scrollYProgress, [0, 0.18], [1, 0.96]);
+  const phoneY = useTransform(scrollYProgress, [0, 0.22], [0, -68]);
+  const phoneScale = useTransform(scrollYProgress, [0, 0.18], [1, 0.97]);
   const timelineX = useTransform(scrollYProgress, [0, 0.18], [0, -42]);
 
   return (
@@ -1075,18 +1806,18 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
           >
             <Image
-              src="/brand/scaleshift-logo-red-white-transparent.png"
+              src="/brand/scaleshift-logo-new.svg"
               alt="Scaleshift"
-              width={322}
-              height={90}
+              width={3871}
+              height={712}
               priority
               loading="eager"
-              className="h-auto w-40 sm:w-48"
+              className="h-auto w-32 sm:w-48"
             />
           </motion.a>
           <motion.nav
             aria-label={content.navLabel}
-            className="hidden items-center gap-8 text-sm font-medium text-white/80 lg:flex"
+            className="hidden items-center gap-5 text-sm font-medium text-white/80 xl:gap-8 lg:flex"
             initial={shouldReduceMotion ? false : "hidden"}
             animate={shouldReduceMotion ? undefined : "visible"}
             variants={{
@@ -1101,6 +1832,14 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
               whileHover={shouldReduceMotion ? undefined : { y: -2 }}
             >
               {content.nav.work}
+            </motion.a>
+            <motion.a
+              href="#framework"
+              className="nav-link"
+              variants={heroItem}
+              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+            >
+              {content.nav.framework}
             </motion.a>
             <motion.a
               href="#services"
@@ -1127,6 +1866,14 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
               {content.nav.results}
             </motion.a>
             <motion.a
+              href="#faq"
+              className="nav-link"
+              variants={heroItem}
+              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+            >
+              {content.nav.faq}
+            </motion.a>
+            <motion.a
               href="#contact"
               className="nav-link"
               variants={heroItem}
@@ -1150,58 +1897,16 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
               </ButtonLink>
             </div>
           </motion.div>
+          <a href={content.alternateHref} className="mobile-language-link">
+            {content.alternateLabel}
+          </a>
         </motion.header>
 
-        <motion.div
-          className="relative z-10 mx-auto grid max-w-7xl gap-8 pb-12 pt-12 lg:grid-cols-[1.08fr_0.74fr_0.65fr] lg:items-center lg:gap-12 lg:pt-16"
-          variants={heroContainer}
-          initial={shouldReduceMotion ? false : "hidden"}
-          animate={shouldReduceMotion ? undefined : "visible"}
-        >
-          <motion.div className="relative z-10" variants={heroItem}>
-            <motion.p className="hero-label" variants={heroItem}>
-              {content.hero.label}
-            </motion.p>
-            <motion.h1
-              className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.92] tracking-[-0.04em] sm:text-7xl lg:text-[5.5rem]"
-              variants={heroItem}
-            >
-              {content.hero.headline}{" "}
-              <span className="text-brand-red">{content.hero.highlight}</span>
-            </motion.h1>
-            <motion.p
-              className="mt-7 max-w-xl text-pretty text-base leading-8 text-white/70 sm:text-lg"
-              variants={heroItem}
-            >
-              {content.hero.subheadline}
-            </motion.p>
-            <motion.div
-              className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center"
-              variants={heroItem}
-            >
-              <ButtonLink href="#contact" rtl={content.isRtl}>
-                {content.hero.primaryCta}
-              </ButtonLink>
-              <ButtonLink href="#process" variant="text" rtl={content.isRtl}>
-                {content.hero.secondaryCta}
-              </ButtonLink>
-            </motion.div>
-          </motion.div>
-
-          <ReelPreview
-            content={content}
-            y={reelY}
-            rotate={reelRotate}
-            scale={reelScale}
-          />
-
-          <motion.div className="built-list" variants={heroItem}>
-            <p>{content.hero.builtLabel}</p>
-            {content.hero.builtItems.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </motion.div>
-        </motion.div>
+        <AttentionHero
+          content={content}
+          y={phoneY}
+          scale={phoneScale}
+        />
 
         <TimelineStrip x={timelineX} />
 
@@ -1220,14 +1925,19 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
         </motion.div>
       </section>
 
-      <PortfolioShowcase content={content} />
-      <SocialProof content={content} />
-      <PainPoints content={content} />
+      <CreatorTrust content={content} />
+      <ProblemComparison content={content} />
+      <FrameworkSystem content={content} />
+      <CreatorProfiles content={content} />
+      <ImpactNumbers content={content} />
+      <ClientFeedback content={content} />
       <Solution content={content} />
       <ServicesBreakdown content={content} />
       <Process content={content} />
+      <PortfolioShowcase content={content} />
       <WhyScaleShift content={content} />
       <Offer content={content} />
+      <FaqSection content={content} />
       <FinalCta content={content} />
       <Footer content={content} />
     </main>
