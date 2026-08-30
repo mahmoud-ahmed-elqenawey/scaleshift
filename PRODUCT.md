@@ -25,7 +25,7 @@ Scaleshift turns brand footage into clean, cinematic reels that feel built for s
 - Primary and secondary CTA: the page uses the approved strategy-call CTAs ("Book Your Free Strategy Call", "Get Your Custom Plan", and "Book Your Call Now"). The final destination is still a placeholder until the Instagram DM or booking link is supplied.
 - The line a visitor remembers after 10 seconds: Scaleshift turns brand footage into clean, cinematic reels.
 - Belief ladder: the visitor sees high-quality reel examples; understands that Scaleshift edits with a clean, confident, cinematic taste; trusts that the output can fit their own brand; then contacts Scaleshift through Instagram DM.
-- Proof on hand: use the approved stats and testimonials in the current homepage copy. Client names, real portfolio videos, and before/after examples should be added later when supplied.
+- Proof on hand: use the approved stats, testimonials, real client names, and the three Cloudflare R2 hero reels currently connected in the homepage. Deeper before/after case studies should be added later when supplied.
 
 ## Brand Personality
 

@@ -58,17 +58,17 @@ const heroReels = [
   {
     label: "V-Left",
     className: "attention-phone-left",
-    src: "https://drive.google.com/file/d/1h_jrsT1YtwS0q4Ch8gTMRZUsKdSynjZs/preview",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Left.mp4",
   },
   {
     label: "V-Middle",
     className: "attention-phone-center",
-    src: "https://drive.google.com/file/d/1HbVVhcd8FuRx8f7W6RAHhr913cSxpJgR/preview",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Middle.mp4",
   },
   {
     label: "V-Right",
     className: "attention-phone-right",
-    src: "https://drive.google.com/file/d/1NrLmG087TAXtvWbGGsD7S8p8khr2zD4l/preview",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Right.mp4",
   },
 ];
 
@@ -962,7 +962,7 @@ function AttentionHero({
             <motion.div
               key={reel.label}
               className={`attention-phone ${reel.className}`}
-              data-drive-preview={reel.src}
+              data-r2-src={reel.src}
               whileHover={shouldReduceMotion ? undefined : hover}
               transition={{ duration: 0.28, ease: cinematicEase }}
             >
@@ -971,36 +971,21 @@ function AttentionHero({
                   index === 0 ? "scene-travel" : index === 1 ? "scene-founder" : "scene-system"
                 }`}
               >
+                <video
+                  className="attention-reel-video"
+                  src={reel.src}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload={index === 1 ? "auto" : "metadata"}
+                  onCanPlay={(event) => {
+                    event.currentTarget.play().catch(() => undefined);
+                  }}
+                  aria-label={reel.label}
+                />
                 <span className="phone-notch" />
-                {index === 0 ? (
-                  <>
-                    <span className="travel-arch" />
-                    <span className="travel-door" />
-                    <span className="travel-person" />
-                    <span className="travel-title">Portugal</span>
-                  </>
-                ) : null}
-                {index === 1 ? (
-                  <>
-                    <span className="signal-ring signal-ring-one" />
-                    <span className="signal-ring signal-ring-two" />
-                    <span className="speaker-face" />
-                    <span className="speaker-body" />
-                    <span className="speaker-hand speaker-hand-left" />
-                    <span className="speaker-hand speaker-hand-right" />
-                    <span className="reel-arabic-word">الحل</span>
-                  </>
-                ) : null}
-                {index === 2 ? (
-                  <>
-                    <span className="system-grid" />
-                    <span className="system-path" />
-                    <span className="system-figure" />
-                    <span className="system-tile system-tile-one">F1</span>
-                    <span className="system-tile system-tile-two">F2</span>
-                    <span className="system-tile system-tile-three">F4</span>
-                  </>
-                ) : null}
+                <span className="phone-video-glass" />
                 <span className="phone-progress" />
                 {index === 1 ? (
                   <span className="reel-play-mini">
