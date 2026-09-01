@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "times new roman mt",
+        "reason": "User confirmed Times New Roman Mt is intentional",
+        "createdAt": "2026-09-01T17:07:05.982Z"
+      }
+    ]
+  }
+}

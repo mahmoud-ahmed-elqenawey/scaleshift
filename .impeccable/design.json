@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-11T16:05:52Z",
+  "generatedAt": "2026-09-01T16:50:00Z",
   "title": "Design System: Scaleshift",
   "extensions": {
     "colorMeta": {
@@ -157,7 +157,7 @@
       "refersTo": "button-primary",
       "description": "Main conversion action, especially Instagram DM after portfolio viewing.",
       "html": "<button class=\"ds-btn-primary\">Contact on Instagram</button>",
-      "css": ".ds-btn-primary { background: var(--brand-red, #ED0F24); color: #FFFFFF; border: 0; border-radius: 999px; padding: 14px 24px; font-family: Geist, Arial, Helvetica, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(237, 15, 36, 0.24); } .ds-btn-primary:focus-visible { outline: 2px solid #000000; outline-offset: 4px; }"
+      "css": ".ds-btn-primary { background: var(--brand-red, #ED0F24); color: #FFFFFF; border: 0; border-radius: 999px; padding: 14px 24px; font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(237, 15, 36, 0.24); } .ds-btn-primary:focus-visible { outline: 2px solid #000000; outline-offset: 4px; }"
     },
     {
       "name": "Secondary Button",
@@ -165,7 +165,7 @@
       "refersTo": "button-secondary",
       "description": "Secondary action on light backgrounds.",
       "html": "<button class=\"ds-btn-secondary\">View Portfolio</button>",
-      "css": ".ds-btn-secondary { background: #000000; color: var(--brand-off-white, #F2EBEB); border: 0; border-radius: 999px; padding: 14px 24px; font-family: Geist, Arial, Helvetica, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-secondary:hover { transform: translateY(-2px); background: #171717; } .ds-btn-secondary:focus-visible { outline: 2px solid #ED0F24; outline-offset: 4px; }"
+      "css": ".ds-btn-secondary { background: #000000; color: var(--brand-off-white, #F2EBEB); border: 0; border-radius: 999px; padding: 14px 24px; font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-secondary:hover { transform: translateY(-2px); background: #171717; } .ds-btn-secondary:focus-visible { outline: 2px solid #ED0F24; outline-offset: 4px; }"
     },
     {
       "name": "Portfolio Chip",
@@ -173,7 +173,7 @@
       "refersTo": "portfolio-chip",
       "description": "Metadata for reel format, platform, or edit type.",
       "html": "<span class=\"ds-chip\">Vertical Reel</span>",
-      "css": ".ds-chip { display: inline-flex; align-items: center; border: 1px solid rgba(0, 0, 0, 0.18); border-radius: 999px; padding: 7px 12px; color: #000000; background: var(--brand-off-white, #F2EBEB); font-family: Geist, Arial, Helvetica, sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }"
+      "css": ".ds-chip { display: inline-flex; align-items: center; border: 1px solid rgba(0, 0, 0, 0.18); border-radius: 999px; padding: 7px 12px; color: #000000; background: var(--brand-off-white, #F2EBEB); font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }"
     },
     {
       "name": "Reel Frame",
@@ -181,7 +181,7 @@
       "refersTo": "media-frame",
       "description": "Signature vertical media container for portfolio work.",
       "html": "<figure class=\"ds-reel-frame\"><div class=\"ds-reel-frame__media\"></div><figcaption class=\"ds-reel-frame__caption\">Launch reel / 00:18</figcaption></figure>",
-      "css": ".ds-reel-frame { width: min(280px, 100%); margin: 0; background: #000000; color: #FFFFFF; border-radius: 12px; padding: 8px; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18); font-family: Geist, Arial, Helvetica, sans-serif; } .ds-reel-frame__media { aspect-ratio: 9 / 16; border-radius: 8px; background: linear-gradient(160deg, #ED0F24 0%, #000000 64%); } .ds-reel-frame__caption { padding: 12px 4px 2px; font-size: 0.875rem; line-height: 1.4; color: #F2EBEB; }"
+      "css": ".ds-reel-frame { width: min(280px, 100%); margin: 0; background: #000000; color: #FFFFFF; border-radius: 24px; padding: 8px; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18); font-family: Inter, Arial, Helvetica, sans-serif; } .ds-reel-frame__media { aspect-ratio: 9 / 16; border-radius: 16px; background: linear-gradient(160deg, #ED0F24 0%, #000000 64%); } .ds-reel-frame__caption { padding: 12px 4px 2px; font-size: 0.875rem; line-height: 1.4; color: #F2EBEB; }"
     },
     {
       "name": "Minimal Navigation",
@@ -189,7 +189,7 @@
       "refersTo": "navigation",
       "description": "Quiet top navigation that preserves logo clarity and keeps focus on the portfolio.",
       "html": "<nav class=\"ds-nav\"><span class=\"ds-nav__brand\">Scaleshift</span><a class=\"ds-nav__link\" href=\"#work\">Work</a><a class=\"ds-nav__link\" href=\"#contact\">Contact</a></nav>",
-      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 24px; color: #000000; background: var(--brand-off-white, #F2EBEB); font-family: Geist, Arial, Helvetica, sans-serif; } .ds-nav__brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; } .ds-nav__link { color: inherit; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: color 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-nav__link:hover, .ds-nav__link:focus-visible { color: #ED0F24; outline: none; }"
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 24px; color: #000000; background: var(--brand-off-white, #F2EBEB); font-family: Inter, Arial, Helvetica, sans-serif; } .ds-nav__brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; } .ds-nav__link { color: inherit; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: color 220ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-nav__link:hover, .ds-nav__link:focus-visible { color: #ED0F24; outline: none; }"
     }
   ],
   "narrative": {
@@ -219,7 +219,7 @@
       },
       {
         "name": "The Clean Scale Rule",
-        "body": "Use size, weight, and spacing for hierarchy. Do not use gradient text, italic editorial affectation, or noisy font pairings.",
+        "body": "Use size, weight, and spacing for hierarchy. Keep the Times New Roman MT italic accent scoped to the requested hero word treatment; do not use gradient text or noisy font pairings.",
         "section": "typography"
       },
       {

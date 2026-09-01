@@ -9,31 +9,31 @@ colors:
   muted-ink: "#525252"
 typography:
   display:
-    fontFamily: "Geist, Arial, Helvetica, sans-serif"
+    fontFamily: "Inter, Arial, Helvetica, sans-serif"
     fontSize: "clamp(3rem, 8vw, 6rem)"
     fontWeight: 600
     lineHeight: 0.95
     letterSpacing: "-0.03em"
   headline:
-    fontFamily: "Geist, Arial, Helvetica, sans-serif"
+    fontFamily: "Inter, Arial, Helvetica, sans-serif"
     fontSize: "clamp(2rem, 5vw, 4rem)"
     fontWeight: 600
     lineHeight: 1
     letterSpacing: "-0.025em"
   title:
-    fontFamily: "Geist, Arial, Helvetica, sans-serif"
+    fontFamily: "Inter, Arial, Helvetica, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "Geist, Arial, Helvetica, sans-serif"
+    fontFamily: "Inter, Arial, Helvetica, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.75
     letterSpacing: "0"
   label:
-    fontFamily: "Geist, Arial, Helvetica, sans-serif"
+    fontFamily: "Inter, Arial, Helvetica, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 600
     lineHeight: 1.2
@@ -43,6 +43,8 @@ rounded:
   sm: "4px"
   md: "8px"
   lg: "12px"
+  xl: "16px"
+  media: "24px"
   pill: "999px"
 spacing:
   xs: "4px"
@@ -66,7 +68,7 @@ components:
     typography: "{typography.label}"
   media-frame:
     backgroundColor: "{colors.cut-black}"
-    rounded: "{rounded.lg}"
+    rounded: "{rounded.media}"
     padding: "8px"
 ---
 
@@ -110,8 +112,9 @@ The palette is tight and official: one bright red, one true black, one branded o
 
 ## 3. Typography
 
-**Display Font:** Geist, with Arial and Helvetica fallbacks  
-**Body Font:** Geist, with Arial and Helvetica fallbacks  
+**Display Font:** Inter, with Arial and Helvetica fallbacks  
+**Body Font:** Inter, with Arial and Helvetica fallbacks  
+**Editorial Accent:** Times New Roman MT is used only for the requested hero "Create" treatment.  
 **Label/Mono Font:** Geist Mono is available but should not become a lazy "technical" motif.
 
 **Character:** The current type system is a single clean sans family with strong weight and scale contrast. It should feel edited, direct, and cinematic rather than decorative.
@@ -159,7 +162,7 @@ Scaleshift should be flat by default. Depth comes from contrast, scale, video fr
 
 ### Cards / Containers
 
-- **Corner Style:** Small to moderate radii only (`8px` to `12px`). Large 32px+ rounded cards are prohibited.
+- **Corner Style:** Small to moderate radii only (`8px` to `12px`) for UI containers. Signature reel frames may use `24px` radius for the premium Framer-style media treatment. Large 32px+ rounded content cards are prohibited.
 - **Background:** Use Off-White, Black, or White according to contrast needs.
 - **Shadow Strategy:** Flat by default. Media frames may use Media Lift.
 - **Border:** Thin borders are allowed for structure. No colored side stripes.

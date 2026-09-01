@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   motion,
   useReducedMotion,
@@ -54,21 +54,46 @@ const sectionReveal = {
   },
 };
 
-const heroReels = [
+const heroOrbitReels = [
   {
-    label: "V-Left",
-    className: "attention-phone-left",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Left.mp4",
+    label: "Portfolio reel 001",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/001.mp4",
   },
   {
-    label: "V-Middle",
-    className: "attention-phone-center",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Middle.mp4",
+    label: "Portfolio reel 002",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/002.mp4",
   },
   {
-    label: "V-Right",
-    className: "attention-phone-right",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/3reels-in-header/V-Right.mp4",
+    label: "Portfolio reel 003",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/003.mp4",
+  },
+  {
+    label: "Portfolio reel 004",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/004.mp4",
+  },
+  {
+    label: "Portfolio reel 005",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/005.mp4",
+  },
+  {
+    label: "Portfolio reel 006",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/006.mp4",
+  },
+  {
+    label: "Portfolio reel 007",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/007.mp4",
+  },
+  {
+    label: "Portfolio reel 008",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/008.mp4",
+  },
+  {
+    label: "Portfolio reel 009",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/009.mp4",
+  },
+  {
+    label: "Portfolio reel 010",
+    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/0010.mp4",
   },
 ];
 
@@ -93,7 +118,6 @@ export const englishContent = {
   },
   hero: {
     label: "Content that performs",
-    systemPill: "RETENTION EDITING SYSTEM™",
     attentionLead: "Create",
     attentionAccent: "Attention",
     attentionSubline: "Not Just Edits.",
@@ -101,7 +125,7 @@ export const englishContent = {
     highlight: "Revenue Machine",
     subheadline:
       "We help creators and brands scale their content with high-performing videos that grab attention, build authority, and convert viewers into paying clients.",
-    primaryCta: "Book Your Free Strategy Call",
+    primaryCta: "Build Retention Now",
     secondaryCta: "See the process",
     builtLabel: "Built to",
     builtItems: ["Stop the scroll", "Build trust", "Drive action", "Scale revenue"],
@@ -143,23 +167,32 @@ export const englishContent = {
     ],
     flow: ["Raw idea", "Hook", "Cut rhythm", "Cover direction", "Publish-ready"],
   },
-  proof: {
-    headline: "Built for Results. Proven by Performance.",
-    stats: [
-      "500M+ views generated",
-      "600+ videos delivered",
-      "60+ creators supported",
-    ],
-    testimonials: [
-      "My content finally looks premium - and the numbers back it up.",
-      "I stopped guessing what works. Everything now feels intentional.",
-      "Fast, reliable, and the quality is on another level.",
-    ],
-  },
   trust: {
     label: "Trusted by",
     headline: "60+ creators generating millions of views every month.",
     channels: ["IG", "YT", "TT", "+60"],
+    avatars: [
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387718/general-profile-picture_4_1_utzhv0.png",
+        alt: "Daniel Hart",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387746/general-profile-picture_3_yia62a.png",
+        alt: "Marcus Reid",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387716/general-profile-picture_idzhcl.png",
+        alt: "Brandon Lee",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387772/general-profile-picture_2_sqhplw.png",
+        alt: "Sophie Turner",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387708/general-profile-picture_1_n66h3z.png",
+        alt: "Ayaan Rahman",
+      },
+    ],
   },
   comparison: {
     badge: "The Problem",
@@ -444,15 +477,14 @@ export const arabicContent = {
   },
   hero: {
     label: "مونتاج ريلز مبني على الأداء",
-    systemPill: "RETENTION EDITING SYSTEM™",
-    attentionLead: "Create",
-    attentionAccent: "Attention",
-    attentionSubline: "Not Just Edits.",
-    headline: "خلّي محتواك يلفت الانتباه",
-    highlight: "ويجيب عملاء",
+    attentionLead: "اخطف",
+    attentionAccent: "الانتباه",
+    attentionSubline: "مش مجرد مونتاج.",
+    headline: "حوّل محتواك لأداة نمو",
+    highlight: "تجيب عملاء",
     subheadline:
-      "نحوّل أفكارك ومقاطعك إلى ريلز قصيرة بإيقاع سريع، رسالة واضحة، وشكل احترافي يساعدك تظهر أقوى وتحول المشاهدة إلى طلبات حقيقية.",
-    primaryCta: "احجز استشارة مجانية",
+      "نحوّل أفكارك ولقطاتك لريلز سريعة وواضحة، بإيقاع يمسك المشاهد وشكل احترافي يخلي الناس تفهمك أسرع وتتحرك ناحية العرض بتاعك.",
+    primaryCta: "ابني ريتينشن الآن",
     secondaryCta: "اعرف طريقتنا",
     builtLabel: "كل فيديو يشتغل على",
     builtItems: ["هوك أقوى", "احتفاظ أطول", "رسالة أوضح", "طلب حقيقي"],
@@ -494,23 +526,32 @@ export const arabicContent = {
     ],
     flow: ["الفكرة الخام", "الهوك", "إيقاع القص", "اتجاه الغلاف", "جاهز للنشر"],
   },
-  proof: {
-    headline: "شغل شكله احترافي وهدفه واضح.",
-    stats: [
-      "أكثر من 500 مليون مشاهدة",
-      "أكثر من 600 فيديو تم تسليمه",
-      "أكثر من 60 صانع محتوى",
-    ],
-    testimonials: [
-      "أول مرة أحس إن محتواي شكله احترافي وبيخدم هدفي.",
-      "بقينا نعرف ننشر إيه وليه، مش مجرد نجرب.",
-      "الشغل سريع ومنظم، والنتيجة أعلى من توقعاتي.",
-    ],
-  },
   trust: {
     label: "يثق بنا",
     headline: "أكثر من 60 صانع محتوى بيحققوا ملايين المشاهدات شهريًا.",
     channels: ["IG", "YT", "TT", "+60"],
+    avatars: [
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387718/general-profile-picture_4_1_utzhv0.png",
+        alt: "Daniel Hart",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387746/general-profile-picture_3_yia62a.png",
+        alt: "Marcus Reid",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387716/general-profile-picture_idzhcl.png",
+        alt: "Brandon Lee",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387772/general-profile-picture_2_sqhplw.png",
+        alt: "Sophie Turner",
+      },
+      {
+        src: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786387708/general-profile-picture_1_n66h3z.png",
+        alt: "Ayaan Rahman",
+      },
+    ],
   },
   comparison: {
     badge: "المشكلة",
@@ -917,6 +958,35 @@ function AttentionHero({
   scale?: MotionValue<number>;
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const [orbitAngle, setOrbitAngle] = useState(18);
+  const [viewportWidth, setViewportWidth] = useState(1024);
+
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+    return () => window.removeEventListener("resize", updateViewportWidth);
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      return undefined;
+    }
+
+    let frame = 0;
+    const startedAt = performance.now();
+
+    const animate = (now: number) => {
+      setOrbitAngle(((now - startedAt) / 28000) * 360);
+      frame = requestAnimationFrame(animate);
+    };
+
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [shouldReduceMotion]);
+
+  const radiusX = viewportWidth < 640 ? 176 : viewportWidth < 900 ? 282 : 410;
+  const radiusY = viewportWidth < 640 ? 218 : viewportWidth < 900 ? 300 : 360;
 
   return (
     <motion.div
@@ -926,118 +996,43 @@ function AttentionHero({
       animate={shouldReduceMotion ? undefined : "visible"}
     >
       <motion.div
-        className="hero-system-pill attention-title-lock"
-        variants={heroItem}
-      >
-        <span aria-hidden="true" />
-        {content.hero.systemPill}
-      </motion.div>
-
-      <motion.div
-        className="attention-phone-wrap"
-        aria-hidden="true"
+        className="hero-reel-orbit-wrap"
         dir="ltr"
         style={shouldReduceMotion ? undefined : { y, scale }}
         variants={heroItem}
       >
-        <motion.div
-          className="attention-stat attention-stat-left"
-          initial={shouldReduceMotion ? false : { opacity: 0, x: -24, scale: 0.95 }}
-          animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.72, delay: 0.9, ease: cinematicEase }}
-        >
-          <strong>
-            <AnimatedCounter value={474} prefix="+" suffix="M" delay={0.95} />
-          </strong>
-          <span>Views</span>
-        </motion.div>
-
-        {heroReels.map((reel, index) => {
-          const hover =
-            index === 1
-              ? { y: -16, scale: 1.025 }
-              : { y: -12, rotate: index === 0 ? -7 : 8, scale: 1.02 };
-
-          return (
-            <motion.div
-              key={reel.label}
-              className={`attention-phone ${reel.className}`}
-              data-r2-src={reel.src}
-              whileHover={shouldReduceMotion ? undefined : hover}
-              transition={{ duration: 0.28, ease: cinematicEase }}
-            >
-              <div
-                className={`attention-screen ${
-                  index === 0 ? "scene-travel" : index === 1 ? "scene-founder" : "scene-system"
-                }`}
-              >
-                <video
-                  className="attention-reel-video"
-                  src={reel.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload={index === 1 ? "auto" : "metadata"}
-                  onCanPlay={(event) => {
-                    event.currentTarget.play().catch(() => undefined);
-                  }}
-                  aria-label={reel.label}
-                />
-                <span className="phone-notch" />
-                <span className="phone-video-glass" />
-                <span className="phone-progress" />
-                {index === 1 ? (
-                  <span className="reel-play-mini">
-                    <Play size={22} fill="currentColor" strokeWidth={1.5} />
-                  </span>
-                ) : null}
-              </div>
-            </motion.div>
-          );
-        })}
-
-        <motion.div
-          className="attention-stat attention-stat-right"
-          initial={shouldReduceMotion ? false : { opacity: 0, x: 24, scale: 0.95 }}
-          animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.72, delay: 1, ease: cinematicEase }}
-        >
-          <span>Watch time</span>
-          <strong>
-            <AnimatedCounter value={80} suffix="%" delay={1.05} />
-          </strong>
-          <span className="watch-chart">
-            <svg viewBox="0 0 180 76" focusable="false">
-              <path
-                className="watch-chart-area"
-                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11 L174 76 L8 76 Z"
-              />
-              <path
-                className="watch-chart-base"
-                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11"
-              />
-              <path
-                className="watch-chart-line"
-                pathLength="1"
-                d="M8 66 C27 62 36 58 51 57 C69 56 75 48 91 45 C111 41 116 30 135 27 C154 24 162 16 174 11"
-              />
-              <circle className="watch-chart-dot" cx="174" cy="11" r="5" />
-            </svg>
-          </span>
-        </motion.div>
+        <div className="hero-reel-orbit" aria-hidden="true">
+          {heroOrbitReels.map((reel, index) => (
+            <HeroOrbitReel
+              key={reel.src}
+              reel={reel}
+              index={index}
+              count={heroOrbitReels.length}
+              orbitAngle={orbitAngle}
+              radiusX={radiusX}
+              radiusY={radiusY}
+            />
+          ))}
+        </div>
       </motion.div>
 
-      <motion.div className="attention-copy" variants={heroItem}>
+      <motion.div
+        className="attention-copy"
+        variants={heroItem}
+      >
         <motion.h1
-          className="attention-headline attention-title-lock"
+          className={`attention-headline ${content.isRtl ? "" : "attention-title-lock"}`}
+          dir={content.isRtl ? "rtl" : "ltr"}
           variants={heroItem}
         >
-          <span>{content.hero.attentionLead}</span>{" "}
+          <span className={content.isRtl ? undefined : "attention-headline-lead"}>
+            {content.hero.attentionLead}
+          </span>{" "}
           <em>{content.hero.attentionAccent}</em>
         </motion.h1>
         <motion.div
-          className="attention-subline attention-title-lock"
+          className={`attention-subline ${content.isRtl ? "" : "attention-title-lock"}`}
+          dir={content.isRtl ? "rtl" : "ltr"}
           variants={heroItem}
         >
           <span />
@@ -1048,7 +1043,8 @@ function AttentionHero({
           {content.hero.subheadline}
         </motion.p>
         <motion.div
-          className="mt-9 flex flex-col items-center justify-center gap-5 sm:flex-row"
+          className="hero-copy-actions"
+          dir={content.isRtl ? "rtl" : "ltr"}
           variants={heroItem}
         >
           <ButtonLink href="#contact" rtl={content.isRtl}>
@@ -1063,44 +1059,61 @@ function AttentionHero({
   );
 }
 
-function TimelineStrip({ x }: { x?: MotionValue<number> }) {
-  const shouldReduceMotion = useReducedMotion();
+function HeroOrbitReel({
+  reel,
+  index,
+  count,
+  orbitAngle,
+  radiusX,
+  radiusY,
+}: {
+  reel: { label: string; src: string };
+  index: number;
+  count: number;
+  orbitAngle: number;
+  radiusX: number;
+  radiusY: number;
+}) {
+  const angle = orbitAngle + (index / count) * 360 - 96;
+  const radians = (angle * Math.PI) / 180;
+  const x = Math.cos(radians) * radiusX;
+  const arc = Math.sin(radians);
+  const y = -arc * radiusY;
+  const centerWeight = Math.max(0, 1 - Math.abs(x) / radiusX);
+  const reveal = Math.max(0, Math.min(1, (arc - 0.005) / 0.24));
+  const scale = 0.78 + centerWeight * 0.22;
+  const opacity = reveal * (0.32 + centerWeight * 0.68);
+  const normalizedAngle = ((angle % 360) + 360) % 360;
+  const orbitRotation = 90 - normalizedAngle;
+  const blur = (1 - centerWeight) * 0.45;
 
   return (
-    <motion.div
-      className="timeline-strip"
-      aria-hidden="true"
-      style={shouldReduceMotion ? undefined : { x }}
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 34, clipPath: "inset(0 100% 0 0)" }}
-      animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0, clipPath: "inset(0 0% 0 0)" }}
-      transition={{ duration: 1.1, delay: 0.8, ease: cinematicEase }}
+    <div
+      className="hero-orbit-reel"
+      data-r2-src={reel.src}
+      style={
+        {
+          opacity: opacity.toFixed(6),
+          pointerEvents: opacity > 0.2 ? "auto" : "none",
+          zIndex: String(Math.round((centerWeight + reveal) * 20)),
+          filter: `saturate(1.05) blur(${blur.toFixed(2)}px)`,
+          transform: `translate(-50%, -50%) translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0px) rotate(${orbitRotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
+        } as CSSProperties
+      }
     >
-      <div className="timeline-times">
-        <span>00:00</span>
-        <span>00:05</span>
-        <span>00:10</span>
-        <span>00:30</span>
-        <span>00:40</span>
-      </div>
-      <div className="timeline-track">
-        {Array.from({ length: 24 }, (_, index) => (
-          <span
-            key={index}
-            className="timeline-thumb"
-            style={{ "--thumb": index } as CSSProperties}
-          />
-        ))}
-      </div>
-      <div className="timeline-playhead" />
-      <div className="waveform">
-        {Array.from({ length: 44 }, (_, index) => (
-          <span
-            key={index}
-            style={{ "--wave-index": index } as CSSProperties}
-          />
-        ))}
-      </div>
-    </motion.div>
+      <video
+        src={reel.src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-label={reel.label}
+        onCanPlay={(event) => {
+          event.currentTarget.play().catch(() => undefined);
+        }}
+      />
+    </div>
   );
 }
 
@@ -1137,21 +1150,45 @@ function SectionHeading({
 
 function CreatorTrust({ content }: { content: SiteContent }) {
   return (
-    <section className="creator-trust bg-brand-black px-5 py-12 text-brand-white sm:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 border-y border-white/10 py-10 md:grid-cols-[0.75fr_1fr] md:items-center">
-        <Reveal>
-          <p className="section-kicker">{content.trust.label}</p>
-          <h2>{content.trust.headline}</h2>
-        </Reveal>
-        <Reveal className="trust-channel-row" delay={0.08}>
-          {content.trust.channels.map((channel, index) => (
-            <span
-              key={channel}
-              style={{ "--trust-index": index } as CSSProperties}
+    <section className="creator-trust bg-brand-black px-5 py-10 text-brand-white sm:px-8">
+      <div className="mx-auto max-w-7xl border-y border-white/10 py-10">
+        <Reveal className="trust-proof-wrap">
+          <div className="trust-avatar-row" aria-label={content.trust.label}>
+            {content.trust.avatars.map((avatar, index) => (
+              <div
+                className="trust-avatar"
+                key={avatar.src}
+                style={{ "--trust-index": index } as CSSProperties}
+              >
+                <Image
+                  src={avatar.src}
+                  alt={avatar.alt}
+                  fill
+                  sizes="68px"
+                  unoptimized
+                />
+              </div>
+            ))}
+            <div
+              className="trust-avatar trust-avatar-more"
+              style={{ "--trust-index": content.trust.avatars.length } as CSSProperties}
             >
-              {channel}
-            </span>
-          ))}
+              +60
+            </div>
+          </div>
+          <p>
+            {content.isRtl ? (
+              <>
+                موثوق من <strong>أكثر من 60 صانع محتوى</strong> بيحققوا ملايين
+                المشاهدات شهريًا
+              </>
+            ) : (
+              <>
+                Trusted by <strong>60+ creators</strong> generating millions of
+                views
+              </>
+            )}
+          </p>
         </Reveal>
       </div>
     </section>
@@ -1756,7 +1793,6 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
   const { scrollYProgress } = useScroll();
   const phoneY = useTransform(scrollYProgress, [0, 0.22], [0, -68]);
   const phoneScale = useTransform(scrollYProgress, [0, 0.18], [1, 0.97]);
-  const timelineX = useTransform(scrollYProgress, [0, 0.18], [0, -42]);
 
   return (
     <main
@@ -1893,21 +1929,6 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
           scale={phoneScale}
         />
 
-        <TimelineStrip x={timelineX} />
-
-        <motion.div
-          className="proof-ticker"
-          aria-label={content.hero.proofLabel}
-          initial={shouldReduceMotion ? false : { opacity: 0 }}
-          animate={shouldReduceMotion ? undefined : { opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.15, ease: cinematicEase }}
-        >
-          <div>
-            {[...content.proof.stats, ...content.proof.stats].map((stat, index) => (
-              <span key={`${stat}-${index}`}>{stat}</span>
-            ))}
-          </div>
-        </motion.div>
       </section>
 
       <CreatorTrust content={content} />

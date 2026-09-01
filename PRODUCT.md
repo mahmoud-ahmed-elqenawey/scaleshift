@@ -22,10 +22,10 @@ Scaleshift turns brand footage into clean, cinematic reels that feel built for s
 
 ## Conversion & proof
 
-- Primary and secondary CTA: the page uses the approved strategy-call CTAs ("Book Your Free Strategy Call", "Get Your Custom Plan", and "Book Your Call Now"). The final destination is still a placeholder until the Instagram DM or booking link is supplied.
+- Primary and secondary CTA: the hero uses "Build Retention Now", with later section CTAs still guiding visitors toward a custom plan or booking flow. The final destination is still a placeholder until the Instagram DM or booking link is supplied.
 - The line a visitor remembers after 10 seconds: Scaleshift turns brand footage into clean, cinematic reels.
 - Belief ladder: the visitor sees high-quality reel examples; understands that Scaleshift edits with a clean, confident, cinematic taste; trusts that the output can fit their own brand; then contacts Scaleshift through Instagram DM.
-- Proof on hand: use the approved stats, testimonials, real client names, and the three Cloudflare R2 hero reels currently connected in the homepage. Deeper before/after case studies should be added later when supplied.
+- Proof on hand: use the approved stats, testimonials, real client names, the centered trusted-by avatar strip from the supplied HTML reference, and the ten Cloudflare R2 portfolio reels now connected to the homepage hero orbit. Deeper before/after case studies should be added later when supplied.
 
 ## Brand Personality
 
@@ -42,6 +42,14 @@ Lead with the work. The portfolio and reel presentation should carry the persuas
 Make motion part of the brand. Transitions should feel smooth, intentional, and Framer-like, while still respecting reduced-motion preferences.
 
 Keep the brand sharp. Use Scaleshift's red, black, off-white, and logo system as the source of truth; do not invent a new identity.
+
+Localize the hero naturally. Arabic header copy should use common marketing language for creators and reels, not literal English phrasing.
+
+Keep typography tight and editorial. English body/UI typography uses Inter, Arabic keeps IBM Plex Sans Arabic, and the English "Create" word uses a lighter Times-style italic treatment with tight tracking to match the requested reference.
+
+Alternative hero concepts should be built as isolated preview routes first. The editorial-card hero remains available at `/header-concept` as a reference preview; its approved circular reel orbit has been promoted into the production homepage.
+
+The approved homepage hero now uses the same enlarged circular reel orbit pattern from `/header-concept` in place of the previous three static hero reels. Its reel orbit sits above the hero copy, the hero stage contains the full hero composition inside the opening viewport, the retention-system pill, timeline strip, and horizontal proof ticker have been removed, and the primary/work CTAs now sit in their natural position below the copy. The reel orbit uses a subtle floor shadow instead of a heavy blurred patch. The English hero CTA is "Build Retention Now".
 
 Create trust through restraint. The site should feel cinematic and premium without becoming generic, cluttered, or overly decorative.
 
