@@ -71,6 +71,8 @@ The impact section places four unboxed metrics above a row of all 40 real screen
 
 ## Footer Layout
 
+The supporting invitation sentence beneath the Instagram link is removed in both languages; the contact heading, account link, and other footer elements remain.
+
 The footer uses a black, two-column layout: linked Scaleshift logo with Retention Editing System branding and the existing Instagram contact. The Explore navigation column and descriptive tagline below the logo are removed in both languages. Mobile stacks the brand above contact details. A separated bottom row contains copyright, language switching, and an accessible back-to-top control targeting #top. Only existing destinations are used; no placeholder email or legal page links are introduced. Content is localized in English and Arabic.
 
 ## FAQ Interaction

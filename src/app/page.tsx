@@ -2475,7 +2475,6 @@ function ReferenceFooter({ content }: { content: SiteContent }) {
           <a className="footer-instagram" href="https://www.instagram.com/scaleshift/" target="_blank" rel="noopener noreferrer">
             <InstagramMark size={20} /><span>Instagram<small dir="ltr">@scaleshift</small></span><ArrowUpRight size={20} aria-hidden="true" />
           </a>
-          <p>{content.isRtl ? "ابعتلنا عن محتواك والخطوة اللي عايز توصل لها." : "Tell us what you’re creating and where you want to take it."}</p>
         </div>
         </div>
         <div className="footer-bottom">

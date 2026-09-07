@@ -2687,7 +2687,6 @@ body {
 .reference-footer .footer-instagram { display: flex; gap: .75rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,.16); }
 .footer-instagram > svg:last-child { margin-inline-start: auto; }
 .footer-instagram small { display: block; font-size: .75rem; font-weight: 400; margin-top: .2rem; }
-.footer-connect p { margin-top: 1rem; font-size: .875rem; line-height: 1.7; max-width: 20rem; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.16); }
 .footer-bottom > small { font-size: .75rem; line-height: 1.6; }
 .footer-utilities { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }

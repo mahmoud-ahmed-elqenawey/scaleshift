@@ -69,6 +69,7 @@ Known visual differences:
 - The preview is intentionally exploratory and should only replace the current hero after visual approval.
 
 Final result: passed
+- Removed the supporting invitation under footer Instagram in both languages and its unused CSS. Browser checks confirm the contact block contains only its heading, Instagram label and handle. Lint and four tests passed; links unchanged.
 - Footer Explore navigation removed in both languages, including obsolete styles. Remaining brand/contact layout uses two columns on desktop and one on mobile. English 1440px and Arabic 390px browser checks confirm no footer navigation, contact retained, correct grid columns and no overflow. Lint, production build and four tests passed.
 - Removed the footer brand tagline in English and Arabic, retaining the system label with explicit spacing below the logo. Browser checks confirm only the system label remains in the brand text in both languages. Lint, build and four tests passed; no links or interactions changed.
 - Footer redesigned into brand, section navigation, and Instagram columns with separated copyright/language/back-to-top utilities. Mobile Arabic stacks the brand above two columns. Desktop and mobile screenshots inspected: logo decoded, all internal targets resolved, no horizontal overflow, and no invented contact/legal destinations. Lint, production build and four tests passed. Black/white/red palette and fixed 12-16px utility typography are intentional; unrelated legacy hook findings remain out of scope.
