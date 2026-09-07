@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Pause, Play, X } from "lucide-react";
 import {
   motion,
   useReducedMotion,
@@ -10,9 +10,12 @@ import {
   type MotionValue,
   type Variants,
 } from "motion/react";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 const cinematicEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const r2PublicBase = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev";
+const r2ClientGroupImage = (fileName: string) =>
+  `${r2PublicBase}/clients-group/${encodeURIComponent(fileName)}`;
 
 const heroContainer: Variants = {
   hidden: {},
@@ -97,6 +100,354 @@ const heroOrbitReels = [
   },
 ];
 
+const creatorCards = [
+  {
+    name: "Nasser Alaqeel",
+    username: "naser_alaqeel",
+    followers: "@naser_alaqeel",
+    niche: "Entrepreneur",
+    verified: true,
+    profileUrl: "https://www.instagram.com/naser_alaqeel/",
+    avatar: r2ClientGroupImage("Nasser Alaqeel.png"),
+  },
+  {
+    name: "James Masi",
+    username: "via.masi",
+    followers: "@via.masi",
+    niche: "Fitness Coach",
+    verified: true,
+    profileUrl: "https://www.instagram.com/via.masi/",
+    avatar: r2ClientGroupImage("James Masi.png"),
+  },
+  {
+    name: "Chris James",
+    username: "chrisjamesonline",
+    followers: "@chrisjamesonline",
+    niche: "SaaS Founder",
+    verified: false,
+    profileUrl: "https://www.instagram.com/chrisjamesonline/",
+    avatar: r2ClientGroupImage("Chris James.png"),
+  },
+  {
+    name: "SONIA ZARBATANY",
+    username: "soniazarbatany",
+    followers: "@soniazarbatany",
+    niche: "Personal Brand",
+    verified: true,
+    profileUrl: "https://www.instagram.com/soniazarbatany/",
+    avatar: r2ClientGroupImage("SONIA ZARBATANY.png"),
+  },
+  {
+    name: "Anas Rawas",
+    username: "anas_rawas",
+    followers: "@anas_rawas",
+    niche: "Content Creator",
+    verified: true,
+    profileUrl: "https://www.instagram.com/anas_rawas/",
+    avatar: r2ClientGroupImage("Anas Rawas.png"),
+  },
+  {
+    name: "Abdullah AlSanousi",
+    username: "sn3s",
+    followers: "@sn3s",
+    niche: "Fitness Coach",
+    verified: false,
+    profileUrl: "https://www.instagram.com/sn3s/",
+    avatar: r2ClientGroupImage("Abdullah AlSanousi.png"),
+  },
+  {
+    name: "Qutaibah B. Alansari",
+    username: "the.ansari",
+    followers: "@the.ansari",
+    niche: "E-commerce",
+    verified: true,
+    profileUrl: "https://www.instagram.com/the.ansari/",
+    avatar: r2ClientGroupImage("Qutaibah B. Alansari .png"),
+  },
+  {
+    name: "Waleed Al Sleem",
+    username: "waleedalsleem",
+    followers: "@waleedalsleem",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/waleedalsleem/",
+    avatar: r2ClientGroupImage("waleedalsleem.png"),
+  },
+  {
+    name: "Fahed Abu Salah",
+    username: "fahedabusalah",
+    followers: "@fahedabusalah",
+    niche: "Entrepreneur",
+    verified: true,
+    profileUrl: "https://www.instagram.com/fahedabusalah/",
+    avatar: r2ClientGroupImage("Fahed Abu Salah.png"),
+  },
+  {
+    name: "Saeed Alkhasouni",
+    username: "mrsaeed.ae",
+    followers: "@mrsaeed.ae",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/mrsaeed.ae/",
+    avatar: r2ClientGroupImage("Saeed Alkhasouni.png"),
+  },
+  {
+    name: "Naji Alhammadi",
+    username: "naji__alhammadi",
+    followers: "@naji__alhammadi",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/naji__alhammadi/",
+    avatar: r2ClientGroupImage("Naji Alhammadi.png"),
+  },
+  {
+    name: "Hasan Alattar",
+    username: "alattarpix",
+    followers: "@alattarpix",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/alattarpix/",
+    avatar: r2ClientGroupImage("HASAN ALATTAR.png"),
+  },
+  {
+    name: "M Bloushie",
+    username: "m_bloushie",
+    followers: "@m_bloushie",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/m_bloushie/",
+    avatar: r2ClientGroupImage(" m_bloushie.png"),
+  },
+  {
+    name: "Moumen Talal",
+    username: "moumen612",
+    followers: "@moumen612",
+    niche: "SaaS Founder",
+    verified: true,
+    profileUrl: "https://www.instagram.com/moumen612/",
+    avatar: r2ClientGroupImage("Moumen Talal.png"),
+  },
+  {
+    name: "Abdullah Al Alawi",
+    username: "abdullah_yw",
+    followers: "@abdullah_yw",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/abdullah_yw/?hl=ar",
+    avatar: r2ClientGroupImage("عبدالله العلاوي.png"),
+  },
+  {
+    name: "Hazem Rasmy",
+    username: "hazemrasmy",
+    followers: "@hazemrasmy",
+    niche: "Content Creator",
+    verified: true,
+    profileUrl: "https://www.instagram.com/hazemrasmy/",
+    avatar: r2ClientGroupImage("Hazem Rasmy.png"),
+  },
+  {
+    name: "ViralDose",
+    username: "viraldose.ae",
+    followers: "@viraldose.ae",
+    niche: "Agency",
+    verified: false,
+    profileUrl: "https://www.instagram.com/viraldose.ae?igsh=ZGlvcHU4bzJ5dW5z",
+    avatar: r2ClientGroupImage("ViralDose.png"),
+  },
+  {
+    name: "Moujtaba Khalifa",
+    username: "moujtabakhalifa",
+    followers: "@moujtabakhalifa",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/moujtabakhalifa",
+    avatar: r2ClientGroupImage("Moujtaba Khalifa.png"),
+  },
+  {
+    name: "Abdulmajeed Al Mutawa",
+    username: "mjeedalii",
+    followers: "@mjeedalii",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/mjeedalii/",
+    avatar: r2ClientGroupImage("عبدالمجيد المطيويع.png"),
+  },
+  {
+    name: "Diet And Cheat",
+    username: "dietand.cheat",
+    followers: "@dietand.cheat",
+    niche: "Creator",
+    verified: false,
+    profileUrl: "https://www.instagram.com/dietand.cheat/?hl=ar",
+    avatar: r2ClientGroupImage("dietand.cheat.png"),
+  },
+];
+
+const testimonialCards = [
+  {
+    name: "Hazem",
+    initials: "DB",
+    quote:
+      "Within a month our average watch time went up noticeably. It's the first team that's treated retention as the product.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478548/000002_audlap.png",
+  },
+  {
+    name: "Moumen",
+    initials: "MR",
+    quote:
+      "They don't just make things look good, they make people stay. That distinction changed how I think about content.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478540/000003_dfwqha.png",
+  },
+  {
+    name: "Anas",
+    initials: "ST",
+    quote:
+      "The Retention Editing System™ is a real framework, not a slogan. I've seen the difference in every metric that matters.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478542/000000_ojlb49.png",
+  },
+  {
+    name: "Abdallah",
+    initials: "HB",
+    quote:
+      "Our retention jumped over 85% in the first 10 seconds. Extremely talented editors and attention strategists!",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/00005_y97c7y.png",
+  },
+  {
+    name: "Arwa",
+    initials: "3Z",
+    quote:
+      "Hook pacing and attention layering were key. We reached 10M+ views across our short-form portfolio.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/000004_krgoh5.png",
+  },
+  {
+    name: "Moumen",
+    initials: "EC",
+    quote:
+      "Our customer acquisition cost dropped dramatically after switching to ScaleShift's retention-focused cuts.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478546/00002_yhbbgy.png",
+  },
+  {
+    name: "Mohamed",
+    initials: "MR",
+    quote:
+      "Their retention editing doubled our average view duration on Shorts & Reels. Best decision we made this year.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478540/000003_dfwqha.png",
+  },
+  {
+    name: "Hazem",
+    initials: "JL",
+    quote:
+      "Working with ScaleShift gave us a consistent content machine that scales without sacrificing creative quality.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/00005_y97c7y.png",
+  },
+  {
+    name: "Qutaiba",
+    initials: "TB",
+    quote:
+      "From narrative pacing to visual hooks, ScaleShift transformed our channels into viral retention loops.",
+    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478542/000000_ojlb49.png",
+  },
+];
+
+const voiceNotes = [
+  {
+    name: "Hazem",
+    duration: "6:12",
+    avatar: `${r2PublicBase}/clients/Hazem.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786387008/Hazem_jyzsxr.mp3",
+    bars: [30, 55, 80, 45, 65, 35, 90, 50, 70, 40],
+  },
+  {
+    name: "Moumen",
+    duration: "7:05",
+    avatar: `${r2PublicBase}/clients/Moumen.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386953/Moumen_1_vja0mj.mp3",
+    bars: [45, 70, 35, 60, 85, 40, 55, 75, 30, 65],
+  },
+  {
+    name: "Anas",
+    duration: "5:44",
+    avatar: `${r2PublicBase}/clients/Anas.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386991/Anas_v9uf6b.mp3",
+    bars: [60, 40, 75, 50, 35, 85, 45, 65, 30, 55],
+  },
+  {
+    name: "Abdallah",
+    duration: "4:30",
+    avatar: `${r2PublicBase}/clients/Abdullah.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786294936/Abdullah_plksbk.mp3",
+    bars: [50, 80, 40, 65, 90, 45, 60, 70, 35, 55],
+  },
+  {
+    name: "Arwa",
+    duration: "5:15",
+    avatar: `${r2PublicBase}/clients/Arwa.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674485/006_melyta.mp3",
+    bars: [35, 65, 85, 50, 70, 40, 90, 60, 45, 75],
+  },
+  {
+    name: "Moumen",
+    duration: "6:40",
+    avatar: `${r2PublicBase}/clients/Moumen.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386970/Moumen_av8us9.mp3",
+    bars: [40, 75, 55, 80, 45, 65, 85, 35, 60, 90],
+  },
+  {
+    name: "Mohamed",
+    duration: "5:50",
+    avatar: `${r2PublicBase}/clients/Mohammad%20Selim.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386968/Mohammad_Selim_d1ud0p.mp3",
+    bars: [60, 85, 40, 70, 50, 90, 45, 65, 30, 75],
+  },
+  {
+    name: "Hazem",
+    duration: "4:55",
+    avatar: `${r2PublicBase}/clients/Hazem.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386954/Hazem_cnd4in.mp3",
+    bars: [45, 65, 85, 50, 75, 35, 90, 60, 40, 80],
+  },
+  {
+    name: "Qutaiba",
+    duration: "6:30",
+    avatar: `${r2PublicBase}/clients/Qutaiba.png`,
+    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674485/001_pdbz9l.mp3",
+    bars: [50, 80, 60, 90, 45, 70, 85, 40, 65, 75],
+  },
+];
+
+const selectedWorkVideos = [
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291247/V-Left_aos9au.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787044153/Sequence_07_1_ughkyp.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786976171/003_n5jph8.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787082909/004_kvnomx.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291428/V-Right_dwxgbe.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674816/002_d3dnts.mp4",
+];
+
+const resultCards = [
+  { views: "1.2M", url: "https://www.instagram.com/the.ansari/reel/DQt9pRJkZ57/" },
+  { views: "1.4M", url: "https://www.instagram.com/the.ansari/reel/DOapHHuDKNG/" },
+  { views: "2.4M", url: "https://www.instagram.com/the.ansari/reel/DRPm4z5jOve/" },
+  { views: "2M", url: "https://www.instagram.com/the.ansari/reel/DQKQm2cjLmH/" },
+  { views: "3M", url: "https://www.instagram.com/moumen612/reel/DWwx34jiLAj/" },
+  { views: "5.4M", url: "https://www.instagram.com/fahedabusalah/reel/DFDGsHayWYt/" },
+  { views: "9.4M", url: "https://www.instagram.com/the.ansari/reel/DQBqorPCB8w/" },
+  { views: "16M", url: "https://www.instagram.com/the.ansari/reel/DNGn3pwMoiu/" },
+  { views: "25.6M", url: "https://www.instagram.com/fahedabusalah/reel/DLUz0dBTW1O/" },
+  { views: "1.3M", url: "https://www.instagram.com/reel/DQ7VuLEDHdt/" },
+  { views: "764K", url: "https://www.instagram.com/the.ansari/reel/DPWhttQDLk-/" },
+  { views: "792K", url: "https://www.instagram.com/reel/DSF3SlNjFps/" },
+];
+
+const resultImages = [
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786994552/8R4GVEFASC_ke0vc8.png",
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488584/54esdfgh_klrswa.png",
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488583/3456ygf_seme72.png",
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488581/0iuhbnkiuh_vttwd0.png",
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488578/675drtxfcvbhijok_noxu04.png",
+  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488576/0000000000000000_aaltva.png",
+];
+
 export const englishContent = {
   locale: "en",
   dir: "ltr",
@@ -124,7 +475,7 @@ export const englishContent = {
     headline: "Turn Your Content Into a",
     highlight: "Revenue Machine",
     subheadline:
-      "We help creators and brands scale their content with high-performing videos that grab attention, build authority, and convert viewers into paying clients.",
+      "We helped 60+ clients generate +1B views through high-retention editing System™",
     primaryCta: "Build Retention Now",
     secondaryCta: "See the process",
     builtLabel: "Built to",
@@ -239,27 +590,27 @@ export const englishContent = {
     headline: "The Retention Editing",
     highlight: "System™",
     description:
-      "Five stages. One repeatable system. Every second of every edit is engineered to keep a viewer watching.",
+      "Four stages. One repeatable system. Every second of every edit is engineered to keep a viewer watching.",
     steps: [
       {
         title: "Hook Engineering™",
         text: "Irresistible first seconds that stop the scroll before it starts.",
+        video: heroOrbitReels[0].src,
       },
       {
         title: "Attention Layering™",
         text: "Visual rhythm, motion, sound and text layered to hold focus.",
+        video: heroOrbitReels[1].src,
       },
       {
         title: "Retention Structure™",
         text: "Every cut designed to remove drop-off points before they happen.",
+        video: heroOrbitReels[2].src,
       },
       {
         title: "Watch Time Optimization™",
         text: "Pacing tuned to increase average view duration, not just polish.",
-      },
-      {
-        title: "Growth Loop™",
-        text: "Better retention earns more distribution, and the loop compounds.",
+        video: heroOrbitReels[3].src,
       },
     ],
   },
@@ -267,7 +618,7 @@ export const englishContent = {
     badge: "Trusted By",
     headline: "Creators We Helped Grow",
     description:
-      "We partner with creators and brands across multiple niches to produce high-retention content that can scale consistently.",
+      "We've partnered with creators and brands across multiple niches to produce high-retention content that reaches millions of viewers.",
     clientNames: [
       "Nasser Alaqeel",
       "James Masi",
@@ -300,14 +651,13 @@ export const englishContent = {
     ],
   },
   impact: {
-    badge: "Numbers",
-    headline: "Real Results. Real Growth.",
-    description:
-      "A topline snapshot of performance while the full case-study library is being prepared for publishing.",
+    badge: "Case Studies",
+    headline: "Performance in numbers.",
+    description: "",
     stats: [
       { value: 500, suffix: "M+", label: "Views Generated" },
       { value: 600, suffix: "+", label: "Videos Delivered" },
-      { value: 96, suffix: "%", label: "Client Satisfaction" },
+      { value: 96, suffix: "%", label: "Happy client" },
       { value: 60, suffix: "+", label: "Creators Supported" },
     ],
     results: [
@@ -319,7 +669,8 @@ export const englishContent = {
   },
   clientFeedback: {
     badge: "Client Feedback",
-    headline: "What changes when the system replaces random edits.",
+    headline: "Testimonial",
+    description: "Slide right to listen to client voice notes and real retention feedback.",
     quotes: [
       "The Retention Editing System is a real framework, not a slogan. You feel the difference in every metric that matters.",
       "My content finally looks premium - and the numbers back it up.",
@@ -383,14 +734,14 @@ export const englishContent = {
     },
   ],
   process: {
-    headline: "From raw content to a repeatable growth system.",
-    description:
-      "We combine editing, packaging, and content strategy so every publish has a clearer job: earn attention, hold it, and move people toward action.",
+    badge: "How to Get Started",
+    headline: "From call to Retention Editing System™",
+    description: "",
     steps: [
-      "Book a free strategy call",
-      "We break down your content, audience, and goals",
-      "We execute and continuously optimize",
-      "You scale your content and results",
+      "Book Call",
+      "Editing System",
+      "Daily Delivery",
+      "Consistency",
     ],
   },
   why: {
@@ -415,11 +766,10 @@ export const englishContent = {
     cta: "Get Your Custom Plan",
   },
   finalCta: {
-    headline: "Ready to Scale?",
-    description:
-      "If you're serious about growing your content and turning it into a real income stream - this is your next step.",
-    cta: "Book Your Call Now",
-    note: "Instagram DM link coming soon",
+    headline: "Your content deserves more attention",
+    description: "Stop buying editing. Start building attention",
+    cta: "Build Retention now",
+    note: "",
   },
   faq: {
     badge: "FAQ",
@@ -441,6 +791,16 @@ export const englishContent = {
           "Volume is scoped to your goals during the strategy call. Most clients run a weekly delivery cadence built around consistent short-form output.",
       },
       {
+        question: "How long does onboarding take?",
+        answer:
+          "Most clients are fully onboarded and receiving their first batch within one to two weeks of the strategy call.",
+      },
+      {
+        question: "Do I need scripts?",
+        answer:
+          "No. We work with raw footage and existing long-form content. Story architecture and pacing are handled entirely by our system.",
+      },
+      {
         question: "How quickly can we start?",
         answer:
           "Book a strategy call and, if it's a fit, we can typically kick off within the same week.",
@@ -452,6 +812,7 @@ export const englishContent = {
     contact: "Contact",
     privacy: "Privacy Policy",
     copyright: "© ScaleShift. All rights reserved.",
+    description: "Retention Editing System™",
   },
 };
 
@@ -483,7 +844,7 @@ export const arabicContent = {
     headline: "حوّل محتواك لأداة نمو",
     highlight: "تجيب عملاء",
     subheadline:
-      "نحوّل أفكارك ولقطاتك لريلز سريعة وواضحة، بإيقاع يمسك المشاهد وشكل احترافي يخلي الناس تفهمك أسرع وتتحرك ناحية العرض بتاعك.",
+      "ساعدنا أكتر من 60 عميل يحققوا +1B مشاهدة من خلال High-Retention Editing System™",
     primaryCta: "ابني ريتينشن الآن",
     secondaryCta: "اعرف طريقتنا",
     builtLabel: "كل فيديو يشتغل على",
@@ -598,27 +959,27 @@ export const arabicContent = {
     headline: "The Retention Editing",
     highlight: "System™",
     description:
-      "خمس مراحل واضحة. نظام متكرر يخلي كل ثانية في الفيديو معمولة عشان المشاهد يفضل مكمل.",
+      "أربع مراحل واضحة. نظام متكرر يخلي كل ثانية في الفيديو معمولة عشان المشاهد يفضل مكمل.",
     steps: [
       {
         title: "Hook Engineering™",
         text: "أول ثواني معمولة عشان توقف التمرير وتفتح فضول المشاهد.",
+        video: heroOrbitReels[0].src,
       },
       {
         title: "Attention Layering™",
         text: "إيقاع بصري، حركة، صوت، ونصوص متظبطين مع بعض عشان الانتباه مايقعش.",
+        video: heroOrbitReels[1].src,
       },
       {
         title: "Retention Structure™",
         text: "كل Cut هدفه يشيل نقاط الملل قبل ما المشاهد يخرج.",
+        video: heroOrbitReels[2].src,
       },
       {
         title: "Watch Time Optimization™",
         text: "تظبيط السرعة والوقفات عشان مدة المشاهدة تزيد، مش عشان الفيديو يبقى شكله حلو بس.",
-      },
-      {
-        title: "Growth Loop™",
-        text: "احتفاظ أعلى يعني توزيع أقوى، ومع الوقت النمو بيتراكم.",
+        video: heroOrbitReels[3].src,
       },
     ],
   },
@@ -659,14 +1020,13 @@ export const arabicContent = {
     ],
   },
   impact: {
-    badge: "الأرقام",
-    headline: "نتائج حقيقية. نمو واضح.",
-    description:
-      "لمحة عامة عن الأداء لحد ما دراسات الحالة الكاملة تكون جاهزة للنشر.",
+    badge: "دراسات حالة",
+    headline: "الأداء بالأرقام.",
+    description: "",
     stats: [
       { value: 500, suffix: "M+", label: "مشاهدة" },
       { value: 600, suffix: "+", label: "فيديو تم تسليمه" },
-      { value: 96, suffix: "%", label: "رضا العملاء" },
+      { value: 96, suffix: "%", label: "عملاء سعداء" },
       { value: 60, suffix: "+", label: "صانع محتوى" },
     ],
     results: [
@@ -678,7 +1038,8 @@ export const arabicContent = {
   },
   clientFeedback: {
     badge: "رأي العملاء",
-    headline: "لما النظام يحل محل المونتاج العشوائي.",
+    headline: "آراء العملاء",
+    description: "اسحب يمين وشمال عشان تسمع فويسات العملاء وتشوف تعليقاتهم على النتائج.",
     quotes: [
       "النظام فرق فعلًا. الموضوع مش شعار، كل فيديو بقى معمول لهدف واضح.",
       "أول مرة أحس إن محتواي شكله احترافي وبيخدم هدفي.",
@@ -742,14 +1103,14 @@ export const arabicContent = {
     },
   ],
   process: {
-    headline: "نشتغل بنظام واضح من أول مكالمة لحد النشر.",
-    description:
-      "نفهم هدفك والجمهور اللي بتكلمه، نطلع زاوية المحتوى، وبعدها ننفذ ونحسّن بناءً على الأداء.",
+    badge: "إزاي نبدأ",
+    headline: "من أول مكالمة لحد نظام مونتاج واضح",
+    description: "",
     steps: [
-      "تحجز استشارة سريعة نفهم فيها هدفك",
-      "نراجع محتواك والجمهور اللي عايز توصله",
-      "نجهز الأفكار، المونتاج، والغلاف",
-      "نراجع الأداء ونطوّر الاتجاه مع الوقت",
+      "مكالمة تعارف",
+      "نظام مونتاج",
+      "تسليم يومي",
+      "استمرارية",
     ],
   },
   why: {
@@ -774,11 +1135,10 @@ export const arabicContent = {
     cta: "اطلب خطة تناسبك",
   },
   finalCta: {
-    headline: "جاهز تخلي المحتوى يشتغل بجد؟",
-    description:
-      "لو عايز محتوى شكله أقوى، رسالته أوضح، ونتيجته أحسن، خلينا نبدأ بخطوة بسيطة ونشوف الأنسب لك.",
-    cta: "احجز استشارتك المجانية",
-    note: "رابط الانستجرام أو الحجز هيتضاف هنا",
+    headline: "محتواك يستاهل انتباه أكتر",
+    description: "بلاش تدفع في مونتاج وخلاص. ابنِ انتباه حقيقي.",
+    cta: "ابدأ بناء الريتينشن",
+    note: "",
   },
   faq: {
     badge: "أسئلة متكررة",
@@ -800,6 +1160,16 @@ export const arabicContent = {
           "العدد بيتحدد حسب هدفك وحجم النشر المطلوب. في الأغلب بنبني خطة أسبوعية ثابتة تخلي الإنتاج مستمر وواضح.",
       },
       {
+        question: "التجهيز بياخد قد إيه؟",
+        answer:
+          "في أغلب الحالات أول دفعة بتكون جاهزة خلال أسبوع لأسبوعين من بعد مكالمة الاستراتيجية وتجميع المواد.",
+      },
+      {
+        question: "لازم أكون مجهز سكريبتات؟",
+        answer:
+          "مش لازم. نقدر نشتغل على لقطات خام أو محتوى طويل موجود، ونرتب القصة والإيقاع جوه نظام المونتاج.",
+      },
+      {
         question: "نقدر نبدأ إمتى؟",
         answer:
           "بعد مكالمة التعارف، لو في توافق واضح، نقدر نبدأ غالبًا في نفس الأسبوع.",
@@ -811,6 +1181,7 @@ export const arabicContent = {
     contact: "تواصل",
     privacy: "الخصوصية",
     copyright: "© ScaleShift. جميع الحقوق محفوظة.",
+    description: "Retention Editing System™",
   },
 };
 
@@ -948,6 +1319,79 @@ function AnimatedCounter({
   );
 }
 
+function InstagramMark({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+function HighlightSystemMark({ text }: { text: string }) {
+  const parts = text.split(/(System™|\+1B|60\+|60)/g);
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part === "System™") {
+          return (
+            <span className="hero-system-mark" key={`${part}-${index}`}>
+              {part}
+            </span>
+          );
+        }
+
+        if (part === "60+" || part === "60" || part === "+1B") {
+          return (
+            <strong className="hero-proof-strong" key={`${part}-${index}`}>
+              {part}
+            </strong>
+          );
+        }
+
+        return part;
+      })}
+    </>
+  );
+}
+
+function MetaVerifiedBadge({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={`meta-verified-badge ${className}`}
+      viewBox="0 0 24 24"
+      aria-label="Verified"
+      role="img"
+    >
+      <path
+        d="M12 1.55 14.26 3.58 17.29 3.32 18.54 6.09 21.23 7.51 20.48 10.45 21.52 13.3 19.02 15.04 18.06 17.93 15.03 18.01 12.62 19.86 10.09 18.15 7.06 18.24 5.93 15.42 3.33 13.85 4.21 10.94 3.03 8.14 5.44 6.27 6.27 3.34 9.31 3.47 12 1.55Z"
+        fill="currentColor"
+      />
+      <path
+        className="meta-verified-badge-check"
+        d="m7.95 11.9 2.65 2.65 5.55-5.65"
+        fill="none"
+        stroke="white"
+        strokeWidth="2.05"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function AttentionHero({
   content,
   y,
@@ -1040,7 +1484,7 @@ function AttentionHero({
           <span />
         </motion.div>
         <motion.p className="attention-support" variants={heroItem}>
-          {content.hero.subheadline}
+          <HighlightSystemMark text={content.hero.subheadline} />
         </motion.p>
         <motion.div
           className="hero-copy-actions"
@@ -1303,7 +1747,9 @@ function ProblemComparison({ content }: { content: SiteContent }) {
               <ul>
                 {group.points.map((point) => (
                   <li key={point}>
-                    <span aria-hidden="true">{group.tone === "brand" ? "✓" : "×"}</span>
+                    <span aria-hidden="true">
+                      {group.tone === "brand" ? <Check size={14} /> : <X size={13} />}
+                    </span>
                     {point}
                   </li>
                 ))}
@@ -1327,7 +1773,6 @@ function FrameworkSystem({ content }: { content: SiteContent }) {
           <h2>
             {content.framework.headline} <span>{content.framework.highlight}</span>
           </h2>
-          <p>{content.framework.description}</p>
         </Reveal>
 
         <div className="framework-steps">
@@ -1341,9 +1786,18 @@ function FrameworkSystem({ content }: { content: SiteContent }) {
               transition={{ duration: 0.68, delay: index * 0.08, ease: cinematicEase }}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
+              <video
+                className="framework-step-video"
+                src={step.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={step.title}
+              />
               <div>
                 <h3>{step.title}</h3>
-                <p>{step.text}</p>
               </div>
             </motion.article>
           ))}
@@ -1788,6 +2242,505 @@ function Footer({ content }: { content: SiteContent }) {
   );
 }
 
+function ReferenceSectionHeading({
+  badge,
+  title,
+  description,
+  dark,
+}: {
+  badge?: string;
+  title: ReactNode;
+  description?: string;
+  dark?: boolean;
+}) {
+  return (
+    <Reveal className={`reference-section-head ${dark ? "is-dark" : ""}`}>
+      {badge ? <span className="reference-badge">{badge}</span> : null}
+      <h2>{title}</h2>
+      {description ? <p>{description}</p> : null}
+    </Reveal>
+  );
+}
+
+function ReferenceBand({
+  id,
+  tone,
+  className = "",
+  children,
+}: {
+  id?: string;
+  tone: "light" | "dark";
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <section id={id} className={`reference-band reference-band-${tone} ${className}`}>
+      {children}
+    </section>
+  );
+}
+
+function ReferenceTrust({ content }: { content: SiteContent }) {
+  const creatorTrack = [...creatorCards, ...creatorCards];
+
+  return (
+    <ReferenceBand id="work" tone="dark" className="reference-trust">
+      <Reveal className="reference-wrap reference-trust-inner">
+        <p className="reference-trust-label">
+          <span>{content.isRtl ? "موثوق من" : "Trusted by"}</span>
+          <MetaVerifiedBadge className="is-red" />
+        </p>
+      </Reveal>
+      <Reveal className="reference-trust-slider">
+        <div className="reference-trust-track">
+          {creatorTrack.map((creator, index) => (
+            <a
+              className="reference-client-pill"
+              href={creator.profileUrl}
+              target="_blank"
+              rel="noreferrer"
+              key={`${creator.username}-${index}`}
+            >
+              <Image
+                src={creator.avatar}
+                alt={creator.name}
+                width={48}
+                height={48}
+                loading={index < creatorCards.length ? "eager" : "lazy"}
+                decoding="async"
+                sizes="48px"
+                unoptimized
+                />
+              <div className="reference-client-info">
+                <h3>
+                  <span>{creator.name}</span>
+                  <MetaVerifiedBadge />
+                </h3>
+                <p>
+                  <InstagramMark size={14} />
+                  {creator.followers}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </Reveal>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceComparison({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <ReferenceBand id="results" tone="dark" className="reference-comparison">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          title={content.isRtl ? "ليه ScaleShift؟" : "Why ScaleShift?"}
+          dark
+        />
+        <div className="reference-compare-grid">
+          {content.comparison.groups.map((group, index) => (
+            <motion.article
+              key={group.title}
+              className={`reference-compare-card ${group.tone === "brand" ? "is-brand" : ""}`}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 36 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.32 }}
+              transition={{ duration: 0.68, delay: index * 0.08, ease: cinematicEase }}
+            >
+              <h3>{group.title}</h3>
+              <ul>
+                {group.points.map((point) => (
+                  <li key={point}>
+                    <span aria-hidden="true">
+                      {group.tone === "brand" ? <Check size={14} /> : <X size={13} />}
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceFramework({ content }: { content: SiteContent }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <ReferenceBand id="framework" tone="light">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          badge={content.framework.badge}
+          title={
+            <>
+              The Retention
+              <br />
+              <span className="reference-nowrap">
+                <span className="reference-title-ink">Editing</span> System™
+              </span>
+            </>
+          }
+        />
+        <div className="reference-timeline">
+          {content.framework.steps.map((step, index) => (
+            <motion.article
+              key={step.title}
+              className="reference-step"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 34 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.34 }}
+              transition={{ duration: 0.64, delay: index * 0.08, ease: cinematicEase }}
+            >
+              <div>{String(index + 1).padStart(2, "0")}</div>
+              <video
+                className="reference-step-video"
+                src={step.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={step.title}
+              />
+              <h3>{step.title}</h3>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceNumbers({ content }: { content: SiteContent }) {
+  return (
+    <ReferenceBand tone="light">
+      <div className="reference-wrap">
+        <Reveal className="reference-number-grid">
+          {content.impact.stats.map((stat, index) => (
+            <div className="reference-number" key={stat.label}>
+              <h3>
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  delay={index * 0.08}
+                  duration={1800}
+                />
+              </h3>
+              <p>{stat.label}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
+    </ReferenceBand>
+  );
+}
+
+function VoiceNoteCard({ note }: { note: (typeof voiceNotes)[number] }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+
+    const handleTime = () => {
+      setProgress(audio.duration ? (audio.currentTime / audio.duration) * 100 : 0);
+    };
+    const handleEnd = () => {
+      setIsPlaying(false);
+      setProgress(0);
+    };
+
+    audio.addEventListener("timeupdate", handleTime);
+    audio.addEventListener("ended", handleEnd);
+    return () => {
+      audio.removeEventListener("timeupdate", handleTime);
+      audio.removeEventListener("ended", handleEnd);
+    };
+  }, []);
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play().then(() => setIsPlaying(true)).catch(() => undefined);
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  return (
+    <article className={`reference-voice-card ${isPlaying ? "is-active" : ""}`}>
+      <button type="button" onClick={toggle} aria-label={`Play ${note.name} voice note`}>
+        {isPlaying ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
+      </button>
+      <div className="reference-voice-body">
+        <div className="reference-voice-wave" aria-hidden="true">
+          {note.bars.map((height, index) => (
+            <span
+              key={`${height}-${index}`}
+              style={{ "--bar-height": `${height}%` } as CSSProperties}
+            />
+          ))}
+        </div>
+        <div className="reference-voice-progress">
+          <span style={{ width: `${progress}%` }} />
+        </div>
+        <div className="reference-voice-meta">
+          <span>{isPlaying ? "Playing" : "0:00"}</span>
+          <span>{note.duration}</span>
+        </div>
+      </div>
+      <div className="reference-voice-person">
+        <Image src={note.avatar} alt={note.name} width={36} height={36} unoptimized />
+        <strong>{note.name}</strong>
+      </div>
+      <audio ref={audioRef} preload="metadata" src={note.audio} />
+    </article>
+  );
+}
+
+function ReferenceClientFeedback({ content }: { content: SiteContent }) {
+  const feedbackTrack = [...testimonialCards, ...testimonialCards];
+
+  return (
+    <ReferenceBand id="testimonials" tone="dark" className="reference-feedback-section">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          badge={content.clientFeedback.badge}
+          title={content.clientFeedback.headline}
+          description={content.clientFeedback.description}
+          dark
+        />
+      </div>
+      <Reveal className="reference-marquee-viewport">
+        <div className="reference-feedback-track">
+          {feedbackTrack.map((card, index) => (
+            <figure className="reference-feedback-card" key={`${card.name}-${index}`}>
+              <div>
+                <span>★★★★★</span>
+                <blockquote>&quot;{card.quote}&quot;</blockquote>
+                <figcaption>
+                  <span>{card.initials}</span>
+                  {card.name}
+                </figcaption>
+              </div>
+              <Image src={card.image} alt={`${card.name} testimonial`} fill sizes="380px" unoptimized />
+            </figure>
+          ))}
+        </div>
+      </Reveal>
+      <Reveal className="reference-voice-viewport">
+        <div className="reference-voice-row">
+          {voiceNotes.map((note) => (
+            <VoiceNoteCard key={`${note.name}-${note.audio}`} note={note} />
+          ))}
+        </div>
+      </Reveal>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceSelectedWork() {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const videos = [...selectedWorkVideos, ...selectedWorkVideos];
+
+  return (
+    <ReferenceBand tone="dark" className="reference-work-section">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          badge="Projects"
+          title="Selected Work"
+          dark
+        />
+        <Reveal className="reference-filter-row">
+          <span>Short-Form & Reels</span>
+        </Reveal>
+      </div>
+      <Reveal className="reference-video-viewport">
+        <div className="reference-video-track">
+          {videos.map((video, index) => (
+            <button
+              className="reference-video-card"
+              type="button"
+              key={`${video}-${index}`}
+              onClick={() => setActiveVideo(video)}
+              aria-label="Open selected work video"
+            >
+              <video src={video} muted loop playsInline autoPlay preload="metadata" />
+              <span>
+                <Play size={18} aria-hidden="true" />
+              </span>
+            </button>
+          ))}
+        </div>
+      </Reveal>
+      {activeVideo ? (
+        <div className="reference-modal" role="dialog" aria-modal="true">
+          <button
+            className="reference-modal-backdrop"
+            type="button"
+            aria-label="Close video"
+            onClick={() => setActiveVideo(null)}
+          />
+          <div className="reference-modal-inner">
+            <button type="button" onClick={() => setActiveVideo(null)} aria-label="Close video">
+              ×
+            </button>
+            <video src={activeVideo} playsInline controls autoPlay />
+          </div>
+        </div>
+      ) : null}
+    </ReferenceBand>
+  );
+}
+
+function ReferenceResults() {
+  const cards = [...resultCards, ...resultCards];
+  const images = [...resultImages, ...resultImages];
+
+  return (
+    <ReferenceBand tone="light" id="proof" className="reference-results-section">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          badge="Results"
+          title={
+            <>
+              Real Results. <span>Real Growth.</span>
+            </>
+          }
+          description="Millions of organic views generated through retention-focused editing and storytelling."
+        />
+      </div>
+      <Reveal className="reference-marquee-viewport">
+        <div className="reference-results-track">
+          {cards.map((item, index) => (
+            <a
+              className="reference-result-card"
+              key={`${item.url}-${index}`}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <strong>{item.views}</strong>
+              <span>VIEWS</span>
+              <em>
+                <InstagramMark size={20} />
+                View on Instagram
+              </em>
+            </a>
+          ))}
+        </div>
+      </Reveal>
+      <Reveal className="reference-marquee-viewport">
+        <div className="reference-result-image-track">
+          {images.map((src, index) => (
+            <div className="reference-result-image" key={`${src}-${index}`}>
+              <Image src={src} alt="Result screenshot" fill sizes="320px" unoptimized />
+            </div>
+          ))}
+        </div>
+      </Reveal>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceFaq({ content }: { content: SiteContent }) {
+  return (
+    <ReferenceBand id="faq" tone="dark">
+      <div className="reference-wrap">
+        <ReferenceSectionHeading
+          badge={content.faq.badge}
+          title={content.isRtl ? content.faq.headline : "What Clients Ask Us"}
+          dark
+        />
+        <Reveal className="reference-faq-list">
+          {content.faq.items.map((item, index) => (
+            <article className="reference-faq-item" key={item.question}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </div>
+            </article>
+          ))}
+        </Reveal>
+      </div>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceFinalCta({ content }: { content: SiteContent }) {
+  return (
+    <ReferenceBand id="contact" tone="light" className="reference-final-cta">
+      <Reveal className="reference-wrap">
+        <h2>
+          {content.isRtl ? (
+            content.finalCta.headline
+          ) : (
+            <>
+              Your content deserves <span>more attention</span>
+            </>
+          )}
+        </h2>
+        <p>{content.finalCta.description}</p>
+        <ButtonLink href="#contact" rtl={content.isRtl}>
+          {content.finalCta.cta}
+        </ButtonLink>
+      </Reveal>
+    </ReferenceBand>
+  );
+}
+
+function ReferenceFooter({ content }: { content: SiteContent }) {
+  return (
+    <footer className="reference-footer">
+      <div className="reference-wrap reference-footer-inner">
+        <Image
+          src="/brand/scaleshift-logo-new.svg"
+          alt="Scaleshift"
+          width={3871}
+          height={712}
+          className="reference-footer-logo"
+          unoptimized
+        />
+        <p>{content.footer.description}</p>
+        <a href="https://www.instagram.com/scaleshift/" target="_blank" rel="noreferrer">
+          <InstagramMark size={20} />
+          Instagram
+        </a>
+        <small>{content.footer.copyright}</small>
+      </div>
+    </footer>
+  );
+}
+
+void [
+  CreatorTrust,
+  PortfolioShowcase,
+  ProblemComparison,
+  FrameworkSystem,
+  CreatorProfiles,
+  ImpactNumbers,
+  ClientFeedback,
+  Solution,
+  ServicesBreakdown,
+  Process,
+  WhyScaleShift,
+  Offer,
+  FinalCta,
+  FaqSection,
+  Footer,
+];
+
 export function HomePage({ content = englishContent }: { content?: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
@@ -1863,22 +2816,6 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
               {content.nav.framework}
             </motion.a>
             <motion.a
-              href="#services"
-              className="nav-link"
-              variants={heroItem}
-              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
-            >
-              {content.nav.services}
-            </motion.a>
-            <motion.a
-              href="#process"
-              className="nav-link"
-              variants={heroItem}
-              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
-            >
-              {content.nav.process}
-            </motion.a>
-            <motion.a
               href="#proof"
               className="nav-link"
               variants={heroItem}
@@ -1931,21 +2868,16 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
 
       </section>
 
-      <CreatorTrust content={content} />
-      <ProblemComparison content={content} />
-      <FrameworkSystem content={content} />
-      <CreatorProfiles content={content} />
-      <ImpactNumbers content={content} />
-      <ClientFeedback content={content} />
-      <Solution content={content} />
-      <ServicesBreakdown content={content} />
-      <Process content={content} />
-      <PortfolioShowcase content={content} />
-      <WhyScaleShift content={content} />
-      <Offer content={content} />
-      <FaqSection content={content} />
-      <FinalCta content={content} />
-      <Footer content={content} />
+      <ReferenceTrust content={content} />
+      <ReferenceComparison content={content} />
+      <ReferenceFramework content={content} />
+      <ReferenceNumbers content={content} />
+      <ReferenceClientFeedback content={content} />
+      <ReferenceSelectedWork />
+      <ReferenceResults />
+      <ReferenceFaq content={content} />
+      <ReferenceFinalCta content={content} />
+      <ReferenceFooter content={content} />
     </main>
   );
 }
