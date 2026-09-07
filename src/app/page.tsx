@@ -1,7 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check, Pause, Play, X } from "lucide-react";
+import { ViewportVideo } from "@/components/viewport-video";
+import { ReelDialog } from "@/components/reel-dialog";
+import { ClientStories } from "@/components/client-stories";
+import { FaqAccordion } from "@/components/faq-accordion";
+import { resultScreenshots } from "@/lib/result-screenshots";
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Play, X } from "lucide-react";
 import {
   motion,
   useReducedMotion,
@@ -14,6 +19,11 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 
 const cinematicEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const r2PublicBase = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev";
+const frameworkVideos = {
+  attention: `${r2PublicBase}/Editing%20System/001-Hook%20Attention.mp4`,
+  retention: `${r2PublicBase}/Editing%20System/002-Retention%20Structure.mp4`,
+  watchTime: `${r2PublicBase}/Editing%20System/003-Watch%20time.mp4`,
+};
 const r2ClientGroupImage = (fileName: string) =>
   `${r2PublicBase}/clients-group/${encodeURIComponent(fileName)}`;
 
@@ -283,137 +293,10 @@ const creatorCards = [
   },
 ];
 
-const testimonialCards = [
-  {
-    name: "Hazem",
-    initials: "DB",
-    quote:
-      "Within a month our average watch time went up noticeably. It's the first team that's treated retention as the product.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478548/000002_audlap.png",
-  },
-  {
-    name: "Moumen",
-    initials: "MR",
-    quote:
-      "They don't just make things look good, they make people stay. That distinction changed how I think about content.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478540/000003_dfwqha.png",
-  },
-  {
-    name: "Anas",
-    initials: "ST",
-    quote:
-      "The Retention Editing System™ is a real framework, not a slogan. I've seen the difference in every metric that matters.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478542/000000_ojlb49.png",
-  },
-  {
-    name: "Abdallah",
-    initials: "HB",
-    quote:
-      "Our retention jumped over 85% in the first 10 seconds. Extremely talented editors and attention strategists!",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/00005_y97c7y.png",
-  },
-  {
-    name: "Arwa",
-    initials: "3Z",
-    quote:
-      "Hook pacing and attention layering were key. We reached 10M+ views across our short-form portfolio.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/000004_krgoh5.png",
-  },
-  {
-    name: "Moumen",
-    initials: "EC",
-    quote:
-      "Our customer acquisition cost dropped dramatically after switching to ScaleShift's retention-focused cuts.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478546/00002_yhbbgy.png",
-  },
-  {
-    name: "Mohamed",
-    initials: "MR",
-    quote:
-      "Their retention editing doubled our average view duration on Shorts & Reels. Best decision we made this year.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478540/000003_dfwqha.png",
-  },
-  {
-    name: "Hazem",
-    initials: "JL",
-    quote:
-      "Working with ScaleShift gave us a consistent content machine that scales without sacrificing creative quality.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478538/00005_y97c7y.png",
-  },
-  {
-    name: "Qutaiba",
-    initials: "TB",
-    quote:
-      "From narrative pacing to visual hooks, ScaleShift transformed our channels into viral retention loops.",
-    image: "https://res.cloudinary.com/rzbfjedm/image/upload/v1786478542/000000_ojlb49.png",
-  },
-];
-
-const voiceNotes = [
-  {
-    name: "Hazem",
-    duration: "6:12",
-    avatar: `${r2PublicBase}/clients/Hazem.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786387008/Hazem_jyzsxr.mp3",
-    bars: [30, 55, 80, 45, 65, 35, 90, 50, 70, 40],
-  },
-  {
-    name: "Moumen",
-    duration: "7:05",
-    avatar: `${r2PublicBase}/clients/Moumen.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386953/Moumen_1_vja0mj.mp3",
-    bars: [45, 70, 35, 60, 85, 40, 55, 75, 30, 65],
-  },
-  {
-    name: "Anas",
-    duration: "5:44",
-    avatar: `${r2PublicBase}/clients/Anas.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386991/Anas_v9uf6b.mp3",
-    bars: [60, 40, 75, 50, 35, 85, 45, 65, 30, 55],
-  },
-  {
-    name: "Abdallah",
-    duration: "4:30",
-    avatar: `${r2PublicBase}/clients/Abdullah.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786294936/Abdullah_plksbk.mp3",
-    bars: [50, 80, 40, 65, 90, 45, 60, 70, 35, 55],
-  },
-  {
-    name: "Arwa",
-    duration: "5:15",
-    avatar: `${r2PublicBase}/clients/Arwa.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674485/006_melyta.mp3",
-    bars: [35, 65, 85, 50, 70, 40, 90, 60, 45, 75],
-  },
-  {
-    name: "Moumen",
-    duration: "6:40",
-    avatar: `${r2PublicBase}/clients/Moumen.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386970/Moumen_av8us9.mp3",
-    bars: [40, 75, 55, 80, 45, 65, 85, 35, 60, 90],
-  },
-  {
-    name: "Mohamed",
-    duration: "5:50",
-    avatar: `${r2PublicBase}/clients/Mohammad%20Selim.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386968/Mohammad_Selim_d1ud0p.mp3",
-    bars: [60, 85, 40, 70, 50, 90, 45, 65, 30, 75],
-  },
-  {
-    name: "Hazem",
-    duration: "4:55",
-    avatar: `${r2PublicBase}/clients/Hazem.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1786386954/Hazem_cnd4in.mp3",
-    bars: [45, 65, 85, 50, 75, 35, 90, 60, 40, 80],
-  },
-  {
-    name: "Qutaiba",
-    duration: "6:30",
-    avatar: `${r2PublicBase}/clients/Qutaiba.png`,
-    audio: "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674485/001_pdbz9l.mp3",
-    bars: [50, 80, 60, 90, 45, 70, 85, 40, 65, 75],
-  },
-];
+const feedbackScreens = [
+  "000000.png", "000002.png", "000003.png", "000004.png",
+  "00002.png", "00005.png", "6778fgfh.png",
+].map(file => `${r2PublicBase}/screen-feedback/${file}`);
 
 const selectedWorkVideos = [
   "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291247/V-Left_aos9au.mp4",
@@ -424,20 +307,6 @@ const selectedWorkVideos = [
   "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674816/002_d3dnts.mp4",
 ];
 
-const resultCards = [
-  { views: "1.2M", url: "https://www.instagram.com/the.ansari/reel/DQt9pRJkZ57/" },
-  { views: "1.4M", url: "https://www.instagram.com/the.ansari/reel/DOapHHuDKNG/" },
-  { views: "2.4M", url: "https://www.instagram.com/the.ansari/reel/DRPm4z5jOve/" },
-  { views: "2M", url: "https://www.instagram.com/the.ansari/reel/DQKQm2cjLmH/" },
-  { views: "3M", url: "https://www.instagram.com/moumen612/reel/DWwx34jiLAj/" },
-  { views: "5.4M", url: "https://www.instagram.com/fahedabusalah/reel/DFDGsHayWYt/" },
-  { views: "9.4M", url: "https://www.instagram.com/the.ansari/reel/DQBqorPCB8w/" },
-  { views: "16M", url: "https://www.instagram.com/the.ansari/reel/DNGn3pwMoiu/" },
-  { views: "25.6M", url: "https://www.instagram.com/fahedabusalah/reel/DLUz0dBTW1O/" },
-  { views: "1.3M", url: "https://www.instagram.com/reel/DQ7VuLEDHdt/" },
-  { views: "764K", url: "https://www.instagram.com/the.ansari/reel/DPWhttQDLk-/" },
-  { views: "792K", url: "https://www.instagram.com/reel/DSF3SlNjFps/" },
-];
 
 const resultImages = [
   "https://res.cloudinary.com/rzbfjedm/image/upload/v1786994552/8R4GVEFASC_ke0vc8.png",
@@ -590,27 +459,22 @@ export const englishContent = {
     headline: "The Retention Editing",
     highlight: "System™",
     description:
-      "Four stages. One repeatable system. Every second of every edit is engineered to keep a viewer watching.",
+      "Three stages. One repeatable system. Every second of every edit is engineered to keep a viewer watching.",
     steps: [
       {
-        title: "Hook Engineering™",
+        title: "Attention Hook™",
         text: "Irresistible first seconds that stop the scroll before it starts.",
-        video: heroOrbitReels[0].src,
-      },
-      {
-        title: "Attention Layering™",
-        text: "Visual rhythm, motion, sound and text layered to hold focus.",
-        video: heroOrbitReels[1].src,
+        video: frameworkVideos.attention,
       },
       {
         title: "Retention Structure™",
         text: "Every cut designed to remove drop-off points before they happen.",
-        video: heroOrbitReels[2].src,
+        video: frameworkVideos.retention,
       },
       {
         title: "Watch Time Optimization™",
         text: "Pacing tuned to increase average view duration, not just polish.",
-        video: heroOrbitReels[3].src,
+        video: frameworkVideos.watchTime,
       },
     ],
   },
@@ -655,7 +519,7 @@ export const englishContent = {
     headline: "Performance in numbers.",
     description: "",
     stats: [
-      { value: 500, suffix: "M+", label: "Views Generated" },
+      { value: 1, suffix: "B+", label: "Views Generated" },
       { value: 600, suffix: "+", label: "Videos Delivered" },
       { value: 96, suffix: "%", label: "Happy client" },
       { value: 60, suffix: "+", label: "Creators Supported" },
@@ -959,27 +823,22 @@ export const arabicContent = {
     headline: "The Retention Editing",
     highlight: "System™",
     description:
-      "أربع مراحل واضحة. نظام متكرر يخلي كل ثانية في الفيديو معمولة عشان المشاهد يفضل مكمل.",
+      "ثلاث مراحل واضحة. نظام متكرر يخلي كل ثانية في الفيديو معمولة عشان المشاهد يفضل مكمل.",
     steps: [
       {
-        title: "Hook Engineering™",
+        title: "Attention Hook™",
         text: "أول ثواني معمولة عشان توقف التمرير وتفتح فضول المشاهد.",
-        video: heroOrbitReels[0].src,
-      },
-      {
-        title: "Attention Layering™",
-        text: "إيقاع بصري، حركة، صوت، ونصوص متظبطين مع بعض عشان الانتباه مايقعش.",
-        video: heroOrbitReels[1].src,
+        video: frameworkVideos.attention,
       },
       {
         title: "Retention Structure™",
         text: "كل Cut هدفه يشيل نقاط الملل قبل ما المشاهد يخرج.",
-        video: heroOrbitReels[2].src,
+        video: frameworkVideos.retention,
       },
       {
         title: "Watch Time Optimization™",
         text: "تظبيط السرعة والوقفات عشان مدة المشاهدة تزيد، مش عشان الفيديو يبقى شكله حلو بس.",
-        video: heroOrbitReels[3].src,
+        video: frameworkVideos.watchTime,
       },
     ],
   },
@@ -1024,7 +883,7 @@ export const arabicContent = {
     headline: "الأداء بالأرقام.",
     description: "",
     stats: [
-      { value: 500, suffix: "M+", label: "مشاهدة" },
+      { value: 1, suffix: "B+", label: "مشاهدة" },
       { value: 600, suffix: "+", label: "فيديو تم تسليمه" },
       { value: 96, suffix: "%", label: "عملاء سعداء" },
       { value: 60, suffix: "+", label: "صانع محتوى" },
@@ -1269,18 +1128,22 @@ function AnimatedCounter({
   suffix = "",
   duration = 1400,
   delay = 0,
+  active = true,
+  decimals = 0,
 }: {
   value: number;
   prefix?: string;
   suffix?: string;
   duration?: number;
   delay?: number;
+  active?: boolean;
+  decimals?: number;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (shouldReduceMotion) {
+    if (shouldReduceMotion || !active) {
       return;
     }
 
@@ -1299,7 +1162,8 @@ function AnimatedCounter({
 
       const progress = Math.min((elapsed - delayMs) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCurrent(Math.round(value * eased));
+      const precision = 10 ** decimals;
+      setCurrent(Math.round(value * eased * precision) / precision);
 
       if (progress < 1) {
         frameId = requestAnimationFrame(tick);
@@ -1308,12 +1172,12 @@ function AnimatedCounter({
 
     frameId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frameId);
-  }, [delay, duration, shouldReduceMotion, value]);
+  }, [active, decimals, delay, duration, shouldReduceMotion, value]);
 
   return (
     <>
       {prefix}
-      {shouldReduceMotion ? value : current}
+      {shouldReduceMotion ? value : decimals && current < value ? current.toFixed(decimals) : current}
       {suffix}
     </>
   );
@@ -1403,6 +1267,7 @@ function AttentionHero({
 }) {
   const shouldReduceMotion = useReducedMotion();
   const [orbitAngle, setOrbitAngle] = useState(18);
+  const heroRef = useRef<HTMLDivElement>(null);
   const [viewportWidth, setViewportWidth] = useState(1024);
 
   useEffect(() => {
@@ -1418,15 +1283,31 @@ function AttentionHero({
     }
 
     let frame = 0;
-    const startedAt = performance.now();
-
+    let visible = false;
+    let previous = 0;
+    let elapsed = 0;
     const animate = (now: number) => {
-      setOrbitAngle(((now - startedAt) / 28000) * 360);
+      if (previous) elapsed += now - previous;
+      previous = now;
+      setOrbitAngle(18 + (elapsed / 28000) * 360);
       frame = requestAnimationFrame(animate);
     };
-
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
+    const sync = () => {
+      cancelAnimationFrame(frame);
+      previous = 0;
+      if (visible && !document.hidden) frame = requestAnimationFrame(animate);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    });
+    if (heroRef.current) observer.observe(heroRef.current);
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
   }, [shouldReduceMotion]);
 
   const radiusX = viewportWidth < 640 ? 176 : viewportWidth < 900 ? 282 : 410;
@@ -1435,6 +1316,7 @@ function AttentionHero({
   return (
     <motion.div
       className="attention-hero"
+      ref={heroRef}
       variants={heroContainer}
       initial={shouldReduceMotion ? false : "hidden"}
       animate={shouldReduceMotion ? undefined : "visible"}
@@ -1545,17 +1427,10 @@ function HeroOrbitReel({
         } as CSSProperties
       }
     >
-      <video
+      <ViewportVideo
         src={reel.src}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
+        active={opacity > 0.05}
         aria-label={reel.label}
-        onCanPlay={(event) => {
-          event.currentTarget.play().catch(() => undefined);
-        }}
       />
     </div>
   );
@@ -1786,14 +1661,9 @@ function FrameworkSystem({ content }: { content: SiteContent }) {
               transition={{ duration: 0.68, delay: index * 0.08, ease: cinematicEase }}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <video
+              <ViewportVideo
                 className="framework-step-video"
                 src={step.video}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
                 aria-label={step.title}
               />
               <div>
@@ -2370,6 +2240,7 @@ function ReferenceComparison({ content }: { content: SiteContent }) {
 
 function ReferenceFramework({ content }: { content: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
+  const [started, setStarted] = useState(false);
 
   return (
     <ReferenceBand id="framework" tone="light">
@@ -2386,167 +2257,121 @@ function ReferenceFramework({ content }: { content: SiteContent }) {
             </>
           }
         />
-        <div className="reference-timeline">
+        <motion.div
+          className={`reference-timeline${started ? " is-running" : ""}${shouldReduceMotion ? " is-reduced" : ""}`}
+          onViewportEnter={() => setStarted(true)}
+          onViewportLeave={() => setStarted(false)}
+          viewport={{ amount: 0.08 }}
+        >
           {content.framework.steps.map((step, index) => (
-            <motion.article
+            <article
               key={step.title}
               className="reference-step"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 34 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.34 }}
-              transition={{ duration: 0.64, delay: index * 0.08, ease: cinematicEase }}
+              style={{ "--step-index": index } as CSSProperties}
             >
-              <div>{String(index + 1).padStart(2, "0")}</div>
-              <video
+              <span className="reference-step-number">{String(index + 1).padStart(2, "0")}</span>
+              {index < content.framework.steps.length - 1 && (
+                <span className="reference-step-connector" aria-hidden="true">
+                  <span className="reference-step-fill" />
+                  <ArrowRight className="reference-step-arrow" size={16} />
+                </span>
+              )}
+              <div className="reference-step-content">
+              <ViewportVideo
                 className="reference-step-video"
                 src={step.video}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
                 aria-label={step.title}
               />
               <h3>{step.title}</h3>
-            </motion.article>
+              </div>
+            </article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </ReferenceBand>
   );
 }
 
 function ReferenceNumbers({ content }: { content: SiteContent }) {
+  const [started, setStarted] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const imageRows = [resultScreenshots];
+
   return (
-    <ReferenceBand tone="light">
-      <div className="reference-wrap">
-        <Reveal className="reference-number-grid">
+    <motion.section
+      id="impact"
+      className={`impact-showcase${visible && !shouldReduceMotion ? " is-moving" : ""}`}
+      onViewportEnter={() => { setStarted(true); setVisible(true); }}
+      onViewportLeave={() => setVisible(false)}
+      viewport={{ amount: 0.15 }}
+      aria-label={content.impact.headline}
+    >
+      <div className="impact-image-wall" dir="ltr">
+        {imageRows.map((row, rowIndex) => (
+          <div className="impact-image-track" key={rowIndex}>
+            {[0, 1].map(copy => (
+              <div className="impact-image-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
+                {row.map((reel) => (
+                  <a className="impact-reel" key={reel.image} href={reel.image} target="_blank" rel="noopener noreferrer"
+                    tabIndex={copy === 0 ? 0 : -1}
+                    aria-label={`${reel.views} ${content.isRtl ? "مشاهدة، افتح الاسكرين" : "views, open screenshot"}`}>
+                    <Image src={reel.image} alt={`${reel.views} ${content.isRtl ? "مشاهدة" : "views"}`} width={180} height={300} unoptimized loading="lazy" />
+                    <span className="impact-reel-overlay" aria-hidden="true">
+                      <span className="impact-reel-action" dir="ltr">{reel.views}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+        <div className="impact-image-track impact-watchtime-track">
+          {[0, 1].map(copy => (
+            <div className="impact-image-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
+              {resultImages.map((image, index) => (
+                <a className="impact-reel impact-watchtime" key={image} href={image} target="_blank" rel="noopener noreferrer"
+                  tabIndex={copy === 0 ? 0 : -1}
+                  aria-label={content.isRtl ? `افتح نتيجة الاحتفاظ بالمشاهدين ${index + 1}` : `Open audience retention result ${index + 1}`}>
+                  <Image src={image} alt={content.isRtl ? "نتيجة الاحتفاظ بالمشاهدين" : "Audience retention chart"}
+                    width={758} height={519} unoptimized loading="lazy" />
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div id="proof" className="reference-wrap impact-content">
+        <div className="reference-number-grid">
           {content.impact.stats.map((stat, index) => (
             <div className="reference-number" key={stat.label}>
-              <h3>
+              <h3 dir="ltr" aria-label={`${stat.value}${stat.suffix}`}>
+                <span aria-hidden="true">
                 <AnimatedCounter
                   value={stat.value}
                   suffix={stat.suffix}
                   delay={index * 0.08}
                   duration={1800}
+                  active={started}
+                  decimals={index === 0 ? 2 : 0}
                 />
+                </span>
               </h3>
               <p>{stat.label}</p>
             </div>
           ))}
-        </Reveal>
-      </div>
-    </ReferenceBand>
-  );
-}
-
-function VoiceNoteCard({ note }: { note: (typeof voiceNotes)[number] }) {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return undefined;
-
-    const handleTime = () => {
-      setProgress(audio.duration ? (audio.currentTime / audio.duration) * 100 : 0);
-    };
-    const handleEnd = () => {
-      setIsPlaying(false);
-      setProgress(0);
-    };
-
-    audio.addEventListener("timeupdate", handleTime);
-    audio.addEventListener("ended", handleEnd);
-    return () => {
-      audio.removeEventListener("timeupdate", handleTime);
-      audio.removeEventListener("ended", handleEnd);
-    };
-  }, []);
-
-  const toggle = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (audio.paused) {
-      audio.play().then(() => setIsPlaying(true)).catch(() => undefined);
-    } else {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  };
-
-  return (
-    <article className={`reference-voice-card ${isPlaying ? "is-active" : ""}`}>
-      <button type="button" onClick={toggle} aria-label={`Play ${note.name} voice note`}>
-        {isPlaying ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
-      </button>
-      <div className="reference-voice-body">
-        <div className="reference-voice-wave" aria-hidden="true">
-          {note.bars.map((height, index) => (
-            <span
-              key={`${height}-${index}`}
-              style={{ "--bar-height": `${height}%` } as CSSProperties}
-            />
-          ))}
-        </div>
-        <div className="reference-voice-progress">
-          <span style={{ width: `${progress}%` }} />
-        </div>
-        <div className="reference-voice-meta">
-          <span>{isPlaying ? "Playing" : "0:00"}</span>
-          <span>{note.duration}</span>
         </div>
       </div>
-      <div className="reference-voice-person">
-        <Image src={note.avatar} alt={note.name} width={36} height={36} unoptimized />
-        <strong>{note.name}</strong>
-      </div>
-      <audio ref={audioRef} preload="metadata" src={note.audio} />
-    </article>
+    </motion.section>
   );
 }
 
 function ReferenceClientFeedback({ content }: { content: SiteContent }) {
-  const feedbackTrack = [...testimonialCards, ...testimonialCards];
-
-  return (
-    <ReferenceBand id="testimonials" tone="dark" className="reference-feedback-section">
-      <div className="reference-wrap">
-        <ReferenceSectionHeading
-          badge={content.clientFeedback.badge}
-          title={content.clientFeedback.headline}
-          description={content.clientFeedback.description}
-          dark
-        />
-      </div>
-      <Reveal className="reference-marquee-viewport">
-        <div className="reference-feedback-track">
-          {feedbackTrack.map((card, index) => (
-            <figure className="reference-feedback-card" key={`${card.name}-${index}`}>
-              <div>
-                <span>★★★★★</span>
-                <blockquote>&quot;{card.quote}&quot;</blockquote>
-                <figcaption>
-                  <span>{card.initials}</span>
-                  {card.name}
-                </figcaption>
-              </div>
-              <Image src={card.image} alt={`${card.name} testimonial`} fill sizes="380px" unoptimized />
-            </figure>
-          ))}
-        </div>
-      </Reveal>
-      <Reveal className="reference-voice-viewport">
-        <div className="reference-voice-row">
-          {voiceNotes.map((note) => (
-            <VoiceNoteCard key={`${note.name}-${note.audio}`} note={note} />
-          ))}
-        </div>
-      </Reveal>
-    </ReferenceBand>
-  );
+  const stories = Array.from({ length: 12 }, (_, index) => ({
+    name: content.isRtl ? "رأي عميل" : "Client feedback",
+    video: `https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/Client%20feedback/000${index + 1}.mp4`,
+  }));
+  return <ClientStories stories={stories} reviews={feedbackScreens} rtl={content.isRtl} />;
 }
 
 function ReferenceSelectedWork() {
@@ -2575,7 +2400,7 @@ function ReferenceSelectedWork() {
               onClick={() => setActiveVideo(video)}
               aria-label="Open selected work video"
             >
-              <video src={video} muted loop playsInline autoPlay preload="metadata" />
+              <ViewportVideo src={video} />
               <span>
                 <Play size={18} aria-hidden="true" />
               </span>
@@ -2583,95 +2408,22 @@ function ReferenceSelectedWork() {
           ))}
         </div>
       </Reveal>
-      {activeVideo ? (
-        <div className="reference-modal" role="dialog" aria-modal="true">
-          <button
-            className="reference-modal-backdrop"
-            type="button"
-            aria-label="Close video"
-            onClick={() => setActiveVideo(null)}
-          />
-          <div className="reference-modal-inner">
-            <button type="button" onClick={() => setActiveVideo(null)} aria-label="Close video">
-              ×
-            </button>
-            <video src={activeVideo} playsInline controls autoPlay />
-          </div>
-        </div>
-      ) : null}
-    </ReferenceBand>
-  );
-}
-
-function ReferenceResults() {
-  const cards = [...resultCards, ...resultCards];
-  const images = [...resultImages, ...resultImages];
-
-  return (
-    <ReferenceBand tone="light" id="proof" className="reference-results-section">
-      <div className="reference-wrap">
-        <ReferenceSectionHeading
-          badge="Results"
-          title={
-            <>
-              Real Results. <span>Real Growth.</span>
-            </>
-          }
-          description="Millions of organic views generated through retention-focused editing and storytelling."
-        />
-      </div>
-      <Reveal className="reference-marquee-viewport">
-        <div className="reference-results-track">
-          {cards.map((item, index) => (
-            <a
-              className="reference-result-card"
-              key={`${item.url}-${index}`}
-              href={item.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <strong>{item.views}</strong>
-              <span>VIEWS</span>
-              <em>
-                <InstagramMark size={20} />
-                View on Instagram
-              </em>
-            </a>
-          ))}
-        </div>
-      </Reveal>
-      <Reveal className="reference-marquee-viewport">
-        <div className="reference-result-image-track">
-          {images.map((src, index) => (
-            <div className="reference-result-image" key={`${src}-${index}`}>
-              <Image src={src} alt="Result screenshot" fill sizes="320px" unoptimized />
-            </div>
-          ))}
-        </div>
-      </Reveal>
+      {activeVideo && <ReelDialog src={activeVideo} onClose={() => setActiveVideo(null)} />}
     </ReferenceBand>
   );
 }
 
 function ReferenceFaq({ content }: { content: SiteContent }) {
   return (
-    <ReferenceBand id="faq" tone="dark">
+    <ReferenceBand id="faq" tone="dark" className="faq-section">
       <div className="reference-wrap">
         <ReferenceSectionHeading
           badge={content.faq.badge}
           title={content.isRtl ? content.faq.headline : "What Clients Ask Us"}
           dark
         />
-        <Reveal className="reference-faq-list">
-          {content.faq.items.map((item, index) => (
-            <article className="reference-faq-item" key={item.question}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{item.question}</h3>
-                <p>{item.answer}</p>
-              </div>
-            </article>
-          ))}
+        <Reveal>
+          <FaqAccordion items={content.faq.items} />
         </Reveal>
       </div>
     </ReferenceBand>
@@ -2704,20 +2456,35 @@ function ReferenceFooter({ content }: { content: SiteContent }) {
   return (
     <footer className="reference-footer">
       <div className="reference-wrap reference-footer-inner">
-        <Image
+        <div className="footer-main">
+        <div className="footer-brand">
+        <a href={content.homeHref} aria-label={content.logoLabel}>
+          <Image
           src="/brand/scaleshift-logo-new.svg"
           alt="Scaleshift"
           width={3871}
           height={712}
           className="reference-footer-logo"
           unoptimized
-        />
-        <p>{content.footer.description}</p>
-        <a href="https://www.instagram.com/scaleshift/" target="_blank" rel="noreferrer">
-          <InstagramMark size={20} />
-          Instagram
+          />
         </a>
-        <small>{content.footer.copyright}</small>
+        <span className="footer-system" dir="ltr">Retention Editing <span>System™</span></span>
+        </div>
+        <div className="footer-connect">
+          <h2>{content.isRtl ? "خلّينا نتكلم" : "Let’s talk"}</h2>
+          <a className="footer-instagram" href="https://www.instagram.com/scaleshift/" target="_blank" rel="noopener noreferrer">
+            <InstagramMark size={20} /><span>Instagram<small dir="ltr">@scaleshift</small></span><ArrowUpRight size={20} aria-hidden="true" />
+          </a>
+          <p>{content.isRtl ? "ابعتلنا عن محتواك والخطوة اللي عايز توصل لها." : "Tell us what you’re creating and where you want to take it."}</p>
+        </div>
+        </div>
+        <div className="footer-bottom">
+          <small>{content.footer.copyright}</small>
+          <div className="footer-utilities">
+            <a href={content.alternateHref} lang={content.isRtl ? "en" : "ar"}>{content.alternateLabel}</a>
+            <a className="footer-top" href="#top" aria-label={content.isRtl ? "الرجوع لأعلى الصفحة" : "Back to top"} title={content.isRtl ? "الرجوع لأعلى الصفحة" : "Back to top"}><ArrowUp size={20} aria-hidden="true" /></a>
+          </div>
+        </div>
       </div>
     </footer>
   );
@@ -2749,6 +2516,7 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
 
   return (
     <main
+      id="top"
       lang={content.locale}
       dir={content.dir}
       className="site-shell min-h-screen overflow-hidden bg-background text-foreground"
@@ -2874,7 +2642,6 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
       <ReferenceNumbers content={content} />
       <ReferenceClientFeedback content={content} />
       <ReferenceSelectedWork />
-      <ReferenceResults />
       <ReferenceFaq content={content} />
       <ReferenceFinalCta content={content} />
       <ReferenceFooter content={content} />

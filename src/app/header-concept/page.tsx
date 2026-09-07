@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ViewportVideo } from "@/components/viewport-video";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
@@ -172,17 +173,10 @@ function OrbitReel({
         } as CSSProperties
       }
     >
-      <video
+      <ViewportVideo
         src={reel.src}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
+        active={opacity > 0.05}
         aria-label={reel.label}
-        onCanPlay={(event) => {
-          event.currentTarget.play().catch(() => undefined);
-        }}
       />
     </div>
   );
