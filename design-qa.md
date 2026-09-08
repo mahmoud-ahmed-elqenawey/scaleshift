@@ -1,5 +1,10 @@
 # Design QA
 
+## Passive Screenshot Interaction (2026-09-08)
+- Implemented: results, retention charts, and WhatsApp screenshots are figures, with no image links or zoom controls. View-count hover/focus remains; Selected Work still opens ReelDialog. Navigation and contact controls are unchanged.
+- Browser-verified: English desktop (1440px) and Arabic mobile (390px) each render 106 passive screenshot figures and zero screenshot anchors. Clicking a results frame opens no dialog; clicking a Selected Work video opens the shared dialog, dismissible with Escape.
+- Validation: lint, production build, and all four media/manifest tests pass. Full-source TSX invariant prevents these screenshot classes from becoming links or click targets again. No Figma approval claimed.
+
 Source visual: `/Users/qenawey/Downloads/IMG_8325.jpg`
 
 Prototype route: `/header-concept`

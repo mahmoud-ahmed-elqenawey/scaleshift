@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Pause, Play, Volume2, VolumeX, ZoomIn } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { cachedVideoUrl } from "./viewport-video";
 
@@ -52,14 +52,11 @@ export function ClientStories({ stories, reviews, rtl }: { stories: Story[]; rev
       <div className="client-review-track">
         {[0, 1].map(copy => (
           <div className="client-review-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
-            {items.map((review, i) => (
-              <a className="client-review" key={review} href={review} target="_blank" rel="noopener noreferrer"
-                tabIndex={copy === 1 ? -1 : undefined}
-                aria-label={rtl ? `افتح رسالة العميل ${i * 2 + side + 1} بالحجم الكامل` : `Open client message ${i * 2 + side + 1} full size`}>
+            {items.map((review) => (
+              <figure className="client-review" key={review}>
                 <Image src={review} alt={rtl ? "رأي عميل على واتساب" : "Client feedback on WhatsApp"}
                   width={758} height={519} unoptimized loading={visible ? "eager" : "lazy"} />
-                <span className="client-review-zoom" aria-hidden="true"><ZoomIn size={18} /></span>
-              </a>
+              </figure>
             ))}
           </div>
         ))}

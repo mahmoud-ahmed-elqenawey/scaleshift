@@ -2313,14 +2313,14 @@ function ReferenceNumbers({ content }: { content: SiteContent }) {
             {[0, 1].map(copy => (
               <div className="impact-image-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
                 {row.map((reel) => (
-                  <a className="impact-reel" key={reel.image} href={reel.image} target="_blank" rel="noopener noreferrer"
+                  <figure className="impact-reel" key={reel.image}
                     tabIndex={copy === 0 ? 0 : -1}
-                    aria-label={`${reel.views} ${content.isRtl ? "مشاهدة، افتح الاسكرين" : "views, open screenshot"}`}>
+                    aria-label={`${reel.views} ${content.isRtl ? "مشاهدة" : "views"}`}>
                     <Image src={reel.image} alt={`${reel.views} ${content.isRtl ? "مشاهدة" : "views"}`} width={180} height={300} unoptimized loading="lazy" />
                     <span className="impact-reel-overlay" aria-hidden="true">
                       <span className="impact-reel-action" dir="ltr">{reel.views}</span>
                     </span>
-                  </a>
+                  </figure>
                 ))}
               </div>
             ))}
@@ -2329,13 +2329,11 @@ function ReferenceNumbers({ content }: { content: SiteContent }) {
         <div className="impact-image-track impact-watchtime-track">
           {[0, 1].map(copy => (
             <div className="impact-image-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
-              {resultImages.map((image, index) => (
-                <a className="impact-reel impact-watchtime" key={image} href={image} target="_blank" rel="noopener noreferrer"
-                  tabIndex={copy === 0 ? 0 : -1}
-                  aria-label={content.isRtl ? `افتح نتيجة الاحتفاظ بالمشاهدين ${index + 1}` : `Open audience retention result ${index + 1}`}>
+              {resultImages.map((image) => (
+                <figure className="impact-reel impact-watchtime" key={image}>
                   <Image src={image} alt={content.isRtl ? "نتيجة الاحتفاظ بالمشاهدين" : "Audience retention chart"}
                     width={758} height={519} unoptimized loading="lazy" />
-                </a>
+                </figure>
               ))}
             </div>
           ))}
