@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ViewportVideo } from "@/components/viewport-video";
 import { ReelDialog } from "@/components/reel-dialog";
+import { IntroVideo } from "@/components/intro-video";
 import { ClientStories } from "@/components/client-stories";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { resultScreenshots } from "@/lib/result-screenshots";
@@ -2642,6 +2643,7 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
       <ReferenceFaq content={content} />
       <ReferenceFinalCta content={content} />
       <ReferenceFooter content={content} />
+      <IntroVideo isRtl={content.isRtl} />
     </main>
   );
 }
