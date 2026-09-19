@@ -75,6 +75,9 @@ Known visual differences:
 
 Final result: passed
 - Removed the supporting invitation under footer Instagram in both languages and its unused CSS. Browser checks confirm the contact block contains only its heading, Instagram label and handle. Lint and four tests passed; links unchanged.
+- Removed the footer contact heading (`Let’s talk` / `خلّينا نتكلم`) in both languages. The Instagram contact link remains the only item in the contact column.
+- Refined the English hero word `Create` at the 640px-and-under breakpoint: the desktop’s intentionally tight `-9px` tracking is replaced with `-3px` and no horizontal compression. Desktop typography is unchanged; mobile letterforms no longer collide.
+- Redesigned the mobile/tablet language control as an upper-right fixed black pill with red border and dot, elevated above hero media and the intro preview (`z-index: 90`, below modal surfaces). Focus, hover and press states remain keyboard/touch-accessible. Visual verification pending the next mobile pass.
 - Footer Explore navigation removed in both languages, including obsolete styles. Remaining brand/contact layout uses two columns on desktop and one on mobile. English 1440px and Arabic 390px browser checks confirm no footer navigation, contact retained, correct grid columns and no overflow. Lint, production build and four tests passed.
 - Removed the footer brand tagline in English and Arabic, retaining the system label with explicit spacing below the logo. Browser checks confirm only the system label remains in the brand text in both languages. Lint, build and four tests passed; no links or interactions changed.
 - Footer redesigned into brand, section navigation, and Instagram columns with separated copyright/language/back-to-top utilities. Mobile Arabic stacks the brand above two columns. Desktop and mobile screenshots inspected: logo decoded, all internal targets resolved, no horizontal overflow, and no invented contact/legal destinations. Lint, production build and four tests passed. Black/white/red palette and fixed 12-16px utility typography are intentional; unrelated legacy hook findings remain out of scope.
@@ -87,6 +90,17 @@ Final result: passed
 - Removed the visible generic client-feedback heading from the shared story player and its unused heading CSS. Browser checks at English desktop and Arabic mobile confirmed zero story headings with video and progress controls retained. Lint and media tests passed.
 - WhatsApp screenshot update: replaced text review cards with all seven original R2 screen-feedback images. All 14 rendered images (seven originals plus animation duplicates) decoded in browser verification. Images preserve 758:519 proportions without cropping, full-size links are available, hover/focus pauses movement, and duplicate links are not keyboard-focusable. Desktop 1440px and mobile 390px screenshots inspected, no horizontal overflow; original text cards removed from the source. Images load eagerly when this section enters the viewport to prevent offscreen carousel items staying unloaded. Lint, 3 media tests, and production build passed. Neutral screenshot borders and circular zoom affordance are intentional; the previous gold-star CSS was removed, while the existing 28px story radius is retained from the reference.
 # Optional Intro Video — 2026-09-09
+
+## Framework Media Refresh — 2026-09-19
+
+- Replaced three dead single-extension URLs with the actual `.mp4.mp4` R2 keys observed in the authenticated bucket listing. All three returned HTTP 200 video/mp4, sizes 9,646,039 / 8,555,328 / 12,640,897 bytes.
+- Browser-verified desktop #framework showing all three new videos. Mobile layout unchanged, not separately reverified in this media-only update. Lint, production build and four tests passed. Existing design-hook typography warnings are unrelated legacy styling; no CSS changed or warnings suppressed.
+- Replaced the leading “The” with `Build` in the rendered framework heading. It now reads `Build Retention Editing System™`; the two-line layout and existing black `Editing` / red `System™` treatment remain unchanged. Implemented; browser verification pending the next combined visual pass.
+- Updated the user-supplied Videos Delivered aggregate from 600+ to 2,500+ in English and Arabic. The existing counter animation and responsive metric layout are unchanged. Implemented; browser verification pending the next combined visual pass.
+- Removed the trailing period from the English hero subline, now rendered as `Not Just Edits`. Implemented; no layout or behavior changes.
+- Removed the `Projects` badge above `Selected Work`; the title, reel carousel, and video dialog behavior remain unchanged.
+
+## Intro History
 
 - Latest revision supersedes dismissal behavior below: larger 300px desktop / 260px mobile preview with entrance, shine and pulse; X minimizes to a permanent restore button, not a session dismissal. Browser-verified at 1440px English and 390px Arabic: minimize removes preview media, restore returns focus to launcher, modal Escape keeps preview available, reduced-motion CSS disables animation. Mobile screenshot inspected. Lint, build and four existing invariant tests pass. No deployment/push performed for this revision.
 

@@ -21,9 +21,9 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 const cinematicEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const r2PublicBase = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev";
 const frameworkVideos = {
-  attention: `${r2PublicBase}/Editing%20System/001-Hook%20Attention.mp4`,
-  retention: `${r2PublicBase}/Editing%20System/002-Retention%20Structure.mp4`,
-  watchTime: `${r2PublicBase}/Editing%20System/003-Watch%20time.mp4`,
+  attention: `${r2PublicBase}/Editing%20System/001-Hook%20Attention.mp4.mp4`,
+  retention: `${r2PublicBase}/Editing%20System/002-Retention%20Structure.mp4.mp4`,
+  watchTime: `${r2PublicBase}/Editing%20System/003-Watch%20time.mp4.mp4`,
 };
 const r2ClientGroupImage = (fileName: string) =>
   `${r2PublicBase}/clients-group/${encodeURIComponent(fileName)}`;
@@ -341,7 +341,7 @@ export const englishContent = {
     label: "Content that performs",
     attentionLead: "Create",
     attentionAccent: "Attention",
-    attentionSubline: "Not Just Edits.",
+    attentionSubline: "Not Just Edits",
     headline: "Turn Your Content Into a",
     highlight: "Revenue Machine",
     subheadline:
@@ -521,7 +521,7 @@ export const englishContent = {
     description: "",
     stats: [
       { value: 1, suffix: "B+", label: "Views Generated" },
-      { value: 600, suffix: "+", label: "Videos Delivered" },
+      { value: 2500, suffix: "+", label: "Videos Delivered" },
       { value: 96, suffix: "%", label: "Happy client" },
       { value: 60, suffix: "+", label: "Creators Supported" },
     ],
@@ -885,7 +885,7 @@ export const arabicContent = {
     description: "",
     stats: [
       { value: 1, suffix: "B+", label: "مشاهدة" },
-      { value: 600, suffix: "+", label: "فيديو تم تسليمه" },
+      { value: 2500, suffix: "+", label: "فيديو تم تسليمه" },
       { value: 96, suffix: "%", label: "عملاء سعداء" },
       { value: 60, suffix: "+", label: "صانع محتوى" },
     ],
@@ -2250,7 +2250,7 @@ function ReferenceFramework({ content }: { content: SiteContent }) {
           badge={content.framework.badge}
           title={
             <>
-              The Retention
+              Build Retention
               <br />
               <span className="reference-nowrap">
                 <span className="reference-title-ink">Editing</span> System™
@@ -2381,7 +2381,6 @@ function ReferenceSelectedWork() {
     <ReferenceBand tone="dark" className="reference-work-section">
       <div className="reference-wrap">
         <ReferenceSectionHeading
-          badge="Projects"
           title="Selected Work"
           dark
         />
@@ -2470,7 +2469,6 @@ function ReferenceFooter({ content }: { content: SiteContent }) {
         <span className="footer-system" dir="ltr">Retention Editing <span>System™</span></span>
         </div>
         <div className="footer-connect">
-          <h2>{content.isRtl ? "خلّينا نتكلم" : "Let’s talk"}</h2>
           <a className="footer-instagram" href="https://www.instagram.com/scaleshift/" target="_blank" rel="noopener noreferrer">
             <InstagramMark size={20} /><span>Instagram<small dir="ltr">@scaleshift</small></span><ArrowUpRight size={20} aria-hidden="true" />
           </a>
