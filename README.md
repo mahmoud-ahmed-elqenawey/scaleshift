@@ -20,6 +20,20 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Contact form
+
+Submissions go through `POST /api/contact` into the `contacts` table of the Supabase project `scaleshift`
+(organization FLEX). Set these variables locally in `.env.local` and in the hosting dashboard:
+
+```
+SUPABASE_URL=https://<project-ref>.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+```
+
+The publishable key can only insert leads (row level security); read them in the Supabase dashboard.
+
+Run the tests with `node --test tests/*.test.mjs`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

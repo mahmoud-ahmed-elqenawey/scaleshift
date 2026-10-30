@@ -6,6 +6,7 @@ import { ReelDialog } from "@/components/reel-dialog";
 import { IntroVideo } from "@/components/intro-video";
 import { ClientStories } from "@/components/client-stories";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { ContactForm } from "@/components/contact-form";
 import { resultScreenshots } from "@/lib/result-screenshots";
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Play, X } from "lucide-react";
 import {
@@ -636,6 +637,39 @@ export const englishContent = {
     cta: "Build Retention now",
     note: "",
   },
+  contactForm: {
+    title: "Build retention",
+    titleAccent: "now.",
+    subtitle: "Fill out the form and we'll get back to you within 24 hours.",
+    fullName: "Full Name",
+    fullNamePlaceholder: "Your full name",
+    email: "Email",
+    phone: "Phone",
+    phonePlaceholder: "501234567",
+    brand: "Brand / Social Link",
+    brandPlaceholder: "instagram.com/yourbrand",
+    package: "Package",
+    packages: [
+      { value: "starter", label: "Starter – 10 Videos" },
+      { value: "pro", label: "Pro – 10-15 Videos" },
+      { value: "machine", label: "Machine – 25 Videos" },
+    ],
+    budget: "Budget",
+    budgets: [
+      { value: "1000-1500", label: "$1,000 - $1,500" },
+      { value: "1500-3000", label: "$1,500 - $3,000" },
+      { value: "3500-5000", label: "$3,500 - $5,000" },
+      { value: "5000+", label: "$5,000+" },
+    ],
+    message: "Message",
+    messagePlaceholder: "Tell us about your brand and goals...",
+    submit: "Send Message",
+    sending: "Sending...",
+    successTitle: "Message sent.",
+    successBody: "Thanks! We'll get back to you within 24 hours.",
+    error: "Something went wrong. Please try again or message us on Instagram.",
+    close: "Close",
+  },
   faq: {
     badge: "FAQ",
     headline: "Everything you need to know.",
@@ -999,6 +1033,39 @@ export const arabicContent = {
     description: "بلاش تدفع في مونتاج وخلاص. ابنِ انتباه حقيقي.",
     cta: "ابدأ بناء الريتينشن",
     note: "",
+  },
+  contactForm: {
+    title: "ابنِ الريتينشن",
+    titleAccent: "الآن.",
+    subtitle: "املأ النموذج وهنرد عليك خلال 24 ساعة.",
+    fullName: "الاسم الكامل",
+    fullNamePlaceholder: "اسمك الكامل",
+    email: "البريد الإلكتروني",
+    phone: "رقم الهاتف",
+    phonePlaceholder: "501234567",
+    brand: "البراند / رابط السوشيال",
+    brandPlaceholder: "instagram.com/yourbrand",
+    package: "الباقة",
+    packages: [
+      { value: "starter", label: "Starter – 10 فيديوهات" },
+      { value: "pro", label: "Pro – 10-15 فيديو" },
+      { value: "machine", label: "Machine – 25 فيديو" },
+    ],
+    budget: "الميزانية",
+    budgets: [
+      { value: "1000-1500", label: "$1,000 - $1,500" },
+      { value: "1500-3000", label: "$1,500 - $3,000" },
+      { value: "3500-5000", label: "$3,500 - $5,000" },
+      { value: "5000+", label: "$5,000+" },
+    ],
+    message: "رسالتك",
+    messagePlaceholder: "احكيلنا عن البراند وأهدافك...",
+    submit: "إرسال الرسالة",
+    sending: "جارٍ الإرسال...",
+    successTitle: "تم الإرسال.",
+    successBody: "شكراً! هنرد عليك خلال 24 ساعة.",
+    error: "حصل خطأ. حاول تاني أو كلمنا على إنستجرام.",
+    close: "إغلاق",
   },
   faq: {
     badge: "أسئلة متكررة",
@@ -2642,6 +2709,7 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
       <ReferenceFinalCta content={content} />
       <ReferenceFooter content={content} />
       <IntroVideo isRtl={content.isRtl} />
+      <ContactForm copy={content.contactForm} isRtl={content.isRtl} />
     </main>
   );
 }

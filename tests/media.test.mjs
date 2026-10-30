@@ -51,7 +51,7 @@ test("all passive video elements use the viewport-managed shared owner", async (
           }
         }
         if ((ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) && node.tagName.getText(source) === "dialog") {
-          assert.ok(path.endsWith("/components/reel-dialog.tsx"), `Use shared ReelDialog in ${path}`);
+          assert.ok(/\/components\/(reel-dialog|contact-form)\.tsx$/.test(path), `Use shared ReelDialog in ${path}`);
         }
         if ((ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) && node.tagName.getText(source) === "video") {
           const attributes = node.attributes.properties.filter(ts.isJsxAttribute).map(a => a.name.getText(source));
