@@ -23,7 +23,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## Contact form
 
 Submissions go through `POST /api/contact` into the `contacts` table of the Supabase project `scaleshift`
-(organization FLEX). Set these variables locally in `.env.local` and in the hosting dashboard:
+(organization ScaleShift). The schema lives in `supabase/migrations/`. Set these variables locally in `.env.local` and in the hosting dashboard:
 
 ```
 SUPABASE_URL=https://<project-ref>.supabase.co
