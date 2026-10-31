@@ -30,7 +30,10 @@ SUPABASE_URL=https://<project-ref>.supabase.co
 SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 ```
 
-The publishable key can only insert leads (row level security); read them in the Supabase dashboard.
+The publishable key can only insert leads (row level security). Leads are read at `/dashboard`, which signs in
+with Supabase Auth; only the account `attwa.editor@gmail.com` may read them. Create that user in Supabase under
+Authentication → Users → Add user (tick "Auto Confirm User"); changing the reader means editing the policy in
+`supabase/migrations/20261031180000_dashboard_read_access.sql` and running it in the SQL editor.
 
 Run the tests with `node --test tests/*.test.mjs`.
 
