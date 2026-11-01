@@ -7,7 +7,7 @@ import { ClientStories } from "@/components/client-stories";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { ContactForm } from "@/components/contact-form";
 import { resultScreenshots } from "@/lib/result-screenshots";
-import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Play, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Eye, Play, X } from "lucide-react";
 import {
   motion,
   useReducedMotion,
@@ -309,15 +309,6 @@ const selectedWorkVideos = [
 ];
 
 
-const resultImages = [
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786994552/8R4GVEFASC_ke0vc8.png",
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488584/54esdfgh_klrswa.png",
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488583/3456ygf_seme72.png",
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488581/0iuhbnkiuh_vttwd0.png",
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488578/675drtxfcvbhijok_noxu04.png",
-  "https://res.cloudinary.com/rzbfjedm/image/upload/v1786488576/0000000000000000_aaltva.png",
-];
-
 export const englishContent = {
   locale: "en",
   dir: "ltr",
@@ -335,7 +326,6 @@ export const englishContent = {
     process: "Process",
     results: "Results",
     faq: "FAQ",
-    contact: "Contact",
   },
   hero: {
     label: "Content that performs",
@@ -631,9 +621,9 @@ export const englishContent = {
     cta: "Get Your Custom Plan",
   },
   finalCta: {
-    headline: "Your content deserves more attention",
-    description: "Stop buying editing. Start building attention",
-    cta: "Build Retention now",
+    headline: "Stop buying editing.",
+    description: "Start building attention.",
+    cta: "Build your attention machine",
     note: "",
   },
   contactForm: {
@@ -732,7 +722,6 @@ export const arabicContent = {
     process: "الطريقة",
     results: "النتائج",
     faq: "الأسئلة",
-    contact: "تواصل",
   },
   hero: {
     label: "مونتاج ريلز مبني على الأداء",
@@ -1028,9 +1017,9 @@ export const arabicContent = {
     cta: "اطلب خطة تناسبك",
   },
   finalCta: {
-    headline: "محتواك يستاهل انتباه أكتر",
-    description: "بلاش تدفع في مونتاج وخلاص. ابنِ انتباه حقيقي.",
-    cta: "ابدأ بناء الريتينشن",
+    headline: "بلاش تشتري مونتاج.",
+    description: "ابدأ تبني انتباه.",
+    cta: "ابنِ ماكينة الانتباه بتاعتك",
     note: "",
   },
   contactForm: {
@@ -2385,7 +2374,7 @@ function ReferenceNumbers({ content }: { content: SiteContent }) {
                     aria-label={`${reel.views} ${content.isRtl ? "مشاهدة" : "views"}`}>
                     <Image src={reel.image} alt={`${reel.views} ${content.isRtl ? "مشاهدة" : "views"}`} width={180} height={300} unoptimized loading="lazy" />
                     <span className="impact-reel-overlay" aria-hidden="true">
-                      <span className="impact-reel-action" dir="ltr">{reel.views}</span>
+                      <span className="impact-reel-action" dir="ltr"><Eye size={18} />{reel.views}</span>
                     </span>
                   </figure>
                 ))}
@@ -2393,18 +2382,6 @@ function ReferenceNumbers({ content }: { content: SiteContent }) {
             ))}
           </div>
         ))}
-        <div className="impact-image-track impact-watchtime-track">
-          {[0, 1].map(copy => (
-            <div className="impact-image-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
-              {resultImages.map((image) => (
-                <figure className="impact-reel impact-watchtime" key={image}>
-                  <Image src={image} alt={content.isRtl ? "نتيجة الاحتفاظ بالمشاهدين" : "Audience retention chart"}
-                    width={758} height={519} unoptimized loading="lazy" />
-                </figure>
-              ))}
-            </div>
-          ))}
-        </div>
       </div>
       <div id="proof" className="reference-wrap impact-content">
         <div className="reference-number-grid">
@@ -2494,20 +2471,33 @@ function ReferenceFaq({ content }: { content: SiteContent }) {
   );
 }
 
+// Splits "Stop buying editing." into ["Stop buying", "editing."] so the last word can be styled.
+function splitLastWord(text: string) {
+  const index = text.lastIndexOf(" ");
+  return [text.slice(0, index), text.slice(index + 1)];
+}
+
 function ReferenceFinalCta({ content }: { content: SiteContent }) {
+  const [stopLead, stopWord] = splitLastWord(content.finalCta.headline);
+  const [startLead, startWord] = splitLastWord(content.finalCta.description);
+
   return (
     <ReferenceBand id="contact" tone="light" className="reference-final-cta">
       <Reveal className="reference-wrap">
         <h2>
-          {content.isRtl ? (
-            content.finalCta.headline
-          ) : (
-            <>
-              Your content deserves <span>more attention</span>
-            </>
-          )}
+          <span className="final-cta-line">{stopLead} <span className="final-cta-muted">{stopWord}</span></span>
+          <span className="final-cta-line">{startLead} <span className="final-cta-accent">{startWord}
+            <svg viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="final-cta-stroke" x1="0" x2="1">
+                  <stop offset="0" stopColor="currentColor" />
+                  <stop offset="1" stopColor="currentColor" stopOpacity="0.1" />
+                </linearGradient>
+              </defs>
+              <path d="M4 12 Q 150 3 296 6" fill="none" stroke="url(#final-cta-stroke)" strokeWidth="8" strokeLinecap="round" />
+            </svg>
+          </span></span>
         </h2>
-        <p>{content.finalCta.description}</p>
         <ButtonLink href="#contact" rtl={content.isRtl}>
           {content.finalCta.cta}
         </ButtonLink>
@@ -2660,14 +2650,6 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
               whileHover={shouldReduceMotion ? undefined : { y: -2 }}
             >
               {content.nav.faq}
-            </motion.a>
-            <motion.a
-              href="#contact"
-              className="nav-link"
-              variants={heroItem}
-              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
-            >
-              {content.nav.contact}
             </motion.a>
           </motion.nav>
           <motion.div

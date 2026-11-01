@@ -2102,11 +2102,7 @@ body {
   width: max-content;
   animation: impact-drift 100s linear infinite paused;
 }
-.impact-image-track:nth-child(2) { animation-direction: reverse; }
 .impact-image-track:first-child { animation-duration: 200s; }
-.impact-watchtime-track { animation-duration: 65s; }
-.impact-reel.impact-watchtime { width: 22rem; aspect-ratio: 758 / 519; }
-.impact-reel.impact-watchtime:is(:hover, :focus-visible) img { filter: none; transform: none; }
 .impact-showcase.is-moving .impact-image-track { animation-play-state: running; }
 .impact-image-group {
   display: flex;
@@ -2146,12 +2142,12 @@ body {
   display: inline-flex;
   align-items: center;
   gap: .4rem;
-  padding: .55rem .7rem;
+  padding: .5rem .85rem;
   border: 1px solid rgba(255,255,255,.7);
   border-radius: 999px;
   color: white;
   background: rgba(255,255,255,.12);
-  font-size: .75rem;
+  font-size: 1rem;
   font-weight: 700;
   white-space: nowrap;
   transform: scale(.92);
@@ -2623,28 +2619,25 @@ body {
 }
 
 .reference-final-cta h2 {
-  max-width: 48rem;
-  margin-inline: auto;
   color: var(--brand-black);
-  font-size: clamp(3rem, 7vw, 6rem);
-  font-weight: 780;
-  line-height: 0.96;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
+  font-size: clamp(2.5rem, 6.5vw, 5.25rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
 }
 
-.reference-final-cta h2 span {
-  color: var(--brand-red);
-}
+.final-cta-line { display: block; }
+.final-cta-muted { color: #6b6b6b; font-weight: 400; }
+.final-cta-accent { position: relative; display: inline-block; color: var(--brand-red); }
+.final-cta-accent svg { position: absolute; left: 0; right: 0; bottom: -0.2em; width: 100%; height: 0.2em; overflow: visible; }
+.site-shell[dir="rtl"] .final-cta-accent svg { transform: scaleX(-1); }
 
-.reference-final-cta p {
-  margin: 1.4rem auto 0;
-  color: #525252;
-  font-size: clamp(1rem, 1.8vw, 1.18rem);
-}
-
+/* Arrow sits before the label in this section, as in the design. */
 .reference-final-cta .motion-link {
-  margin-top: 2.4rem;
+  flex-direction: row-reverse;
+  margin-top: 2.5rem;
+  padding-inline: 1.75rem;
+  box-shadow: 0 14px 32px rgba(237, 15, 36, 0.28);
 }
 
 .reference-footer {
