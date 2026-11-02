@@ -20,10 +20,34 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   display: "swap",
 });
 
+const title = "ScaleShift | Content Growth Through High-Performing Video";
+const description =
+  "ScaleShift helps creators and brands turn content into high-performing videos that grab attention, build authority, and convert viewers into paying clients.";
+
 export const metadata: Metadata = {
-  title: "ScaleShift | Content Growth Through High-Performing Video",
-  description:
-    "ScaleShift helps creators and brands turn content into high-performing videos that grab attention, build authority, and convert viewers into paying clients.",
+  metadataBase: new URL("https://scaleshift.uk"),
+  title,
+  description,
+  applicationName: "ScaleShift",
+  keywords: ["video editing agency", "short-form video", "reels editing", "content growth", "high-retention editing"],
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", ar: "/ar" },
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "ScaleShift",
+    title,
+    description,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
