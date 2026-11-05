@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { cachedVideoUrl } from "./viewport-video";
 
 type Story = { name: string; video: string };
 type Review = string;
@@ -74,7 +73,7 @@ export function ClientStories({ stories, reviews, rtl }: { stories: Story[]; rev
       <div className="client-stories-layout">
         {column(columns[0], 0)}
         <div className={`client-story${playing ? " is-playing" : ""}`}>
-          <video key={story.video} ref={videoRef} src={visible ? cachedVideoUrl(story.video) : undefined}
+          <video key={story.video} ref={videoRef} src={visible ? story.video : undefined}
             className="client-story-video" aria-label={story.name} playsInline preload="none" muted={muted}
             onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
             onTimeUpdate={e => { const video = e.currentTarget; if (video.duration) setProgress(video.currentTime / video.duration); }}

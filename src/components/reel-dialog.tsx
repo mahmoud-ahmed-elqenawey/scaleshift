@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { cachedVideoUrl } from "./viewport-video";
 
 export function ReelDialog({ src, onClose, intro = false, isRtl = false }: { src: string; onClose: () => void; intro?: boolean; isRtl?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -22,7 +21,7 @@ export function ReelDialog({ src, onClose, intro = false, isRtl = false }: { src
       <button className="reel-dialog-close" type="button" onClick={onClose} aria-label={isRtl ? "إغلاق الفيديو" : "Close video"}>
         <X size={22} />
       </button>
-      <video src={cachedVideoUrl(src)} poster={intro ? "/intro-poster.jpg" : undefined} playsInline controls autoPlay />
+      <video src={src} poster={intro ? "/intro-poster.jpg" : undefined} playsInline controls autoPlay />
       {intro && <a className="intro-call" href="#contact" onClick={onClose}>{isRtl ? "احجز مكالمة مجانية" : "Book a Free Call"}</a>}
     </dialog>
   );

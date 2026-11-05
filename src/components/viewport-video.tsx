@@ -2,14 +2,6 @@
 
 import { useEffect, useRef, type VideoHTMLAttributes } from "react";
 
-const mediaOrigin = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev";
-
-export function cachedVideoUrl(src: string) {
-  return src.startsWith(`${mediaOrigin}/`)
-    ? `/api/media?file=${encodeURIComponent(src.slice(mediaOrigin.length))}`
-    : src;
-}
-
 export function ViewportVideo({
   src,
   active = true,
@@ -26,8 +18,8 @@ export function ViewportVideo({
     let visible = false;
     const sync = () => {
       if (visible && active && !document.hidden) {
-        if (video.getAttribute("src") !== cachedVideoUrl(src)) {
-          video.src = cachedVideoUrl(src);
+        if (video.getAttribute("src") !== src) {
+          video.src = src;
         }
         void video.play().catch(() => undefined);
       } else {

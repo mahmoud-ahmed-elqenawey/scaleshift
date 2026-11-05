@@ -20,6 +20,8 @@ const eslintConfig = defineConfig([
     ".impeccable/**",
     ".kiro/**",
     ".opencode/**",
+    ".open-next/**",
+    ".wrangler/**",
   ]),
 ]);
 
