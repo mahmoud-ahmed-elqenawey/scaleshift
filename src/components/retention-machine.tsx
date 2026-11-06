@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import {
-  BadgeCheck,
   ChevronLeft,
   Clapperboard,
   Clock,
@@ -11,11 +10,15 @@ import {
   Heart,
   MoreHorizontal,
   Play,
+  ShieldCheck,
   SquareUser,
+  Star,
   TrendingUp,
+  User,
+  UserPlus,
 } from "lucide-react";
 import { useInView, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ViewportVideo } from "@/components/viewport-video";
 import {
   compactNumber,
@@ -34,7 +37,7 @@ interface MachineCopy {
   rawTag: string;
   editingTag: string;
   status: Record<MachinePhase, string>;
-  steps: [string, string, string, string];
+  steps: [string, string, string];
   stats: [string, string, string, string];
   posts: string;
   followers: string;
@@ -57,14 +60,14 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     rawTag: "RAW",
     editingTag: "Editing",
     status: { idle: "Ready", travel: "Importing…", editing: "Rendering", drop: "Exported" },
-    steps: ["Hook", "Pacing cuts", "Captions", "Retention curve"],
+    steps: ["Attention Hook", "Retention Structure", "Watch Time Optimization"],
     stats: ["Total views", "Likes & comments", "Avg. watch time", "New followers"],
     posts: "posts",
     followers: "followers",
     following: "following",
     follow: "Follow",
     message: "Message",
-    bio: ["ScaleShift", "Retention Editing System™", "Create attention, not just edits."],
+    bio: ["Scaleshift", "Media Agency", "Retention Editing System™"],
   },
   ar: {
     badge: "بيشتغل إزاي",
@@ -78,23 +81,38 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     rawTag: "خام",
     editingTag: "مونتاج",
     status: { idle: "جاهز", travel: "بيدخل…", editing: "بيتمنتج", drop: "اتصدّر" },
-    steps: ["الهوك", "إيقاع القطعات", "الترجمة", "منحنى الاحتفاظ"],
+    steps: ["Attention Hook", "Retention Structure", "Watch Time Optimization"],
     stats: ["إجمالي المشاهدات", "لايكات وكومنتات", "متوسط وقت المشاهدة", "متابعين جداد"],
     posts: "منشور",
     followers: "متابع",
     following: "يتابع",
     follow: "متابعة",
     message: "رسالة",
-    bio: ["ScaleShift", "Retention Editing System™", "بنصنع الانتباه، مش مجرد مونتاج."],
+    bio: ["Scaleshift", "Media Agency", "Retention Editing System™"],
   },
 };
 
-const editingProgress: Record<MachinePhase, number[]> = {
-  idle: [0, 0, 0, 0],
-  travel: [0, 0, 0, 0],
-  editing: [1, 0.8, 0.55, 0.3],
-  drop: [1, 1, 1, 1],
-};
+// Story highlights as they appear on instagram.com/scaleshift.uk
+const igHighlights = [
+  { label: "Testimonials", Icon: Star },
+  { label: "+45 Clients", Icon: ShieldCheck },
+  { label: "About Us", Icon: User },
+  { label: "Results", Icon: TrendingUp },
+];
+
+const aeMenu = ["File", "Edit", "Composition", "Layer", "Effect", "Animation", "View", "Window"];
+const aeRuler = ["0:00", "0:05", "0:10", "0:15", "0:20", "0:25"];
+
+// Timeline layers as After Effects would stack them (top layer first); stage = which editing step adds it.
+const aeLayers: { name: string; color: string; start: number; width: number; stage: number; keys?: number[] }[] = [
+  { name: "Hook_Title", color: "#e8794a", start: 0, width: 18, stage: 0, keys: [2, 15] },
+  { name: "Zoom_Punch", color: "#d35ea8", start: 3, width: 10, stage: 0, keys: [3, 12] },
+  { name: "Cut_02", color: "#5f8fe0", start: 21, width: 31, stage: 1 },
+  { name: "Cut_03", color: "#5f8fe0", start: 54, width: 29, stage: 1 },
+  { name: "Captions", color: "#e5c54a", start: 2, width: 92, stage: 2, keys: [10, 30, 50, 70, 88] },
+  { name: "SFX_Whoosh", color: "#6cc070", start: 19, width: 6, stage: 2 },
+  { name: "Raw", color: "#9a8fd6", start: 0, width: 100, stage: -1 },
+];
 
 export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
   const t = isRtl ? copy.ar : copy.en;
@@ -166,34 +184,97 @@ export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
           </div>
 
           <div className="machine-system">
-            <div className="machine-screen">
-              <div className="machine-toolbar">
-                <i />
-                <i />
-                <i />
-                <i />
-                <em>{t.status[phase]}</em>
-              </div>
-              <div className={`machine-preview${working ? "" : " is-idle"}`}>
-                {working ? (
-                  <ViewportVideo key={current.id} src={current.raw} aria-label={`${t.editingTag} ${current.id}`} />
-                ) : null}
-                <span className="machine-tag is-red">{t.editingTag}</span>
-              </div>
-              <ul className="machine-progress">
-                {t.steps.map((label, step) => (
-                  <li key={label}>
-                    <b>{label}</b>
-                    <span>
-                      <i style={{ transform: `scaleX(${editingProgress[phase][step]})` }} />
-                    </span>
-                  </li>
+            <div className="ae" dir="ltr" aria-hidden="true">
+              <div className="ae-menubar">
+                {aeMenu.map((item) => (
+                  <span key={item}>{item}</span>
                 ))}
-              </ul>
-              <div className="machine-timeline">
-                <i />
-                <i />
+                <em>reel_{current.id}.aep</em>
               </div>
+              <div className="ae-main">
+                <div className="ae-viewer">
+                  <div className="ae-tab">Composition: reel_{current.id}</div>
+                  <div className={`ae-comp${working ? "" : " is-idle"}`}>
+                    {working ? (
+                      <ViewportVideo key={current.id} src={current.raw} aria-label={`${t.editingTag} ${current.id}`} />
+                    ) : null}
+                    <i className="ae-safe" />
+                  </div>
+                  <div className="ae-viewer-bar">
+                    <span>{working ? "50%" : "—"}</span>
+                    <span>Full</span>
+                    <span className="ae-time">0:00:{String(index).padStart(2, "0")}:12</span>
+                  </div>
+                </div>
+                <div className="ae-effects">
+                  <div className="ae-tab">Effect Controls</div>
+                  <ul>
+                    {t.steps.map((label, step) => (
+                      <li key={label} style={{ "--i": step } as CSSProperties}>
+                        <b>
+                          <i>fx</i>
+                          {label}
+                        </b>
+                        <span>
+                          <i />
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="ae-status">
+                    {t.status[phase]}
+                    {phase === "editing" ? (
+                      <CountUp value={100} from={0} duration={phaseDuration.editing} format={(value) => ` ${value}%`} />
+                    ) : null}
+                  </p>
+                </div>
+              </div>
+              <div className="ae-timeline">
+                <div className="ae-tl-head">
+                  <span className="ae-tab">reel_{current.id}</span>
+                  <em className="ae-time">0:00:00:00</em>
+                </div>
+                <div className="ae-tl-body">
+                  <ul className="ae-layers">
+                    {aeLayers.map((layer, row) => (
+                      <li key={layer.name}>
+                        <i style={{ background: layer.color }} />
+                        <small>{row + 1}</small>
+                        <span>{layer.stage < 0 ? `Raw_${current.id}.mp4` : layer.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="ae-tracks">
+                    <div className="ae-ruler">
+                      {aeRuler.map((label) => (
+                        <span key={label}>{label}</span>
+                      ))}
+                    </div>
+                    {aeLayers.map((layer) => (
+                      <div key={layer.name} className="ae-track">
+                        <i
+                          className={`ae-bar${layer.stage < 0 ? " is-base" : ""}`}
+                          style={
+                            {
+                              "--start": layer.start,
+                              "--width": layer.width,
+                              "--stage": Math.max(0, layer.stage),
+                              background: layer.color,
+                            } as CSSProperties
+                          }
+                        />
+                        {layer.keys?.map((key) => (
+                          <b key={key} style={{ "--at": key, "--stage": layer.stage } as CSSProperties} />
+                        ))}
+                      </div>
+                    ))}
+                    <div className="ae-cti">
+                      <i />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="ae-veil" />
             </div>
             <div className="machine-label" dir="ltr">
               Retention <span>Editing System™</span>
@@ -205,44 +286,60 @@ export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
           <div className="ig-phone" dir="ltr">
             <div className="ig-topbar">
               <ChevronLeft size={20} />
-              <b>
-                scaleshift <BadgeCheck size={14} />
-              </b>
+              <b>scaleshift.uk</b>
               <MoreHorizontal size={20} />
             </div>
             <div className="ig-header">
               <div className="ig-avatar">
-                <Image src="/brand/scaleshift-mark.svg" alt="ScaleShift" width={72} height={72} unoptimized />
+                <Image src="/brand/scaleshift-avatar.svg" alt="ScaleShift" width={80} height={80} unoptimized />
               </div>
-              <ul className="ig-counts">
-                <li>
-                  <CountUp value={stats.posts} />
-                  <span>{t.posts}</span>
-                </li>
-                <li>
-                  <CountUp value={stats.followers} />
-                  <span>{t.followers}</span>
-                </li>
-                <li>
-                  <b>1</b>
-                  <span>{t.following}</span>
-                </li>
-              </ul>
+              <div className="ig-header-main">
+                <b className="ig-handle">
+                  scaleshift.uk <MoreHorizontal size={12} />
+                </b>
+                <ul className="ig-counts">
+                  <li>
+                    <CountUp value={stats.posts} />
+                    <span>{t.posts}</span>
+                  </li>
+                  <li className="is-followers">
+                    <CountUp value={stats.followers} />
+                    <span>{t.followers}</span>
+                  </li>
+                  <li className="is-following">
+                    <b>1</b>
+                    <span>{t.following}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="ig-bio">
               <b>{t.bio[0]}</b>
-              <p>{t.bio[1]}</p>
+              <p className="is-muted">{t.bio[1]}</p>
               <p>{t.bio[2]}</p>
             </div>
             <div className="ig-actions">
               <span className="is-primary">{t.follow}</span>
               <span>{t.message}</span>
+              <span className="is-icon">
+                <UserPlus size={13} />
+              </span>
             </div>
+            <ul className="ig-highlights">
+              {igHighlights.map(({ label, Icon }) => (
+                <li key={label}>
+                  <span>
+                    <Icon size={16} />
+                  </span>
+                  <small>{label}</small>
+                </li>
+              ))}
+            </ul>
             <div className="ig-tabs">
-              <span>
+              <span className="is-active">
                 <Grid3x3 size={20} />
               </span>
-              <span className="is-active">
+              <span>
                 <Clapperboard size={20} />
               </span>
               <span>

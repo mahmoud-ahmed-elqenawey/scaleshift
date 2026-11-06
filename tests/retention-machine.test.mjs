@@ -12,7 +12,8 @@ test("counts shorten the way Instagram shows them", () => {
   assert.equal(compactNumber(1_000_000), "1M");
   assert.equal(compactNumber(842_000), "842K");
   assert.equal(compactNumber(13_740), "13.7K");
-  assert.equal(compactNumber(1_240), "1.2K");
+  assert.equal(compactNumber(9_999), "9,999");
+  assert.equal(compactNumber(1_729), "1,729");
   assert.equal(compactNumber(312), "312");
 });
 

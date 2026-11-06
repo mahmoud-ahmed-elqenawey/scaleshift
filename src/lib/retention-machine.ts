@@ -14,7 +14,8 @@ export const machineClips = [
   edited: `${R2}/portfolio/${clip.id}.mp4`,
 }));
 
-const startFollowers = 1_240;
+// Real account numbers at the time of writing: instagram.com/scaleshift.uk
+const startFollowers = 1_729;
 const watchTime = [0, 61, 64, 66, 67, 68, 69];
 const likesPerView = 0.042;
 
@@ -24,7 +25,7 @@ export type MachineStep = { index: number; phase: MachinePhase };
 export const phaseDuration: Record<MachinePhase, number> = {
   idle: 700,
   travel: 1000,
-  editing: 1800,
+  editing: 3600,
   drop: 1100,
 };
 
@@ -50,11 +51,11 @@ export function machineStats(landed: number) {
   };
 }
 
-/** 1.2M / 842K / 13.7K / 312, the way Instagram shortens counts. */
+/** 1.2M / 842K / 13.7K / 1,729, the way Instagram shortens counts. */
 export function compactNumber(value: number): string {
   const trim = (text: string) => text.replace(/\.0$/, "");
   if (value >= 1e6) return `${trim((value / 1e6).toFixed(1))}M`;
   if (value >= 1e5) return `${Math.round(value / 1e3)}K`;
-  if (value >= 1e3) return `${trim((value / 1e3).toFixed(1))}K`;
+  if (value >= 1e4) return `${trim((value / 1e3).toFixed(1))}K`;
   return value.toLocaleString("en-US");
 }
