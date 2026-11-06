@@ -6,6 +6,7 @@ import { ReelDialog } from "@/components/reel-dialog";
 import { ClientStories } from "@/components/client-stories";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { ContactForm } from "@/components/contact-form";
+import { RetentionMachine } from "@/components/retention-machine";
 import { resultScreenshots } from "@/lib/result-screenshots";
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Eye, Play, X } from "lucide-react";
 import {
@@ -2255,45 +2256,6 @@ function ReferenceTrust({ content }: { content: SiteContent }) {
   );
 }
 
-function ReferenceComparison({ content }: { content: SiteContent }) {
-  const shouldReduceMotion = useReducedMotion();
-
-  return (
-    <ReferenceBand id="results" tone="dark" className="reference-comparison">
-      <div className="reference-wrap">
-        <ReferenceSectionHeading
-          title={content.isRtl ? "ليه ScaleShift؟" : "Why ScaleShift?"}
-          dark
-        />
-        <div className="reference-compare-grid">
-          {content.comparison.groups.map((group, index) => (
-            <motion.article
-              key={group.title}
-              className={`reference-compare-card ${group.tone === "brand" ? "is-brand" : ""}`}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 36 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.32 }}
-              transition={{ duration: 0.68, delay: index * 0.08, ease: cinematicEase }}
-            >
-              <h3>{group.title}</h3>
-              <ul>
-                {group.points.map((point) => (
-                  <li key={point}>
-                    <span aria-hidden="true">
-                      {group.tone === "brand" ? <Check size={14} /> : <X size={13} />}
-                    </span>
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-    </ReferenceBand>
-  );
-}
-
 function ReferenceFramework({ content }: { content: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
   const [started, setStarted] = useState(false);
@@ -2681,7 +2643,7 @@ export function HomePage({ content = englishContent }: { content?: SiteContent }
       </section>
 
       <ReferenceTrust content={content} />
-      <ReferenceComparison content={content} />
+      <RetentionMachine isRtl={content.isRtl} />
       <ReferenceFramework content={content} />
       <ReferenceNumbers content={content} />
       <ReferenceClientFeedback content={content} />
