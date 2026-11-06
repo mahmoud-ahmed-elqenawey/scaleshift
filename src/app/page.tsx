@@ -293,6 +293,15 @@ const creatorCards = [
     profileUrl: "https://www.instagram.com/dietand.cheat/?hl=ar",
     avatar: r2ClientGroupImage("dietand.cheat.png"),
   },
+  {
+    name: "Kariem Hanafy",
+    username: "kariem_hanafy",
+    followers: "@kariem_hanafy",
+    niche: "Entrepreneur",
+    verified: true,
+    profileUrl: "https://www.instagram.com/kariem_hanafy/",
+    avatar: r2ClientGroupImage("كريم-حنفي.jpeg"),
+  },
 ];
 
 const feedbackScreens = [
@@ -2487,8 +2496,8 @@ function ReferenceFooter({ content }: { content: SiteContent }) {
         <span className="footer-system" dir="ltr">Retention Editing <span>System™</span></span>
         </div>
         <div className="footer-connect">
-          <a className="footer-instagram" href="https://www.instagram.com/scaleshift/" target="_blank" rel="noopener noreferrer">
-            <InstagramMark size={20} /><span>Instagram<small dir="ltr">@scaleshift</small></span><ArrowUpRight size={20} aria-hidden="true" />
+          <a className="footer-instagram" href="https://www.instagram.com/scaleshift.uk/" target="_blank" rel="noopener noreferrer">
+            <InstagramMark size={20} /><span>Instagram<small dir="ltr">@scaleshift.uk</small></span><ArrowUpRight size={20} aria-hidden="true" />
           </a>
         </div>
         </div>

@@ -10,11 +10,8 @@ import {
   Heart,
   MoreHorizontal,
   Play,
-  ShieldCheck,
   SquareUser,
-  Star,
   TrendingUp,
-  User,
   UserPlus,
 } from "lucide-react";
 import { useInView, useReducedMotion } from "motion/react";
@@ -91,14 +88,6 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     bio: ["Scaleshift", "Media Agency", "Retention Editing System™"],
   },
 };
-
-// Story highlights as they appear on instagram.com/scaleshift.uk
-const igHighlights = [
-  { label: "Testimonials", Icon: Star },
-  { label: "+45 Clients", Icon: ShieldCheck },
-  { label: "About Us", Icon: User },
-  { label: "Results", Icon: TrendingUp },
-];
 
 const aeMenu = ["File", "Edit", "Composition", "Layer", "Effect", "Animation", "View", "Window"];
 const aeRuler = ["0:00", "0:05", "0:10", "0:15", "0:20", "0:25"];
@@ -376,27 +365,26 @@ export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
           <div className="ig-phone" dir="ltr">
             <div className="ig-topbar">
               <ChevronLeft size={20} />
-              <b>scaleshift.uk</b>
               <MoreHorizontal size={20} />
             </div>
             <div className="ig-header">
               <div className="ig-avatar">
-                <Image src="/brand/scaleshift-avatar.jpg" alt="ScaleShift" width={80} height={80} unoptimized />
+                <Image src="/brand/scaleshift-avatar.jpg" alt="ScaleShift" width={88} height={88} unoptimized />
               </div>
               <div className="ig-header-main">
                 <b className="ig-handle">
-                  scaleshift.uk <MoreHorizontal size={12} />
+                  scaleshift.uk <MoreHorizontal size={14} />
                 </b>
                 <ul className="ig-counts">
                   <li>
                     <CountUp value={stats.posts} />
                     <span>{t.posts}</span>
                   </li>
-                  <li className="is-followers">
+                  <li>
                     <CountUp value={stats.followers} />
                     <span>{t.followers}</span>
                   </li>
-                  <li className="is-following">
+                  <li>
                     <b>1</b>
                     <span>{t.following}</span>
                   </li>
@@ -415,16 +403,6 @@ export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
                 <UserPlus size={13} />
               </span>
             </div>
-            <ul className="ig-highlights">
-              {igHighlights.map(({ label, Icon }) => (
-                <li key={label}>
-                  <span>
-                    <Icon size={16} />
-                  </span>
-                  <small>{label}</small>
-                </li>
-              ))}
-            </ul>
             <div className="ig-tabs">
               <span className="is-active">
                 <Grid3x3 size={20} />
