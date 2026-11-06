@@ -24,9 +24,9 @@ export type MachineStep = { index: number; phase: MachinePhase };
 
 export const phaseDuration: Record<MachinePhase, number> = {
   idle: 700,
-  travel: 1000,
+  travel: 1300,
   editing: 3600,
-  drop: 1100,
+  drop: 1400,
 };
 
 export const machineSequence: MachineStep[] = [
