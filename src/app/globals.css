@@ -3416,6 +3416,11 @@ textarea.contact-input { min-height: 112px; resize: vertical; }
 .contact-options-2 .contact-option { direction: ltr; }
 
 /* ---------- Retention Editing Machine ---------- */
+.machine-serif {
+  font-family: "Times New Roman MT", "Times New Roman", Times, serif;
+  font-style: italic;
+  font-weight: 500;
+}
 .retention-machine { --machine-dir: 1; }
 .site-shell[dir="rtl"] .retention-machine { --machine-dir: -1; }
 

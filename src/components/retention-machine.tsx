@@ -30,7 +30,6 @@ interface MachineCopy {
   badge: string;
   title: ReactNode;
   raw: string;
-  unedited: string;
   rawTag: string;
   editingTag: string;
   status: Record<MachinePhase, string>;
@@ -49,11 +48,10 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     badge: "How it works",
     title: (
       <>
-        Retention <span>Editing Machine</span>
+        <em className="machine-serif">Retention</em> <span>Editing Machine</span>
       </>
     ),
     raw: "Raw footage",
-    unedited: "Unedited",
     rawTag: "RAW",
     editingTag: "Editing",
     status: { idle: "Ready", travel: "Importing…", editing: "Rendering", drop: "Exported" },
@@ -70,11 +68,10 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     badge: "بيشتغل إزاي",
     title: (
       <>
-        ماكينة <span>Retention Editing</span>
+        ماكينة <span><em className="machine-serif">Retention</em> Editing</span>
       </>
     ),
     raw: "فيديوهات خام",
-    unedited: "قبل المونتاج",
     rawTag: "خام",
     editingTag: "مونتاج",
     status: { idle: "جاهز", travel: "بيدخل…", editing: "بيتمنتج", drop: "اتصدّر" },
@@ -206,7 +203,7 @@ export function RetentionMachine({ isRtl }: { isRtl: boolean }) {
         <div className="machine" ref={machineRef}>
           <div className="machine-panel machine-raw">
             <h3>
-              {t.raw} <small>{t.unedited}</small>
+              {t.raw}
             </h3>
             <div className="machine-queue">
               {queue.map((clip, position) => (

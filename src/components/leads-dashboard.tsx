@@ -8,9 +8,9 @@ type Props = SupabaseConfig;
 
 const storageKey = "scaleshift-dashboard-session";
 const refreshEveryMs = 60_000;
-const packageLabels: Record<string, string> = { starter: "Starter · 10 videos", pro: "Pro · 10-15 videos", machine: "Machine · 25 videos" };
+const packageLabels: Record<string, string> = { starter: "Starter · 10 videos", pro: "Pro · 10-15 videos", machine: "Machine · 25 videos", custom: "Custom" };
 const budgetLabels: Record<string, string> = {
-  "1000-1500": "$1,000 - $1,500", "1500-3000": "$1,500 - $3,000", "3500-5000": "$3,500 - $5,000", "5000+": "$5,000+",
+  "1000-1500": "$1,000 - $1,500", "1500-3000": "$1,500 - $3,000", "3500-5000": "$3,500 - $5,000", "5000+": "Open Budget",
 };
 
 const readSession = (): Session | null => {

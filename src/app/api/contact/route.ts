@@ -1,4 +1,4 @@
-export const packages = ["starter", "pro", "machine"] as const;
+export const packages = ["starter", "pro", "machine", "custom"] as const;
 export const budgets = ["1000-1500", "1500-3000", "3500-5000", "5000+"] as const;
 
 const maxLength = { full_name: 120, email: 254, phone: 16, brand_link: 300, package: 20, budget: 20, message: 5000 } as const;

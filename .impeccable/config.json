@@ -6,8 +6,17 @@
       {
         "rule": "design-system-font",
         "value": "times new roman mt",
-        "reason": "User confirmed Times New Roman Mt is intentional",
-        "createdAt": "2026-09-01T17:07:05.982Z"
+        "createdAt": "2026-09-01T17:07:05.982Z",
+        "reason": "User confirmed Times New Roman Mt is intentional"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-11-10T17:53:18.691Z",
+        "reason": "Claude: .machine-arrow::after is a CSS-triangle arrowhead (border-inline-start on a ::after), not a card accent border"
       }
     ]
   }

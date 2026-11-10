@@ -12,6 +12,7 @@ const post = (body, ip) => POST(new Request("http://localhost/api/contact", {
 
 test("parseLead trims a complete lead and rejects bad fields", () => {
   assert.deepEqual(parseLead({ ...lead, full_name: "  Sara " }), lead);
+  assert.equal(parseLead({ ...lead, package: "custom" })?.package, "custom");
   const bad = [{ email: "nope" }, { phone: "0501234567" }, { package: "gold" }, { budget: "1" }, { message: "" }, { message: "x".repeat(5001) }];
   for (const fields of bad) assert.equal(parseLead({ ...lead, ...fields }), null, JSON.stringify(fields));
   assert.equal(parseLead(null), null);
