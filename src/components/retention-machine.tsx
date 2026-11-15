@@ -48,7 +48,9 @@ const copy: Record<"en" | "ar", MachineCopy> = {
     badge: "How it works",
     title: (
       <>
-        <em className="machine-serif">Retention</em> <span>Editing Machine</span>
+        <em className="machine-serif">Retention</em>
+        <br />
+        <span className="reference-nowrap">Editing Machine</span>
       </>
     ),
     raw: "Raw footage",

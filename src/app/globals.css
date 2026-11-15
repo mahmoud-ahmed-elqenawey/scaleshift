@@ -3408,9 +3408,9 @@ textarea.contact-input { min-height: 112px; resize: vertical; }
   .contact-scroll { padding: 40px 36px; }
   .contact-form { grid-template-columns: 1fr 1fr; column-gap: 20px; }
   .contact-form > fieldset, .contact-form > .contact-span, .contact-form > .contact-error, .contact-form > .contact-submit { grid-column: 1 / -1; }
-  .contact-options { grid-template-columns: repeat(3, 1fr); }
+  .contact-options { grid-template-columns: repeat(4, 1fr); }
   .contact-options-2 { grid-template-columns: repeat(4, 1fr); }
-  .contact-option { justify-content: center; }
+  .contact-option { justify-content: center; padding-inline: 8px; }
 }
 .contact-dialog .reel-dialog-close { right: auto; inset-inline-end: 0.75rem; }
 .contact-options-2 .contact-option { direction: ltr; }
