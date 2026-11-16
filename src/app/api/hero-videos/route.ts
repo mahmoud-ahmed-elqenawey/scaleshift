@@ -1,6 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { r2Store, type ObjectStore } from "../../../lib/r2-store.ts";
-import { byOrder, uploadPrefix, validateUpload, type HeroVideo } from "../../../lib/hero-videos.ts"; // relative with extension so node --test can import it
+import { byOrder, dashboardOwnerEmail, looksLikeMp4, maxUploadBytes, uploadPrefix, validateUpload, type HeroVideo } from "../../../lib/hero-videos.ts"; // relative with extension so node --test can import it
 
 type Deps = { bucket: () => ObjectStore | undefined; env: () => { url?: string; key?: string } };
 
@@ -18,12 +18,13 @@ export function createHandlers({ bucket, env }: Deps) {
     apikey: apiKey, Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...extra,
   });
 
-  // The dashboard sends its Supabase session token; Supabase Auth says whether it is still valid.
+  // The dashboard sends its Supabase session token; it must be valid AND belong to the owner account.
   const ownerToken = async (request: Request, cfg: { url: string; key: string }) => {
     const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
     if (!token) return null;
-    const user = await fetch(`${cfg.url}/auth/v1/user`, { headers: headers(cfg.key, token) }).catch(() => null);
-    return user?.ok ? token : null;
+    const response = await fetch(`${cfg.url}/auth/v1/user`, { headers: headers(cfg.key, token) }).catch(() => null);
+    const user = response?.ok ? ((await response.json().catch(() => null)) as { email?: string } | null) : null;
+    return user?.email === dashboardOwnerEmail ? token : null;
   };
 
   const list = async (cfg: { url: string; key: string }): Promise<HeroVideo[] | null> => {
@@ -51,6 +52,10 @@ export function createHandlers({ bucket, env }: Deps) {
     if (!cfg || !store) return unavailable();
     const token = await ownerToken(request, cfg);
     if (!token) return unauthorized();
+    // Refuse oversized bodies before buffering them; the 64 KB slack covers the multipart envelope.
+    if (Number(request.headers.get("content-length")) > maxUploadBytes + 64 * 1024) {
+      return Response.json({ error: "The file is above the 15 MB limit." }, { status: 413 });
+    }
 
     const form = await request.formData().catch(() => null);
     const file = form?.get("file");
@@ -58,11 +63,14 @@ export function createHandlers({ bucket, env }: Deps) {
     const problem = validateUpload(file instanceof File ? file : null, title);
     if (problem || !(file instanceof File)) return Response.json({ error: problem ?? "Invalid upload" }, { status: 400 });
 
+    const bytes = await file.arrayBuffer();
+    if (!looksLikeMp4(new Uint8Array(bytes))) return Response.json({ error: "This file is not an MP4 video." }, { status: 400 });
+
     const existing = await list(cfg);
     if (!existing) return Response.json({ error: "Could not load videos" }, { status: 502 });
     const key = `${uploadPrefix}${crypto.randomUUID()}.mp4`;
     try {
-      await store.put(key, await file.arrayBuffer(), "video/mp4");
+      await store.put(key, bytes, "video/mp4");
     } catch (error) {
       console.error("hero-videos: R2 put failed", error);
       return Response.json({ error: "Could not store the video" }, { status: 502 });

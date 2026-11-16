@@ -5,6 +5,8 @@ export const r2PublicBase = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev
 export const maxUploadBytes = 15 * 1024 * 1024;
 export const maxTitleLength = 80;
 export const uploadPrefix = "hero/";
+// Same account the RLS policies in supabase/migrations name; the API refuses every other signed-in user.
+export const dashboardOwnerEmail = "attwa.editor@gmail.com";
 export const uploadGuidelines =
   "MP4 (H.264 + AAC), 1080×1920, 30 fps, 2.5–4 Mbps. A 30s reel should be 5–8 MB and never above 15 MB.";
 
@@ -40,3 +42,7 @@ export function moveId(ids: string[], id: string, direction: -1 | 1): string[] {
   [next[from], next[to]] = [next[to], next[from]];
   return next;
 }
+
+// MP4/MOV files start with a size-prefixed "ftyp" box; anything else is not a video the browsers will play.
+export const looksLikeMp4 = (bytes: Uint8Array) =>
+  bytes.length > 12 && String.fromCharCode(...bytes.subarray(4, 8)) === "ftyp";
