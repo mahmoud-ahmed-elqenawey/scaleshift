@@ -91,9 +91,9 @@ export function HeroVideosPanel({ section, session, onSession, onExpired, ...con
               <video src={heroVideoUrl(video.key)} controls preload="metadata" muted playsInline className="h-32 w-[4.5rem] shrink-0 rounded-lg bg-black object-cover" />
               <div className="min-w-0 flex-1">
                 <p className="font-semibold"><span className="mr-2 text-white/40">{index + 1}.</span>{video.title}</p>
-                <p className="mt-1 break-all text-xs text-white/50" dir="ltr">{video.key}</p>
+                <p className="mt-1 truncate text-xs text-white/50" dir="ltr" title={video.key}>{video.key}</p>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex basis-full items-center gap-2 sm:basis-auto">
                 <button type="button" onClick={() => reorder(video.id, -1)} disabled={busy || index === 0} className={buttonClass} aria-label="Move up"><ArrowUp className="size-3.5" aria-hidden /></button>
                 <button type="button" onClick={() => reorder(video.id, 1)} disabled={busy || index === videos.length - 1} className={buttonClass} aria-label="Move down"><ArrowDown className="size-3.5" aria-hidden /></button>
                 {confirming === video.id ? (

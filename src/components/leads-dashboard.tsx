@@ -1,17 +1,20 @@
 "use client";
 
-import { Clapperboard, Film, LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
+import { ArrowUpRight, Clapperboard, Film, LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { HeroVideosPanel } from "@/components/hero-videos-panel";
 import { useCallback, useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
 import { fetchLeads, requestToken, type Lead, type Session, type SupabaseConfig } from "@/lib/leads-client";
 
 type Props = SupabaseConfig;
 type Tab = "leads" | "hero" | "work";
-const tabs: { id: Tab; label: string; icon: typeof Mail }[] = [
-  { id: "leads", label: "Messages", icon: Mail },
-  { id: "hero", label: "Header videos", icon: Clapperboard },
-  { id: "work", label: "Selected Work", icon: Film },
+const tabs: { id: Tab; label: string; hint: string; icon: typeof Mail }[] = [
+  { id: "leads", label: "Messages", hint: "Sent from the contact form", icon: Mail },
+  { id: "hero", label: "Header videos", hint: "The reels orbiting in the home-page hero", icon: Clapperboard },
+  { id: "work", label: "Selected Work", hint: "The strip of reels under the hero", icon: Film },
 ];
+const titles: Record<Tab, string> = { leads: "Messages", hero: "Header videos", work: "Selected Work" };
 
 const storageKey = "scaleshift-dashboard-session";
 const refreshEveryMs = 60_000;
@@ -38,6 +41,7 @@ export function LeadsDashboard(props: Props) {
   const [loading, setLoading] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   const [tab, setTab] = useState<Tab>("leads");
+  const [counts, setCounts] = useState<Partial<Record<Tab, number>>>({});
 
   const signOut = useCallback((message = "") => {
     saveSession(null);
@@ -73,47 +77,100 @@ export function LeadsDashboard(props: Props) {
     return () => clearInterval(timer);
   }, [session, load]);
 
+  // Live counts for the sidebar; re-read whenever the user moves between sections (after edits).
+  useEffect(() => {
+    if (!session) return;
+    for (const section of ["hero", "work"] as const) {
+      fetch(`/api/hero-videos?section=${section}`, { cache: "no-store" })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((list: unknown) => { if (Array.isArray(list)) setCounts((current) => ({ ...current, [section]: list.length })); })
+        .catch(() => undefined);
+    }
+  }, [session, tab]);
+
   if (saved === undefined || (!session && saved && !error)) return null;
-  if (!session) return <LoginForm {...props} error={error} onSignedIn={load} />;
+  if (!session) return <div className="px-4"><LoginForm {...props} error={error} onSignedIn={load} /></div>;
+
+  const current = tabs.find((item) => item.id === tab) ?? tabs[0];
+  const allCounts = { ...counts, leads: leads.length };
+  const onSession = (next: Session) => { saveSession(next); setSession(next); };
+  const onExpired = () => signOut("Your session expired. Please sign in again.");
 
   return (
-    <div className="mx-auto w-full max-w-5xl">
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-        <div>
-          <h1 className="text-2xl font-bold">{{ leads: "Contact messages", hero: "Header videos", work: "Selected Work videos" }[tab]}</h1>
-          <p className="mt-1 text-sm text-white/60">
-            {{
-              leads: `${leads.length} ${leads.length === 1 ? "message" : "messages"}${updatedAt ? ` · updated ${updatedAt.toLocaleTimeString()}` : ""}`,
-              hero: "Videos in the home-page hero, in the order they orbit",
-              work: "Videos in the Selected Work strip, in the order they scroll",
-            }[tab]} · {session.email}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {tabs.filter((item) => item.id !== tab).map(({ id, label, icon: Icon }) => (
-            <button key={id} type="button" onClick={() => setTab(id)} className="inline-flex items-center gap-2 rounded-full border border-brand-red/60 px-4 py-2 text-sm hover:border-brand-red">
-              <Icon className="size-4" aria-hidden /> {label}
+    <div className="min-h-screen md:grid md:grid-cols-[250px_minmax(0,1fr)]">
+      <aside className="flex flex-col gap-6 border-b border-white/10 bg-black px-4 py-5 md:sticky md:top-0 md:h-screen md:border-b-0 md:border-r md:px-5 md:py-7">
+        <Link href="/" className="flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand-red">
+          <Image src="/brand/scaleshift-mark.svg" alt="" width={34} height={34} className="size-[34px] rounded-lg bg-white p-1" />
+          <span className="leading-tight">
+            <span className="block text-base font-semibold tracking-tight">ScaleShift</span>
+            <span className="block text-xs text-white/50">Dashboard</span>
+          </span>
+        </Link>
+        <nav aria-label="Sections" className="-mx-1 flex gap-1 overflow-x-auto md:mx-0 md:flex-col md:overflow-visible">
+          {tabs.map(({ id, label, icon: Icon }) => {
+            const active = id === tab;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setTab(id)}
+                aria-current={active ? "page" : undefined}
+                className={`flex shrink-0 items-center gap-3 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand-red md:w-full ${
+                  active ? "bg-white/[0.08] text-white" : "text-white/60 hover:bg-white/[0.04] hover:text-white"
+                }`}
+              >
+                <Icon className="size-4 shrink-0" aria-hidden />
+                <span className="flex-1 text-left">{label}</span>
+                <span className={`min-w-[1.5rem] rounded-md px-1.5 py-0.5 text-center text-xs tabular-nums ${active ? "bg-brand-red text-white" : "bg-white/[0.06] text-white/60"}`}>
+                  {allCounts[id] ?? "–"}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+        <div className="hidden flex-1 md:block" />
+        <div className="hidden gap-2 md:grid">
+          <Link href="/" target="_blank" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-white/60 hover:bg-white/[0.04] hover:text-white">
+            <ArrowUpRight className="size-4" aria-hidden /> Open the website
+          </Link>
+          <div className="mt-2 border-t border-white/10 pt-4">
+            <p className="truncate px-3 text-xs text-white/45" title={session.email}>{session.email}</p>
+            <button type="button" onClick={() => signOut()} className="mt-1 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-white/60 hover:bg-white/[0.04] hover:text-white">
+              <LogOut className="size-4" aria-hidden /> Sign out
             </button>
-          ))}
-          {tab === "leads" && (
-            <button type="button" onClick={() => { setLoading(true); void load(session); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50 disabled:opacity-50">
-              <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} aria-hidden /> Refresh
-            </button>
-          )}
-          <button type="button" onClick={() => signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50">
-            <LogOut className="size-4" aria-hidden /> Sign out
-          </button>
+          </div>
         </div>
-      </header>
-      {tab !== "leads" && (
-        <HeroVideosPanel key={tab} {...props} section={tab} session={session} onSession={(next) => { saveSession(next); setSession(next); }} onExpired={() => signOut("Your session expired. Please sign in again.")} />
-      )}
-      {tab === "leads" && error && <p role="alert" className="mb-4 rounded-xl border border-brand-red/50 bg-brand-red/10 px-4 py-3 text-sm">{error}</p>}
-      {tab === "leads" && (leads.length === 0 && !loading ? (
-        <p className="rounded-2xl border border-white/10 px-6 py-16 text-center text-white/60">No messages yet. New ones from the website show up here.</p>
-      ) : (
-        <ul className="grid gap-4">{leads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</ul>
-      ))}
+      </aside>
+
+      <main className="min-w-0 px-4 py-6 sm:px-8 md:py-9">
+        <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">{titles[tab]}</h1>
+            <p className="mt-1.5 text-sm text-white/55">
+              {tab === "leads" && updatedAt ? `${current.hint} · updated ${updatedAt.toLocaleTimeString()}` : current.hint}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            {tab === "leads" && (
+              <button type="button" onClick={() => { setLoading(true); void load(session); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm hover:border-white/40 disabled:opacity-50">
+                <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} aria-hidden /> Refresh
+              </button>
+            )}
+            <button type="button" onClick={() => signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm hover:border-white/40 md:hidden">
+              <LogOut className="size-4" aria-hidden /> Sign out
+            </button>
+          </div>
+        </header>
+        {tab !== "leads" && (
+          <HeroVideosPanel key={tab} {...props} section={tab} session={session} onSession={onSession} onExpired={onExpired} />
+        )}
+        {tab === "leads" && error && <p role="alert" className="mb-4 rounded-xl border border-brand-red/50 bg-brand-red/10 px-4 py-3 text-sm">{error}</p>}
+        {tab === "leads" && (leads.length === 0 && !loading ? (
+          <p className="rounded-2xl border border-white/10 px-6 py-16 text-center text-white/60">No messages yet. New ones from the website show up here.</p>
+        ) : (
+          <ul className="grid max-w-4xl gap-4">{leads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</ul>
+        ))}
+      </main>
     </div>
   );
 }
