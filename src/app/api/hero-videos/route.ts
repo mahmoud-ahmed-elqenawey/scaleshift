@@ -1,6 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { r2Store, type ObjectStore } from "../../../lib/r2-store.ts";
-import { byOrder, dashboardOwnerEmail, looksLikeMp4, maxUploadBytes, uploadPrefix, validateUpload, type HeroVideo } from "../../../lib/hero-videos.ts"; // relative with extension so node --test can import it
+import { byOrder, dashboardOwnerEmail, isDashboardUpload, looksLikeMp4, maxUploadBytes, parseSection, uploadPrefix, validateUpload, type HeroVideo, type VideoSection } from "../../../lib/hero-videos.ts"; // relative with extension so node --test can import it
 
 type Deps = { bucket: () => ObjectStore | undefined; env: () => { url?: string; key?: string } };
 
@@ -27,8 +27,8 @@ export function createHandlers({ bucket, env }: Deps) {
     return user?.email === dashboardOwnerEmail ? token : null;
   };
 
-  const list = async (cfg: { url: string; key: string }): Promise<HeroVideo[] | null> => {
-    const response = await fetch(`${table(cfg.url)}?select=*&order=sort_order.asc,created_at.asc`, {
+  const list = async (cfg: { url: string; key: string }, section: VideoSection): Promise<HeroVideo[] | null> => {
+    const response = await fetch(`${table(cfg.url)}?select=*&section=eq.${section}&order=sort_order.asc,created_at.asc`, {
       headers: headers(cfg.key, cfg.key),
     }).catch(() => null);
     if (!response?.ok) {
@@ -38,10 +38,12 @@ export function createHandlers({ bucket, env }: Deps) {
     return byOrder(await response.json());
   };
 
-  async function GET() {
+  async function GET(request: Request) {
     const cfg = config();
     if (!cfg) return unavailable();
-    const videos = await list(cfg);
+    const section = parseSection(new URL(request.url).searchParams.get("section"));
+    if (!section) return Response.json({ error: "Unknown section" }, { status: 400 });
+    const videos = await list(cfg, section);
     if (!videos) return Response.json({ error: "Could not load videos" }, { status: 502 });
     return Response.json(videos, { headers: { "Cache-Control": "public, max-age=60" } });
   }
@@ -60,15 +62,16 @@ export function createHandlers({ bucket, env }: Deps) {
     const form = await request.formData().catch(() => null);
     const file = form?.get("file");
     const title = form?.get("title");
+    const section = parseSection(form?.get("section"));
     const problem = validateUpload(file instanceof File ? file : null, title);
-    if (problem || !(file instanceof File)) return Response.json({ error: problem ?? "Invalid upload" }, { status: 400 });
+    if (problem || !(file instanceof File) || !section) return Response.json({ error: problem ?? "Invalid upload" }, { status: 400 });
 
     const bytes = await file.arrayBuffer();
     if (!looksLikeMp4(new Uint8Array(bytes))) return Response.json({ error: "This file is not an MP4 video." }, { status: 400 });
 
-    const existing = await list(cfg);
+    const existing = await list(cfg, section);
     if (!existing) return Response.json({ error: "Could not load videos" }, { status: 502 });
-    const key = `${uploadPrefix}${crypto.randomUUID()}.mp4`;
+    const key = `${uploadPrefix(section)}${crypto.randomUUID()}.mp4`;
     try {
       await store.put(key, bytes, "video/mp4");
     } catch (error) {
@@ -80,7 +83,7 @@ export function createHandlers({ bucket, env }: Deps) {
     const inserted = await fetch(table(cfg.url), {
       method: "POST",
       headers: headers(cfg.key, token, { Prefer: "return=representation" }),
-      body: JSON.stringify({ title: String(title).trim(), key, sort_order }),
+      body: JSON.stringify({ title: String(title).trim(), key, sort_order, section }),
     }).catch(() => null);
     if (!inserted?.ok) {
       console.error("hero-videos: insert failed", inserted?.status, await inserted?.text());
@@ -110,8 +113,8 @@ export function createHandlers({ bucket, env }: Deps) {
     }
     const [video] = (await removed.json()) as HeroVideo[];
     if (!video) return Response.json({ error: "Video not found" }, { status: 404 });
-    // Seeded portfolio/ files are shared with the editing-machine section, so only dashboard uploads leave R2.
-    if (video.key.startsWith(uploadPrefix)) await store.delete(video.key).catch((error: unknown) => console.error("hero-videos: R2 delete failed", error));
+    // Seeded rows point at shared portfolio/ files or Cloudinary URLs, so only dashboard uploads leave R2.
+    if (isDashboardUpload(video.key)) await store.delete(video.key).catch((error: unknown) => console.error("hero-videos: R2 delete failed", error));
     return Response.json({ ok: true });
   }
 

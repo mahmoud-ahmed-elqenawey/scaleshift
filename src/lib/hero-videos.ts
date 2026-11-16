@@ -1,16 +1,21 @@
-export type HeroVideo = { id: string; created_at: string; title: string; key: string; sort_order: number };
+export type VideoSection = "hero" | "work";
+export const videoSections: VideoSection[] = ["hero", "work"];
+export type HeroVideo = { id: string; created_at: string; title: string; key: string; sort_order: number; section: VideoSection };
 export type HeroReel = { label: string; src: string };
 
 export const r2PublicBase = "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev";
 export const maxUploadBytes = 15 * 1024 * 1024;
 export const maxTitleLength = 80;
-export const uploadPrefix = "hero/";
+// Dashboard uploads live under "<section>/" in R2; seeded rows point at portfolio/ keys or full Cloudinary URLs.
+export const uploadPrefix = (section: VideoSection) => `${section}/`;
+export const isDashboardUpload = (key: string) => videoSections.some((section) => key.startsWith(uploadPrefix(section)));
 // Same account the RLS policies in supabase/migrations name; the API refuses every other signed-in user.
 export const dashboardOwnerEmail = "attwa.editor@gmail.com";
 export const uploadGuidelines =
   "MP4 (H.264 + AAC), 1080×1920, 30 fps, 2.5–4 Mbps. A 30s reel should be 5–8 MB and never above 15 MB.";
 
-export const heroVideoUrl = (key: string) => `${r2PublicBase}/${key.split("/").map(encodeURIComponent).join("/")}`;
+export const heroVideoUrl = (key: string) =>
+  /^https?:\/\//.test(key) ? key : `${r2PublicBase}/${key.split("/").map(encodeURIComponent).join("/")}`;
 
 export const toReel = (video: HeroVideo): HeroReel => ({ label: video.title, src: heroVideoUrl(video.key) });
 
@@ -21,6 +26,18 @@ export const fallbackHeroReels: HeroReel[] = Array.from({ length: 10 }, (_, inde
   const number = String(index + 1).padStart(3, "0");
   return { label: `Portfolio reel ${number}`, src: `${r2PublicBase}/portfolio/${index === 9 ? "0010" : number}.mp4` };
 });
+
+export const fallbackWorkReels: HeroReel[] = [
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291247/V-Left_aos9au.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787044153/Sequence_07_1_ughkyp.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786976171/003_n5jph8.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787082909/004_kvnomx.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291428/V-Right_dwxgbe.mp4",
+  "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674816/002_d3dnts.mp4",
+].map((src, index) => ({ label: `Selected work ${index + 1}`, src }));
+
+export const parseSection = (value: unknown): VideoSection | null =>
+  (videoSections as string[]).includes(String(value ?? "hero")) ? (String(value ?? "hero") as VideoSection) : null;
 
 export function validateUpload(file: { type: string; size: number; name: string } | null, title: unknown): string | null {
   const cleanTitle = typeof title === "string" ? title.trim() : "";

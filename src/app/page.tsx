@@ -8,7 +8,7 @@ import { FaqAccordion } from "@/components/faq-accordion";
 import { ContactForm } from "@/components/contact-form";
 import { RetentionMachine } from "@/components/retention-machine";
 import { resultScreenshots } from "@/lib/result-screenshots";
-import { byOrder, fallbackHeroReels, toReel, type HeroReel, type HeroVideo } from "@/lib/hero-videos";
+import { byOrder, fallbackHeroReels, fallbackWorkReels, toReel, type HeroReel, type HeroVideo, type VideoSection } from "@/lib/hero-videos";
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Eye, Play, X } from "lucide-react";
 import {
   motion,
@@ -70,17 +70,17 @@ const sectionReveal = {
   },
 };
 
-// The hero starts with the built-in reels and swaps to the dashboard-managed list once it loads.
-function useHeroReels(): HeroReel[] {
-  const [reels, setReels] = useState(fallbackHeroReels);
+// A section starts with its built-in videos and swaps to the dashboard-managed list once it loads.
+function useSectionVideos(section: VideoSection, fallback: HeroReel[]): HeroReel[] {
+  const [reels, setReels] = useState(fallback);
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/hero-videos", { signal: controller.signal })
+    fetch(`/api/hero-videos?section=${section}`, { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : []))
       .then((videos: HeroVideo[]) => { if (Array.isArray(videos) && videos.length) setReels(byOrder(videos).map(toReel)); })
       .catch(() => undefined);
     return () => controller.abort();
-  }, []);
+  }, [section]);
   return reels;
 }
 
@@ -280,16 +280,6 @@ const feedbackScreens = [
   "000000.png", "000002.png", "000003.png", "000004.png",
   "00002.png", "00005.png", "6778fgfh.png",
 ].map(file => `${r2PublicBase}/screen-feedback/${file}`);
-
-const selectedWorkVideos = [
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291247/V-Left_aos9au.mp4",
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787044153/Sequence_07_1_ughkyp.mp4",
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786976171/003_n5jph8.mp4",
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1787082909/004_kvnomx.mp4",
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1786291428/V-Right_dwxgbe.mp4",
-  "https://res.cloudinary.com/rzbfjedm/video/upload/v1785674816/002_d3dnts.mp4",
-];
-
 
 export const englishContent = {
   locale: "en",
@@ -1306,7 +1296,7 @@ function AttentionHero({
   scale?: MotionValue<number>;
 }) {
   const shouldReduceMotion = useReducedMotion();
-  const heroOrbitReels = useHeroReels();
+  const heroOrbitReels = useSectionVideos("hero", fallbackHeroReels);
   const [orbitAngle, setOrbitAngle] = useState(18);
   const heroRef = useRef<HTMLDivElement>(null);
   const [viewportWidth, setViewportWidth] = useState(1024);
@@ -2364,6 +2354,7 @@ function ReferenceClientFeedback({ content }: { content: SiteContent }) {
 
 function ReferenceSelectedWork() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const selectedWorkVideos = useSectionVideos("work", fallbackWorkReels).map((reel) => reel.src);
   const videos = [...selectedWorkVideos, ...selectedWorkVideos];
 
   return (

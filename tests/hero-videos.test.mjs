@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { byOrder, dashboardOwnerEmail, fallbackHeroReels, heroVideoUrl, looksLikeMp4, moveId, toReel, validateUpload } from "../src/lib/hero-videos.ts";
+import { byOrder, dashboardOwnerEmail, fallbackHeroReels, fallbackWorkReels, heroVideoUrl, isDashboardUpload, looksLikeMp4, moveId, parseSection, toReel, validateUpload } from "../src/lib/hero-videos.ts";
 import { createHandlers } from "../src/app/api/hero-videos/route.ts";
 
 const mp4 = (size, name = "reel.mp4", type = "video/mp4") => ({ size, name, type });
@@ -35,10 +35,14 @@ test("videos become hero reels in sort order with encoded public URLs", () => {
   ]);
   assert.equal(heroVideoUrl("portfolio/0010.mp4"), fallbackHeroReels.at(-1).src);
   assert.equal(fallbackHeroReels.length, 10);
+  assert.equal(heroVideoUrl(fallbackWorkReels[0].src), fallbackWorkReels[0].src);
+  assert.equal(fallbackWorkReels.length, 6);
+  assert.deepEqual([parseSection(undefined), parseSection("work"), parseSection("x")], ["hero", "work", null]);
+  assert.deepEqual(["hero/a.mp4", "work/a.mp4", "portfolio/001.mp4", "https://x/y.mp4"].map(isDashboardUpload), [true, true, false, false]);
 });
 
 const config = { url: "https://demo.supabase.co", key: "sb_publishable_test" };
-const row = { id: "11111111-1111-4111-8111-111111111111", created_at: "2026-01-01", title: "Reel", key: "hero/x.mp4", sort_order: 3 };
+const row = { id: "11111111-1111-4111-8111-111111111111", created_at: "2026-01-01", title: "Reel", key: "hero/x.mp4", sort_order: 3, section: "hero" };
 
 function fakeBucket() {
   const bucket = { puts: [], deletes: [], put: async (key) => { bucket.puts.push(key); }, delete: async (key) => { bucket.deletes.push(key); } };
@@ -55,14 +59,20 @@ async function withFetch(handler, run) {
 const authed = (url) => url.endsWith("/auth/v1/user") ? Response.json({ email: dashboardOwnerEmail }) : null;
 const mp4Bytes = (size) => { const b = new Uint8Array(size); b.set([0, 0, 0, 24, 0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6f, 0x6d]); return b; };
 
-test("GET lists videos publicly and caches briefly; without config it is 503", async () => {
+const get = (query = "") => new Request(`http://localhost/api/hero-videos${query}`);
+
+test("GET lists one section publicly and caches briefly; without config it is 503", async () => {
   const handlers = createHandlers({ bucket: fakeBucket, env: () => config });
-  await withFetch(() => Response.json([{ ...row, sort_order: 2 }, { ...row, id: "22222222-2222-4222-8222-222222222222", sort_order: 1 }]), async () => {
-    const response = await handlers.GET();
+  await withFetch(() => Response.json([{ ...row, sort_order: 2 }, { ...row, id: "22222222-2222-4222-8222-222222222222", sort_order: 1 }]), async (calls) => {
+    const response = await handlers.GET(get());
     assert.equal(response.headers.get("cache-control"), "public, max-age=60");
     assert.deepEqual((await response.json()).map((video) => video.sort_order), [1, 2]);
+    assert.match(calls[0].url, /section=eq\.hero/);
+    await handlers.GET(get("?section=work"));
+    assert.match(calls[1].url, /section=eq\.work/);
+    assert.equal((await handlers.GET(get("?section=nope"))).status, 400);
   });
-  assert.equal((await createHandlers({ bucket: fakeBucket, env: () => ({}) }).GET()).status, 503);
+  assert.equal((await createHandlers({ bucket: fakeBucket, env: () => ({}) }).GET(get())).status, 503);
 });
 
 test("POST needs a valid session, stores the file in R2, then inserts the row after the last one", async () => {
@@ -70,6 +80,7 @@ test("POST needs a valid session, stores the file in R2, then inserts the row af
   const handlers = createHandlers({ bucket: () => bucket, env: () => config });
   const form = new FormData();
   form.set("title", "New reel");
+  form.set("section", "work");
   form.set("file", new File([mp4Bytes(2048)], "new.mp4", { type: "video/mp4" }));
   const request = (headers) => new Request("http://localhost/api/hero-videos", { method: "POST", headers, body: form });
 
@@ -85,9 +96,9 @@ test("POST needs a valid session, stores the file in R2, then inserts the row af
     assert.equal(response.status, 201);
     assert.equal((await response.json()).title, "New reel");
     assert.equal(bucket.puts.length, 1);
-    assert.match(bucket.puts[0], /^hero\/[0-9a-f-]{36}\.mp4$/);
+    assert.match(bucket.puts[0], /^work\/[0-9a-f-]{36}\.mp4$/);
     const insert = calls.find((call) => call.init.method === "POST");
-    assert.deepEqual(JSON.parse(insert.init.body), { title: "New reel", key: bucket.puts[0], sort_order: 4 });
+    assert.deepEqual(JSON.parse(insert.init.body), { title: "New reel", key: bucket.puts[0], sort_order: 4, section: "work" });
     assert.equal(insert.init.headers.Authorization, "Bearer good");
   });
 });
@@ -133,6 +144,10 @@ test("DELETE removes the row and only dashboard uploads from R2", async () => {
     assert.deepEqual(bucket.deletes, ["hero/x.mp4"]);
   });
   await withFetch((url) => authed(url) ?? Response.json([{ ...row, key: "portfolio/001.mp4" }]), async () => {
+    assert.equal((await handlers.DELETE(del(row.id))).status, 200);
+    assert.deepEqual(bucket.deletes, ["hero/x.mp4"]);
+  });
+  await withFetch((url) => authed(url) ?? Response.json([{ ...row, key: "https://res.cloudinary.com/x/y.mp4", section: "work" }]), async () => {
     assert.equal((await handlers.DELETE(del(row.id))).status, 200);
     assert.deepEqual(bucket.deletes, ["hero/x.mp4"]);
   });

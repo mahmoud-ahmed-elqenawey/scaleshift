@@ -1,12 +1,17 @@
 "use client";
 
-import { Clapperboard, LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
+import { Clapperboard, Film, LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
 import { HeroVideosPanel } from "@/components/hero-videos-panel";
 import { useCallback, useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
 import { fetchLeads, requestToken, type Lead, type Session, type SupabaseConfig } from "@/lib/leads-client";
 
 type Props = SupabaseConfig;
-type Tab = "leads" | "videos";
+type Tab = "leads" | "hero" | "work";
+const tabs: { id: Tab; label: string; icon: typeof Mail }[] = [
+  { id: "leads", label: "Messages", icon: Mail },
+  { id: "hero", label: "Header videos", icon: Clapperboard },
+  { id: "work", label: "Selected Work", icon: Film },
+];
 
 const storageKey = "scaleshift-dashboard-session";
 const refreshEveryMs = 60_000;
@@ -75,17 +80,21 @@ export function LeadsDashboard(props: Props) {
     <div className="mx-auto w-full max-w-5xl">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
-          <h1 className="text-2xl font-bold">{tab === "leads" ? "Contact messages" : "Header videos"}</h1>
+          <h1 className="text-2xl font-bold">{{ leads: "Contact messages", hero: "Header videos", work: "Selected Work videos" }[tab]}</h1>
           <p className="mt-1 text-sm text-white/60">
-            {tab === "leads"
-              ? `${leads.length} ${leads.length === 1 ? "message" : "messages"}${updatedAt ? ` · updated ${updatedAt.toLocaleTimeString()}` : ""}`
-              : "Videos in the home-page hero, in the order they orbit"} · {session.email}
+            {{
+              leads: `${leads.length} ${leads.length === 1 ? "message" : "messages"}${updatedAt ? ` · updated ${updatedAt.toLocaleTimeString()}` : ""}`,
+              hero: "Videos in the home-page hero, in the order they orbit",
+              work: "Videos in the Selected Work strip, in the order they scroll",
+            }[tab]} · {session.email}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={() => setTab(tab === "leads" ? "videos" : "leads")} className="inline-flex items-center gap-2 rounded-full border border-brand-red/60 px-4 py-2 text-sm hover:border-brand-red">
-            {tab === "leads" ? <><Clapperboard className="size-4" aria-hidden /> Header videos</> : <><Mail className="size-4" aria-hidden /> Messages</>}
-          </button>
+          {tabs.filter((item) => item.id !== tab).map(({ id, label, icon: Icon }) => (
+            <button key={id} type="button" onClick={() => setTab(id)} className="inline-flex items-center gap-2 rounded-full border border-brand-red/60 px-4 py-2 text-sm hover:border-brand-red">
+              <Icon className="size-4" aria-hidden /> {label}
+            </button>
+          ))}
           {tab === "leads" && (
             <button type="button" onClick={() => { setLoading(true); void load(session); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50 disabled:opacity-50">
               <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} aria-hidden /> Refresh
@@ -96,8 +105,8 @@ export function LeadsDashboard(props: Props) {
           </button>
         </div>
       </header>
-      {tab === "videos" && (
-        <HeroVideosPanel {...props} session={session} onSession={(next) => { saveSession(next); setSession(next); }} onExpired={() => signOut("Your session expired. Please sign in again.")} />
+      {tab !== "leads" && (
+        <HeroVideosPanel key={tab} {...props} section={tab} session={session} onSession={(next) => { saveSession(next); setSession(next); }} onExpired={() => signOut("Your session expired. Please sign in again.")} />
       )}
       {tab === "leads" && error && <p role="alert" className="mb-4 rounded-xl border border-brand-red/50 bg-brand-red/10 px-4 py-3 text-sm">{error}</p>}
       {tab === "leads" && (leads.length === 0 && !loading ? (

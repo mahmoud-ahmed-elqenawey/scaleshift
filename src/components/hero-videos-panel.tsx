@@ -3,14 +3,14 @@
 import { ArrowDown, ArrowUp, Trash2, Upload } from "lucide-react";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { freshSession, type Session, type SupabaseConfig } from "@/lib/leads-client";
-import { heroVideoUrl, moveId, uploadGuidelines, validateUpload, type HeroVideo } from "@/lib/hero-videos";
+import { heroVideoUrl, moveId, uploadGuidelines, validateUpload, type HeroVideo, type VideoSection } from "@/lib/hero-videos";
 
-type Props = SupabaseConfig & { session: Session; onSession: (session: Session) => void; onExpired: () => void };
+type Props = SupabaseConfig & { section: VideoSection; session: Session; onSession: (session: Session) => void; onExpired: () => void };
 
 const api = "/api/hero-videos";
 const buttonClass = "inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1.5 text-xs hover:border-white/50 disabled:opacity-40";
 
-export function HeroVideosPanel({ session, onSession, onExpired, ...config }: Props) {
+export function HeroVideosPanel({ section, session, onSession, onExpired, ...config }: Props) {
   const [videos, setVideos] = useState<HeroVideo[] | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -28,11 +28,11 @@ export function HeroVideosPanel({ session, onSession, onExpired, ...config }: Pr
   }, [config, session, onSession, onExpired]);
 
   const reload = useCallback(() => {
-    fetch(api, { cache: "no-store" })
+    fetch(`${api}?section=${section}`, { cache: "no-store" })
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error("Could not load videos."))))
       .then((list: HeroVideo[]) => { setVideos(list); setError(""); })
       .catch((failure: unknown) => setError(failure instanceof Error ? failure.message : "Could not load videos."));
-  }, []);
+  }, [section]);
 
   useEffect(reload, [reload]);
 
@@ -47,6 +47,7 @@ export function HeroVideosPanel({ session, onSession, onExpired, ...config }: Pr
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
+    data.set("section", section);
     const file = data.get("file");
     const problem = validateUpload(file instanceof File ? file : null, data.get("title"));
     if (problem) { setError(problem); return; }
@@ -68,7 +69,7 @@ export function HeroVideosPanel({ session, onSession, onExpired, ...config }: Pr
     <div>
       <form onSubmit={upload} className="mb-6 grid gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
         <label className="grid gap-1.5 text-sm font-medium">Title
-          <input name="title" required maxLength={80} placeholder="Portfolio reel 011" className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 font-normal outline-none focus:border-brand-red" />
+          <input name="title" required maxLength={80} placeholder={section === "hero" ? "Portfolio reel 011" : "Selected work 7"} className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 font-normal outline-none focus:border-brand-red" />
         </label>
         <label className="grid gap-1.5 text-sm font-medium">Video (MP4, up to 15 MB)
           <input name="file" type="file" accept="video/mp4,.mp4" required className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-normal file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-3 file:py-1 file:text-white" />
@@ -82,7 +83,7 @@ export function HeroVideosPanel({ session, onSession, onExpired, ...config }: Pr
       {videos === null ? (
         <p className="text-white/60">Loading…</p>
       ) : videos.length === 0 ? (
-        <p className="rounded-2xl border border-white/10 px-6 py-16 text-center text-white/60">No videos yet. The site shows its built-in reels until you upload some.</p>
+        <p className="rounded-2xl border border-white/10 px-6 py-16 text-center text-white/60">No videos yet. The site shows its built-in videos until you upload some.</p>
       ) : (
         <ol className="grid gap-3">
           {videos.map((video, index) => (
