@@ -8,6 +8,7 @@ import { FaqAccordion } from "@/components/faq-accordion";
 import { ContactForm } from "@/components/contact-form";
 import { RetentionMachine } from "@/components/retention-machine";
 import { resultScreenshots } from "@/lib/result-screenshots";
+import { byOrder, fallbackHeroReels, toReel, type HeroReel, type HeroVideo } from "@/lib/hero-videos";
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, Check, Eye, Play, X } from "lucide-react";
 import {
   motion,
@@ -69,48 +70,19 @@ const sectionReveal = {
   },
 };
 
-const heroOrbitReels = [
-  {
-    label: "Portfolio reel 001",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/001.mp4",
-  },
-  {
-    label: "Portfolio reel 002",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/002.mp4",
-  },
-  {
-    label: "Portfolio reel 003",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/003.mp4",
-  },
-  {
-    label: "Portfolio reel 004",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/004.mp4",
-  },
-  {
-    label: "Portfolio reel 005",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/005.mp4",
-  },
-  {
-    label: "Portfolio reel 006",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/006.mp4",
-  },
-  {
-    label: "Portfolio reel 007",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/007.mp4",
-  },
-  {
-    label: "Portfolio reel 008",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/008.mp4",
-  },
-  {
-    label: "Portfolio reel 009",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/009.mp4",
-  },
-  {
-    label: "Portfolio reel 010",
-    src: "https://pub-e9e78dac8b6640e4a96a1056d37c756a.r2.dev/portfolio/0010.mp4",
-  },
-];
+// The hero starts with the built-in reels and swaps to the dashboard-managed list once it loads.
+function useHeroReels(): HeroReel[] {
+  const [reels, setReels] = useState(fallbackHeroReels);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/hero-videos", { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : []))
+      .then((videos: HeroVideo[]) => { if (Array.isArray(videos) && videos.length) setReels(byOrder(videos).map(toReel)); })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, []);
+  return reels;
+}
 
 const creatorCards = [
   {
@@ -1334,6 +1306,7 @@ function AttentionHero({
   scale?: MotionValue<number>;
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const heroOrbitReels = useHeroReels();
   const [orbitAngle, setOrbitAngle] = useState(18);
   const heroRef = useRef<HTMLDivElement>(null);
   const [viewportWidth, setViewportWidth] = useState(1024);

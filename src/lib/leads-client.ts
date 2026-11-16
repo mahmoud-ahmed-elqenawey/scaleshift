@@ -17,10 +17,14 @@ export async function requestToken({ url, apiKey }: SupabaseConfig, grant: "pass
   return { access_token: data.access_token, refresh_token: data.refresh_token, expires_at: data.expires_at, email: data.user?.email ?? "" };
 }
 
-export async function fetchLeads(props: SupabaseConfig, current: Session): Promise<{ session: Session; leads: Lead[] }> {
-  const session = current.expires_at * 1000 - Date.now() < 60_000
-    ? await requestToken(props, "refresh_token", { refresh_token: current.refresh_token })
+// Refreshes the session when its access token is about to expire; otherwise returns it as is.
+export const freshSession = (props: SupabaseConfig, current: Session): Promise<Session> | Session =>
+  current.expires_at * 1000 - Date.now() < 60_000
+    ? requestToken(props, "refresh_token", { refresh_token: current.refresh_token })
     : current;
+
+export async function fetchLeads(props: SupabaseConfig, current: Session): Promise<{ session: Session; leads: Lead[] }> {
+  const session = await freshSession(props, current);
   const response = await fetch(`${props.url}/rest/v1/contacts?select=*&order=created_at.desc`, {
     headers: { apikey: props.apiKey, Authorization: `Bearer ${session.access_token}` },
   });

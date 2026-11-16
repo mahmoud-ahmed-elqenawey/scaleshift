@@ -1,10 +1,12 @@
 "use client";
 
-import { LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
+import { Clapperboard, LogOut, Mail, MessageCircle, RefreshCw, Link2 } from "lucide-react";
+import { HeroVideosPanel } from "@/components/hero-videos-panel";
 import { useCallback, useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
 import { fetchLeads, requestToken, type Lead, type Session, type SupabaseConfig } from "@/lib/leads-client";
 
 type Props = SupabaseConfig;
+type Tab = "leads" | "videos";
 
 const storageKey = "scaleshift-dashboard-session";
 const refreshEveryMs = 60_000;
@@ -30,6 +32,7 @@ export function LeadsDashboard(props: Props) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
+  const [tab, setTab] = useState<Tab>("leads");
 
   const signOut = useCallback((message = "") => {
     saveSession(null);
@@ -72,27 +75,36 @@ export function LeadsDashboard(props: Props) {
     <div className="mx-auto w-full max-w-5xl">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
-          <h1 className="text-2xl font-bold">Contact messages</h1>
+          <h1 className="text-2xl font-bold">{tab === "leads" ? "Contact messages" : "Header videos"}</h1>
           <p className="mt-1 text-sm text-white/60">
-            {leads.length} {leads.length === 1 ? "message" : "messages"}
-            {updatedAt ? ` · updated ${updatedAt.toLocaleTimeString()}` : ""} · {session.email}
+            {tab === "leads"
+              ? `${leads.length} ${leads.length === 1 ? "message" : "messages"}${updatedAt ? ` · updated ${updatedAt.toLocaleTimeString()}` : ""}`
+              : "Videos in the home-page hero, in the order they orbit"} · {session.email}
           </p>
         </div>
-        <div className="flex gap-2">
-          <button type="button" onClick={() => { setLoading(true); void load(session); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50 disabled:opacity-50">
-            <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} aria-hidden /> Refresh
+        <div className="flex flex-wrap gap-2">
+          <button type="button" onClick={() => setTab(tab === "leads" ? "videos" : "leads")} className="inline-flex items-center gap-2 rounded-full border border-brand-red/60 px-4 py-2 text-sm hover:border-brand-red">
+            {tab === "leads" ? <><Clapperboard className="size-4" aria-hidden /> Header videos</> : <><Mail className="size-4" aria-hidden /> Messages</>}
           </button>
+          {tab === "leads" && (
+            <button type="button" onClick={() => { setLoading(true); void load(session); }} disabled={loading} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50 disabled:opacity-50">
+              <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} aria-hidden /> Refresh
+            </button>
+          )}
           <button type="button" onClick={() => signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:border-white/50">
             <LogOut className="size-4" aria-hidden /> Sign out
           </button>
         </div>
       </header>
-      {error && <p role="alert" className="mb-4 rounded-xl border border-brand-red/50 bg-brand-red/10 px-4 py-3 text-sm">{error}</p>}
-      {leads.length === 0 && !loading ? (
+      {tab === "videos" && (
+        <HeroVideosPanel {...props} session={session} onSession={(next) => { saveSession(next); setSession(next); }} onExpired={() => signOut("Your session expired. Please sign in again.")} />
+      )}
+      {tab === "leads" && error && <p role="alert" className="mb-4 rounded-xl border border-brand-red/50 bg-brand-red/10 px-4 py-3 text-sm">{error}</p>}
+      {tab === "leads" && (leads.length === 0 && !loading ? (
         <p className="rounded-2xl border border-white/10 px-6 py-16 text-center text-white/60">No messages yet. New ones from the website show up here.</p>
       ) : (
         <ul className="grid gap-4">{leads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</ul>
-      )}
+      ))}
     </div>
   );
 }
